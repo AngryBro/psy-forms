@@ -1,0 +1,32 @@
+.slideflag {
+    display: flex;
+    cursor: pointer;
+}
+
+.slideflag-slider {
+    background-color: rgb(213, 213, 213);
+    height: 16px;
+    width: 35px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.slideflag-point {
+    background-color: white;
+    box-shadow: 0px 0px 2px rgb(136, 136, 136);
+    width: 20px;
+    --point-height: 20px;
+    height: var(--point-height);
+    border-radius: 10px;
+    position: absolute;
+    top: -2px;
+    left: 0px;
+    transition: left 0.3s ease, background-color 0.3s ease;
+}
+.slideflag-point-active {
+    left: calc(100% - var(--point-height));
+    background-color: var(--purple-form);
+}
+.slideflag-text {
+    margin-right: 15px;
+}
