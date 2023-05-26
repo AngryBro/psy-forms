@@ -1,14 +1,21 @@
+// import { useState } from "react";
+
 import { useState } from "react";
-import SlideFlag from "./SlideFlag";
+import AnswerOne from "./AnswerOne";
+import Select from "./Select";
+
 
 const Test = () => {
 
-    const [flag, setFlag] = useState(false);
+    const [text, setText] = useState('var 1');
 
-    return <div>
-        <SlideFlag flag={flag} handleClick={() => setFlag(f => !f)}>
-            Обязательный вопрос
-        </SlideFlag>
+    return <div style={{width: '400px'}}>
+        <AnswerOne selected={true} handleSelect={() => 1} edit={1} handleEdit={e => setText(e.target.value)}>
+            {text}
+        </AnswerOne>
+        <Select value={{get: 2, set: () => 1}}>
+            {['одиночный', 'множ выбор','шкала', 'свободный']}
+        </Select>
     </div>
 };
 
