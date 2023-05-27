@@ -12,6 +12,7 @@ const Select = ({children, value}) => {
 
     return <div className='select'>
         <div className='select-container'>
+            {/* <textarea className='select-focus-area' onBlur={() => setOpened(false)} readOnly={true}></textarea> */}
             <div className='select-option-container' onClick={() => setOpened(true)}>
                 <div className='select-option'>{children[value.get]}</div>
             </div>

@@ -18,6 +18,13 @@
     overflow: visible;
     box-shadow: 0 0 1px grey;
 }
+.select-focus-area {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    resize: none;
+}
 .select-option-container {
     width: 100%;
     height: 40px;

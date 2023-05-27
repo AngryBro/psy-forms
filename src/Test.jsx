@@ -1,18 +1,19 @@
 // import { useState } from "react";
 
 import { useState } from "react";
-import AnswerOne from "./AnswerOne";
+import Answer from "./Answer";
 import Select from "./Select";
 
 
 const Test = () => {
 
-    const [text, setText] = useState('var 1');
+    const [text, setText] = useState('Вариант 1');
+    const [selected, setSelected] = useState(true);
 
     return <div style={{width: '400px'}}>
-        <AnswerOne selected={true} handleSelect={() => 1} edit={1} handleEdit={e => setText(e.target.value)}>
+        <Answer checkbox={true} selected={selected} handle={{select: () => setSelected(t => !t), edit: e => setText(e.target.value)}} edit={0}>
             {text}
-        </AnswerOne>
+        </Answer>
         <Select value={{get: 2, set: () => 1}}>
             {['одиночный', 'множ выбор','шкала', 'свободный']}
         </Select>
