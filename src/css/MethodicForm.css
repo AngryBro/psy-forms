@@ -1,0 +1,57 @@
+.methodic-form {
+    background-color: var(--background-purple);
+    width: 100%;
+    height: 100%;
+}
+.methodic-form-name-container {
+    display: flex;
+}
+.methodic-form-container {
+    width: 800px;
+    margin: auto;
+}
+.methodic-form-block {
+    background-color: white;
+    border-radius: 7px;
+    width: 100%;
+    height: fit-content;
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+    border: 1px solid var(--light-grey);
+    background: linear-gradient(90deg, #4285f4 0.7%, white 0.7%);
+    background-position: -6px 0px;
+    background-repeat: no-repeat;
+    transition: background-position 0.3s ease;
+}
+.methodic-form-block-active {
+    background-position: 0;
+    box-shadow: 0 1px 2px var(--light-grey);
+}
+.methodic-form-block-new-container {
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px var(--light-grey);
+    width: fit-content;
+    height: fit-content;
+    overflow: hidden;
+    transition: max-height 1s ease;
+}
+.methodic-form-block-action {
+    margin: 3px;
+    -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 10px;
+    transition: border 0.2s ease;
+    cursor: pointer;
+}
+.methodic-form-block-action:hover {
+    border: 1px solid var(--light-grey);
+}

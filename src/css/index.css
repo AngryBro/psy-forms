@@ -2,8 +2,11 @@
     --purple-form: #673ab7;
     --light-grey: rgb(218, 218, 218);
     --dark-grey: rgb(89, 89, 89);
+    --background-purple: #f0ebf8;
+    --med-grey: #70757a;
 }
 body {
     font-size: 14pt;
     font-family: 'Calibri';
+    font-weight: 350;
 }

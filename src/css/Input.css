@@ -1,0 +1,47 @@
+.input {
+    position: relative;
+    width: 100%;
+    height: max-content;
+    min-width: 100px;
+}
+.input-content {
+    width: 100%;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    font-weight: 300;
+}
+.input-container {
+    width: 100%;
+    height: fit-content;
+    position: absolute;
+    z-index: 1;
+    min-width: fit-content;
+}
+.input-border {
+    position: absolute;
+    height: 2px;
+    background-color: var(--purple-form);
+    width: 0%;
+    transition: width 0.3s ease;
+    z-index: 2;
+    border-radius: 1px;
+}
+.input-border-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+.input-nonactive-border {
+    width: 100%;
+    height: 1px;
+    background-color: var(--light-grey);
+}
+.input-border-focus {
+    width: 100%;
+}
+.input-tip {
+    color: var(--med-grey);
+    font-size: smaller;
+}

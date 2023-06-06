@@ -1,6 +1,6 @@
 import './css/Answer.css';
 
-const Answer = ({children, selected, handle, edit=false, checkbox = false}) => {
+const Answer = ({children, selected = false, handle, edit=false, checkbox = false}) => {
 
 
 
