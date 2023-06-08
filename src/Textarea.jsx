@@ -2,14 +2,14 @@ import { useState } from "react";
 import "./css/Textarea.css";
 import {htmlToText, textToHtml} from "./functions";
 
-export const Textarea = ({value, onChange, tip = "", font}) => {
+export const Textarea = ({value, onChange, tip = "", font, readOnly=false}) => {
 
     const [savedValue, setSavedValue] = useState(value);
 
     return <div className="textarea">
         <div className="textarea-container">
             <div className="textarea-input"
-                contentEditable
+                contentEditable={!readOnly}
                 onInput={e => {onChange(htmlToText(e.target.innerHTML)); console.log(htmlToText(e.target.innerHTML))}}
                 onBlur={() => setSavedValue(value)}
                 style={{fontSize:`${font}pt`}}

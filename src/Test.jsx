@@ -1,4 +1,4 @@
-import MethodicForm from "./MethodicForm";
+import {MethodicForm} from "./MethodicForm";
 
 
 const Test = () => {

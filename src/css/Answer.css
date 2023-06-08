@@ -1,14 +1,18 @@
 .answer {
     width: 100%;
-    cursor: pointer;
+    /* cursor: pointer; */
     height: 40px;
+    position: relative;
 }
 .answer-container {
     display: flex;
-    align-items: center;
-    width: 100%;
+    /* align-items: center; */
+    /* align-items: flex-end; */
+    align-items: flex-start;
+    width: fit-content;
     height: 100%;
     position: relative;
+    cursor: pointer;
 }
 .answer-circle {
     width: 20px;
@@ -36,23 +40,23 @@
     font-size: 14pt;
     outline: none;
     border: none;
-}
-.answer-input:hover {
-    border-bottom: 2px solid var(--light-grey);
-    margin-top: 2px;
+    width: 170px;
 }
 .answer-input:focus {
     border-bottom: 2px solid grey;
     margin-top: 2px;
 }
 .answer-delete {
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
+    right: 0px;
+    top: 5px;
     width: fit-content;
     position: absolute;
     color: grey;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+.answer-delete:hover {
+    color: var(--light-red);
 }
 .answer-circle-selected-inner {
     width: 14px;
@@ -62,4 +66,21 @@
 }
 .answer-checkbox-selected-inner {
     color: var(--dark-grey);
+}
+.answer-input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.answer-input-score {
+    width: fit-content;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+.answer-input-score-input {
+    width: 30px;
+}
+.answer-input-score-container {
+    display: flex;
+    align-items: flex-start;
 }

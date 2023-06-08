@@ -8,7 +8,7 @@
 }
 .methodic-form-container {
     width: 800px;
-    margin: auto;
+    margin: 0 auto;
 }
 .methodic-form-block {
     background-color: white;
@@ -22,24 +22,22 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
     border: 1px solid var(--light-grey);
-    background: linear-gradient(90deg, #4285f4 0.7%, white 0.7%);
+    background: linear-gradient(90deg, #4285f4 0.7%, white 0.7%), white;
     background-position: -6px 0px;
     background-repeat: no-repeat;
     transition: background-position 0.3s ease;
 }
 .methodic-form-block-active {
-    background-position: 0;
+    background-position: 0 0;
+    animation: active-block 0.3s ease 0s 1 alternate forwards;
     box-shadow: 0 1px 2px var(--light-grey);
 }
 .methodic-form-block-new-container {
     display: flex;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 1px 2px var(--light-grey);
     width: fit-content;
     height: fit-content;
     overflow: hidden;
-    transition: max-height 1s ease;
+    transition: max-height 0.3s ease;
 }
 .methodic-form-block-action {
     margin: 3px;
@@ -51,7 +49,70 @@
     border-radius: 10px;
     transition: border 0.2s ease;
     cursor: pointer;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 1px 2px var(--light-grey);
 }
 .methodic-form-block-action:hover {
     border: 1px solid var(--light-grey);
+}
+.methodic-form-question-input {
+    display: flex;
+    margin-bottom: 15px;
+}
+.methodic-form-question-required {
+    color: red;
+}
+.methodic-form-question-number {
+    font-size: 20pt;
+    margin-right: 5px;
+    width: fit-content;
+    display: flex;
+}
+.methodic-form-question-flex {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.methodic-form-question-constructor {
+    height: 0;
+    overflow: hidden;
+}
+.methodic-form-question-constructor-active {
+    overflow: visible;
+}
+.methodic-form-question-ansmode-select {
+    width: 270px;
+}
+.methodic-form-answer-type-select {
+    width: 300px;
+    /* margin-left: 30px; */
+}
+.methodic-form-question-block-line {
+    height: 1px;
+    width: 100%;
+    background-color: var(--light-grey);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.methodic-form-question-block-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.methodic-form-question-block-vline {
+    width: 1px;
+    height: 30px;
+    background-color: var(--light-grey);
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.methodic-form-question-block-bin {
+    padding: 1px;
+    font-size: 20pt;
+    transform: scaleX(1.5);
+    color: grey;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
 }

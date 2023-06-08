@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./css/Input.css";
 
-export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip = "", font}) => {
+export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip = "", font, readOnly = false, autoFocus=false}) => {
     
     const [focused, setFocused] = useState(false);
 
@@ -12,6 +12,8 @@ export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip
     return <div className="input"> 
         <div className="input-container">
             <input 
+            autoFocus = {autoFocus}
+            readOnly={readOnly}
             className="input-content"
             style={{fontSize: `${font}pt`}}
             onFocus={() => {setFocused(true); onFocus()}}

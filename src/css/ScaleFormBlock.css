@@ -1,0 +1,13 @@
+.scale-form-block-row {
+    display: flex;
+}
+.scale-form-block-element {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.scale-form-block-container {
+    margin-top: 10px;
+}
+.scale-form-block-input {
+    width: 50px;
+}

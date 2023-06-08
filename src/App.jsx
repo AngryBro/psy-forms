@@ -3,15 +3,13 @@ import Test from "./Test";
 import './css/index.css';
 
 const App = () => {
-    return <div>
-        <BrowserRouter>
+    return <BrowserRouter>
             <Routes>
                 <Route path="/test" element={<Test/>} />
                 <Route/>
                 <Route/>
             </Routes>
         </BrowserRouter>
-    </div>
 };
 
 export default App;

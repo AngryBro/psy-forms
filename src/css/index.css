@@ -4,9 +4,14 @@
     --dark-grey: rgb(89, 89, 89);
     --background-purple: #f0ebf8;
     --med-grey: #70757a;
+    --light-red: rgb(255, 145, 145);
 }
 body {
     font-size: 14pt;
     font-family: 'Calibri';
     font-weight: 350;
+    min-width: 1200px;
+}
+.root {
+    width: 100%;
 }

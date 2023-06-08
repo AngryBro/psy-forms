@@ -1,0 +1,15 @@
+.answer-list-form-block-container {
+    width: 70%;
+}
+.answer-list-form-block-add-container {
+    display: flex;
+    align-items: flex-start;
+}
+.answer-list-form-block-add {
+    margin-right: 10px;
+}
+.answer-list-form-block-other {
+    color: #1a73e8;
+    font-weight: 400;
+    cursor: pointer;
+}

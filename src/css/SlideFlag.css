@@ -1,6 +1,8 @@
 .slideflag {
     display: flex;
     cursor: pointer;
+    align-items: center;
+    width: fit-content;
 }
 
 .slideflag-slider {

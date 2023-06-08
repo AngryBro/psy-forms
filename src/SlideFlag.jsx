@@ -1,14 +1,12 @@
 import './css/SlideFlag.css';
 
 
-const SlideFlag = ({flag, handleClick, children}) => {
+export const SlideFlag = ({flag, handleClick, children}) => {
 
-    return <div className='slideflag'>
+    return <div className='slideflag' onClick={handleClick}>
         <div className='slideflag-text'>{children}</div>
-        <div className='slideflag-slider' onClick={handleClick}>
+        <div className='slideflag-slider'>
             <div className={`slideflag-point${flag?' slideflag-point-active':''}`}></div>
         </div>
     </div>
 };
-
-export default SlideFlag;

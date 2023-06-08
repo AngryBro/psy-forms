@@ -2,7 +2,7 @@
     position: relative;
     width: 100%;
     height: max-content;
-    min-width: 100px;
+    min-width: 20px;
 }
 .input-content {
     width: 100%;
@@ -31,7 +31,8 @@
     position: relative;
     display: flex;
     justify-content: center;
-    margin-top: 5px;
+    margin-top: 2px;
+    height: fit-content;
 }
 .input-nonactive-border {
     width: 100%;

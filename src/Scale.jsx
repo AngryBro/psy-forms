@@ -1,12 +1,28 @@
 import './css/Scale.css';
-import multyStringText from './functions';
 
-const Scale = ({min, max, minText, maxText, value}) => {
+export const Scale = ({min, max, minText, maxText, value}) => {
 
 
     const numbers = () => {
         var temp = [];
-        for(var i = min; i <= max; i++) {
+        var s_min, s_max;
+        if(min === "" && max === "") {
+            s_min = 1;
+            s_max = 2;
+        }
+        if(min === "" && max !== "") {
+            s_min = max-1;
+            s_max = max;
+        }
+        if(min !== "" && max === "") {
+            s_min = min;
+            s_max = min+1;
+        }
+        if(min !== "" && max !== "") {
+            s_max = max;
+            s_min = min;
+        }
+        for(var i = s_min; i <= s_max; i++) {
             temp.push(i);
         }
         return temp;
@@ -14,7 +30,7 @@ const Scale = ({min, max, minText, maxText, value}) => {
 
     return <div className='scale'>
         <div className='scale-container'>
-            <div className='scale-text'>{multyStringText(minText)}</div>
+            <div className='scale-text'>{minText}</div>
             <div className='scale-bar-container'>
                 <div className='scale-bar-elements'>
                 {
@@ -25,7 +41,7 @@ const Scale = ({min, max, minText, maxText, value}) => {
                     <div style={{width: `${100*(Math.max(value.get-min, 0)) / (max-min)}%`}} className='scale-bar-fill'></div>
                 </div>
             </div>
-            <div className='scale-text'>{multyStringText(maxText)}</div>
+            <div className='scale-text'>{maxText}</div>
         </div>
     </div>
 };
@@ -36,5 +52,3 @@ const Element = ({number, fill, handleClick}) => {
         <div className='scale-number'>{number}</div>
     </div>
 };
-
-export default Scale;
