@@ -1,10 +1,24 @@
 import { Answer } from "./Answer";
 import "./css/AnswerListFormBlock.css";
 
-export const AnswerListFormBlock = ({many = false, answers_get, edit=false, handleDelete, handleAdd, handleUpdate}) => {
+export const AnswerListFormBlock = ({many = false, answers, edit=false, handles}) => {
+
+    const updateScore = (answer_index, value) => {
+        if(value === "") {
+            value = null;
+            handles.update(answer_index, "score", value);
+        }
+        else {
+            if(!isNaN(value)) {
+                value = Number(value);
+                handles.update(answer_index, "score", value);
+            }
+        }
+    }
+
     return <div className="answer-list-form-block-container">
         {
-            answers_get.map((answer, i) =>
+            answers.map((answer, i) =>
             <div key={i}>
                 {
                 answer.text!==null?
@@ -14,10 +28,10 @@ export const AnswerListFormBlock = ({many = false, answers_get, edit=false, hand
                     edit={edit} 
                     checkbox={many} 
                     tip={"Текст варианта"} 
-                    handle={{
-                        delete: () => handleDelete(i),
-                        edit: (value) => handleUpdate(i, "text", value),
-                        editScore: (value) => handleUpdate(i, "score", value)
+                    handles={{
+                        remove: () => handles.remove(i),
+                        updateText: (value) => handles.update(i, "text", value),
+                        updateScore: (value) => updateScore(i, value)
                     }}>
                     {answer.text}
                 </Answer>
@@ -27,7 +41,7 @@ export const AnswerListFormBlock = ({many = false, answers_get, edit=false, hand
                     other={true} 
                     edit={edit}
                     tip={"Другое..."}
-                    handle={{delete: () => handleDelete(i)}}
+                    handles={{remove: () => handles.remove(i)}}
                 >{""}</Answer>
                 }
             </div>
@@ -37,19 +51,16 @@ export const AnswerListFormBlock = ({many = false, answers_get, edit=false, hand
             edit?
             <div className="answer-list-form-block-add-container">
                 <div className="answer-list-form-block-add">
-                    {/* <Answer edit={true} checkbox={many} tip={"Добавить вариант"} onFocus={handleAdd}>
-                        {""}
-                    </Answer> */}
                     <Answer 
                         checkbox={many} 
                         other={true} 
                         tip={"Добавить вариант"}
-                        onFocus={handleAdd}
+                        onFocus={() => handles.create()}
                     >{""}</Answer>
                 </div>
                 {
-                    answers_get.find(el => el.text === null)!==undefined?<></>:
-                    <div onClick={() => handleAdd(true)}>или &nbsp; <span className="answer-list-form-block-other">добавить вариант "Другое"</span></div>
+                    answers.find(el => el.text === null)!==undefined?<></>:
+                    <div onClick={() => handles.create(true)}>или &nbsp; <span className="answer-list-form-block-other">добавить вариант "Другое"</span></div>
                 }
             </div>
             :<></>

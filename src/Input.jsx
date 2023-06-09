@@ -16,9 +16,9 @@ export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip
             readOnly={readOnly}
             className="input-content"
             style={{fontSize: `${font}pt`}}
-            onFocus={() => {setFocused(true); onFocus()}}
-            onBlur={() => {setFocused(false); onBlur()}}
-            onChange={e => onChange(e.target.value)}
+            onFocus={(e) => {setFocused(true); onFocus(e)}}
+            onBlur={(e) => {setFocused(false); onBlur(e)}}
+            onChange={onChange}
             value={value===null?"":value}
             placeholder={tip}
             />

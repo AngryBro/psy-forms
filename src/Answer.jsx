@@ -1,11 +1,11 @@
 import { Input } from './Input';
 import './css/Answer.css';
 
-export const Answer = ({other = false, autoFocus = false ,children, selected = false, handle = {}, edit=false, checkbox = false, tip = "", score = null, onFocus = () => 1}) => {
+export const Answer = ({other = false, autoFocus = false ,children, selected = false, handles = {}, edit=false, checkbox = false, tip = "", score = null, onFocus = () => 1}) => {
 
 
 
-    return <div className="answer" onClick={handle.select===undefined?()=>1:handle.select}>
+    return <div className="answer" onClick={handles.select===undefined?()=>1:handles.select}>
         <div className="answer-container">
             <div className={`answer-${checkbox?'checkbox':'circle'} ${selected?`answer-circle-selected`:''}`}>
                 {
@@ -20,13 +20,12 @@ export const Answer = ({other = false, autoFocus = false ,children, selected = f
             {
                 edit || other?
                 <div className='answer-input-container'>
-                    {/* <input readOnly={other} onFocus={() => onFocus()} autoFocus={autoFocus} placeholder={tip} className='answer-input' type="text" value={children} onChange={handle.edit===undefined?()=>1:handle.edit} /> */}
-                    <div className='answer-input'><Input readOnly={!selected && other} onChange={handle.edit===undefined?()=>1:handle.edit} value={children} tip={tip} onFocus={onFocus} autoFocus={autoFocus}  /></div>
+                    <div className='answer-input'><Input readOnly={!selected && other} onChange={handles.updateText===undefined?()=>1:(e) => handles.updateText(e.target.value)} value={children} tip={tip} onFocus={onFocus} autoFocus={autoFocus}  /></div>
                     {
-                        handle.editScore === undefined?<></>:
+                        handles.updateScore === undefined?<></>:
                         <div className='answer-input-score-container'>
                             <div className='answer-input-score'>Балл:</div>
-                            <div className='answer-input-score-input'><Input onFocus={() => onFocus()} value={score===null?"":score} onChange={handle.editScore} tip={"Нет"} /></div>
+                            <div className='answer-input-score-input'><Input onFocus={() => onFocus()} value={score===null?"":score} onChange={e => handles.updateScore(e.target.value)} tip={"Нет"} /></div>
                         </div>
                     }
                 </div>
@@ -35,8 +34,8 @@ export const Answer = ({other = false, autoFocus = false ,children, selected = f
             }
         </div>
         {
-            edit && (handle.delete!==undefined) ?
-            <div className='answer-delete' onClick={handle.delete}>&#10006;</div>:<></>
+            edit && (handles.remove!==undefined) ?
+            <div className='answer-delete' onClick={handles.remove}>&#10006;</div>:<></>
         }
     </div>
 };

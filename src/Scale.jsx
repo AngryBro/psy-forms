@@ -1,7 +1,6 @@
 import './css/Scale.css';
 
-export const Scale = ({min, max, minText, maxText, value}) => {
-
+export const Scale = ({min, max, minText, maxText, value, onSelect = () => 1}) => {
 
     const numbers = () => {
         var temp = [];
@@ -34,11 +33,11 @@ export const Scale = ({min, max, minText, maxText, value}) => {
             <div className='scale-bar-container'>
                 <div className='scale-bar-elements'>
                 {
-                    numbers().map(number => <Element key={number} number={number} fill={value.get >= number} handleClick={value.set} />)
+                    numbers().map(number => <Element key={number} number={number} fill={value >= number} handleClick={onSelect} />)
                 }
                 </div>
                 <div className='scale-bar'>
-                    <div style={{width: `${100*(Math.max(value.get-min, 0)) / (max-min)}%`}} className='scale-bar-fill'></div>
+                    <div style={{width: `${100*(Math.max(value-min, 0)) / (max-min)}%`}} className='scale-bar-fill'></div>
                 </div>
             </div>
             <div className='scale-text'>{maxText}</div>

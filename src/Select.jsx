@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import './css/Select.css';
 
-export const Select = ({children, selected_key}) => {
+export const Select = ({children, value, onSelect}) => {
 
     const [opened, setOpened] = useState(false);
 
     const selectRef = useRef();
 
     const handleSelect = (key) => {
-        selected_key.set(key);
+        onSelect(key);
         setOpened(false);
     }
 
@@ -26,7 +26,7 @@ export const Select = ({children, selected_key}) => {
     return <div className='select' ref={selectRef}>
         <div className='select-container'>
             <div className='select-option-container' onClick={() => setOpened(true)}>
-                <div className='select-option'>{children.find(el => el.key === selected_key.get).value}</div>
+                <div className='select-option'>{children.find(el => el.key === value).value}</div>
             </div>
             <div className='select-arrow'>&gt;</div>
             <div className='select-options-container' hidden={!opened}>
