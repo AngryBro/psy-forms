@@ -6,8 +6,3 @@ export const textToHtml = text => {
  export const htmlToText = html => {
     return html==="\n"?"":html.replace(/<div><br><\/div>/g, "<div></div>").replace(/<\/div>/g, "").replace(/<div>/g, "\n").replace(/<br>/g, "\n");
 };
-
-export const scrollTo = (ref, speed) => {
-    //
-    console.log("Прокрутка functions/scrollTo");
-}

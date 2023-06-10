@@ -7,14 +7,19 @@ import { ScaleFormBlock } from "./ScaleFormBlock";
 import { AnswerListFormBlock } from "./AnswerListFormBlock";
 import { SlideFlag } from "./SlideFlag";
 import { ANSWER_TYPE } from "./MethodicForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDelete, isActive, handleChange, question, number, handlesAnswer, sub = false}) => {
 
     const [activeSubBlock, setActiveSubBlock] = useState(-1);
 
+    useEffect(() => {if(!isActive) setActiveSubBlock(-1)}, [isActive]);
+
     const checkDelete = (i) => {
+        if(i === question.answers[ANSWER_TYPE.QUESTIONS].length-1) {
+            setActiveSubBlock(i-1);
+        }
         if(question.answers[ANSWER_TYPE.QUESTIONS].length === 1) {
             handlesAnswer.sub.handlesAnswer.reset();
         }
@@ -94,6 +99,7 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                 :<></>
             }
         </div>
+        {isActive?<></>:
         <div className="question-form-answer-block-view">
             {
                 question.answer_type === ANSWER_TYPE.SCALE?
@@ -106,13 +112,43 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                         value={question.answers[question.answer_type].min-1}
                     />
                 </div>
-                :(question.answer_type === ANSWER_TYPE.ONE || question.answer_type === ANSWER_TYPE.MANY) && !isActive?
+                :(question.answer_type === ANSWER_TYPE.ONE || question.answer_type === ANSWER_TYPE.MANY)?
                 <div>
                     <AnswerListFormBlock answers={question.answers[question.answer_type]} many={question.answer_type === ANSWER_TYPE.MANY}/>
+                </div>
+                :question.answer_type === ANSWER_TYPE.QUESTIONS?
+                <div>
+                    {
+                        question.answers[question.answer_type].map((subquestion, i) => 
+                            <div key={i}>
+                                <QuestionFormBlock
+                                    sub={true}
+                                    question={subquestion}
+                                    handlesNew={[]}
+                                    handleActive={() => setActiveSubBlock(i)}
+                                    handleChange={() => 1}
+                                    isActive={false}
+                                    number={`${number}${i+1})`}
+                                    handleDelete={() => 1}
+                                    isFirst={false}
+                                    handlesAnswer={{
+                                        // select: {
+                                        //     create: (other = false) => handlesAnswer.sub.handlesAnswer.select.create(i, other),
+                                        //     update: (answer_index, key, value) => handlesAnswer.sub.handlesAnswer.select.update(i, answer_index, key, value),
+                                        //     remove: (answer_index) => handlesAnswer.sub.handlesAnswer.select.remove(i, answer_index)
+                                        // },
+                                        // scale: (key, value) => handlesAnswer.sub.handlesAnswer.scale(i, key, value),
+                                        // copy: () => handlesAnswer.sub.handlesAnswer.copy(i)
+                                    }}
+                                />
+                            </div>
+                        )
+                    }
                 </div>
                 :<></>
             }
         </div>
+        }
         {
             isActive?
             <div className="question-form-block-footer">

@@ -1,15 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "./Input";
 import "./css/MethodicForm.css";
 import { Textarea } from "./Textarea";
 import { QuestionFormBlock } from "./QuestionFormBlock";
-import { scrollTo } from "./functions";
 
-// const SCALE = "scale";
-// const ONE = "one";
-// const MANY = "many";
-// const PREVIOUS = "prev";
-// const QUESTIONS = "questions";
 
 export const ANSWER_TYPE = {
     SCALE: "scale",
@@ -148,14 +142,31 @@ export const MethodicForm = () => {
     const [data, setData] = useState(methodic);
     const [activeBlock, setActiveBlock] = useState(undefined);
 
+    const activeBlockRef = useRef();
+
+
     const newSelectAnswer = (other = false) => JSON.parse(JSON.stringify(
         {text: other?null:"", score: null}
     ));
 
     const setActiveWithScroll = (i) => {
         setActiveBlock(i);
-        scrollTo();
+        // if(activeBlockRef.current!==undefined) activeBlockRef.current.scrollIntoView();
     }
+
+    useEffect(() => {
+        const handleClick = (e) => {
+            if(!activeBlockRef.current) return;
+            if(!activeBlockRef.current.contains(e.target) && activeBlockRef.current!==e.target) {
+                if(activeBlock !== undefined) {
+                    // setActiveBlock(-2);
+                    console.log("клик вне элемента");
+                    console.log(activeBlock);
+                }
+            }
+        } 
+        window.onclick = handleClick;
+    }, [activeBlockRef, activeBlock])
 
     const newQuestion = () => JSON.parse(JSON.stringify({
         text: null,
@@ -176,7 +187,32 @@ export const MethodicForm = () => {
                 min_text: null,
                 max_text: null
             },
-            "questions": []
+            "questions": [
+                {
+                    text: null,
+                    id: null,
+                    type: "q",
+                    required: false,
+                    answer_type: null,
+                    answers: {
+                        "one": [
+                            newSelectAnswer()
+                        ],
+                        "many": [
+                            newSelectAnswer()
+                        ],
+                        "scale": {
+                            min: 1,
+                            max: 3,
+                            min_text: null,
+                            max_text: null
+                        },
+                        "questions": [
+                            
+                        ]
+                    }
+                }
+            ]
         }
     }));
 
@@ -203,6 +239,8 @@ export const MethodicForm = () => {
         argument_array.forEach(one_change)
         setData(temp);
     };
+
+    
 
     const deactiveBlocks = () => 1;
 
@@ -249,7 +287,7 @@ export const MethodicForm = () => {
             <div className="methodic-form-header-container">
                 
             </div>
-            <div>
+            <div ref={activeBlock===-1?activeBlockRef:null}>
                 <MetaBlock
                     data={data} 
                     isActive={-1===activeBlock} 
@@ -260,8 +298,7 @@ export const MethodicForm = () => {
             </div>
             {
                 data.questions.map((question, i) => 
-                    // question.answer_type !== ANSWER_TYPE.QUESTIONS?
-                    <div key={i}>
+                    <div key={i} ref={i===activeBlock?activeBlockRef:null}>
                         <QuestionFormBlock
                             question={question}
                             handlesNew={handlesNew(i)}
@@ -304,42 +341,7 @@ export const MethodicForm = () => {
                                 },
                             }}
                         />
-                    </div>
-                    // :
-                    // <div key={i}>
-                    //     <QuestionFormBlock
-                    //         question={question}
-                    //         handlesNew={handlesNew(i)}
-                    //         handleActive={() => setActiveBlock(i)}
-                    //         handleChange={(key, value) => changeData(["questions", i, key, value])}
-                    //         isActive={i === activeBlock}
-                    //         number={`${i+1}.`}
-                    //         handleDelete={() => changeData(["questions", array => array.splice(i,1)])}
-                    //         isFirst={i === 0}
-                    //         handlesAnswer={{
-                    //             sub: {
-                    //                 handleChange: (index, key, value) => changeData([
-                    //                     "questions",
-                    //                     i,
-                    //                     "answers",
-                    //                     ANSWER_TYPE.QUESTIONS,
-                    //                     index,
-                    //                     key,
-                    //                     value
-                    //                 ]),
-                    //                 handleDelete: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index, 1)]),
-                    //                 // handlesNew
-                    //             },
-                    //             scale: (key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.SCALE, key, value]),
-                    //             select: {
-                    //                 create: (other = false) => changeData(["questions", i, "answers", question.answer_type, array => array.push({id: null, score: null, text: other?null:""})]),
-                    //                 update: (answer_index, key, value) => changeData(["questions", i, "answers", question.answer_type, answer_index, key, value]),
-                    //                 remove: (answer_index) => changeData(["questions", i, "answers", question.answer_type, array => array.splice(answer_index, 1)]),
-                    //             },
-                    //             copy: () => copyPrevAnswers(i)
-                    //         }}
-                    //     />
-                    // </div>                        
+                    </div>                      
                 )
             }
         </div>
@@ -351,7 +353,7 @@ export const Block = ({children, isActive, handleActive, handlesNew}) => {
 
 
     return <div className="methodic-form-block-container">
-        <div onClick={handleActive} className={"methodic-form-block" + (isActive?" methodic-form-block-active":"")}>
+        <div onClick={isActive?() => 1:handleActive} className={"methodic-form-block" + (isActive?" methodic-form-block-active":"")}>
             {children}
         </div>
         <div className="methodic-form-block-new-container" style={{maxHeight: isActive?"50px":"0px"}}>
