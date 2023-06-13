@@ -1,0 +1,12 @@
+.free-answer {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+.free-answer-number {
+    width: fit-content;
+    margin-right: 10px;
+}
+.free-answer-input {
+    width: 100%;
+}

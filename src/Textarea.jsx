@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import "./css/Textarea.css";
 
-export const Textarea = ({value, onInput, tip = "", font, readOnly=false}) => {
+export const Textarea = ({value, onInput, tip = "", font = 16, readOnly=false}) => {
 
     // const [savedValue, setSavedValue] = useState(value);
 

@@ -1,0 +1,24 @@
+.free-answer-block-add {
+    width: fit-content;
+    border: 1px solid var(--light-grey);
+}
+.free-answer-block-delete {
+    color: var(--med-grey)
+}
+.free-answer-block {
+    width: 100%;
+    height: fit-content;
+}
+.free-answer-block-answer {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.free-answer-block-container {
+    width: 50%;
+    margin-right: 10px;
+}
+.free-answer-block-container-view {
+    width: 100%;
+}

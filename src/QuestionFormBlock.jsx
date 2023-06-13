@@ -8,6 +8,7 @@ import { AnswerListFormBlock } from "./AnswerListFormBlock";
 import { SlideFlag } from "./SlideFlag";
 import { ANSWER_TYPE } from "./MethodicForm";
 import { useEffect, useState } from "react";
+import { FreeAnswerBlock } from "./FreeAnswerBlock";
 
 
 export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDelete, isActive, handleChange, question, number, handlesAnswer, sub = false}) => {
@@ -49,6 +50,7 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                                 {key: ANSWER_TYPE.ONE, value: "Один из списка"},
                                 {key: ANSWER_TYPE.MANY, value: "Множественный выбор"},
                                 {key: ANSWER_TYPE.SCALE, value: "Шкала"},
+                                {key: ANSWER_TYPE.FREE, value: "Свободные ответы"},
                                 {key: ANSWER_TYPE.QUESTIONS, value: "Вложенные вопросы", display: !sub}
                             ]}
                         </Select>
@@ -89,12 +91,21 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                                             remove: (answer_index) => handlesAnswer.sub.handlesAnswer.select.remove(i, answer_index)
                                         },
                                         scale: (key, value) => handlesAnswer.sub.handlesAnswer.scale(i, key, value),
-                                        copy: () => handlesAnswer.sub.handlesAnswer.copy(i)
+                                        copy: () => handlesAnswer.sub.handlesAnswer.copy(i),
+                                        free: {
+                                            add: () => handlesAnswer.sub.handlesAnswer.free.add(i),
+                                            remove: index => handlesAnswer.sub.handlesAnswer.free.remove(i, index),
+                                            img: (index) => handlesAnswer.sub.handlesAnswer.free.img(i, index)
+                                        }
                                     }}
                                 />
                             </div>
                         )
                     }
+                </div>
+                :question.answer_type === ANSWER_TYPE.FREE?
+                <div>
+                    <FreeAnswerBlock handles={handlesAnswer.free} answers={question.answers[ANSWER_TYPE.FREE]} edit={true} readOnly={true} />
                 </div>
                 :<></>
             }
@@ -144,6 +155,10 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                             </div>
                         )
                     }
+                </div>
+                :question.answer_type === ANSWER_TYPE.FREE?
+                <div>
+                    <FreeAnswerBlock answers={question.answers[ANSWER_TYPE.FREE]} edit={false} readOnly={true} />
                 </div>
                 :<></>
             }

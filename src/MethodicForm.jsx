@@ -10,7 +10,8 @@ export const ANSWER_TYPE = {
     ONE: "one",
     MANY: "many",
     PREVIOUS: "prev",
-    QUESTIONS: "questions"
+    QUESTIONS: "questions",
+    FREE: "free"
 }
 
 export const MethodicForm = () => {
@@ -48,7 +49,8 @@ export const MethodicForm = () => {
                                     min_text: "Не боюсь",
                                     max_text: "Очень\nбоюсь"
                                 },
-                                "questions": []
+                                "questions": [],
+                                "free": [{img: false}]
                             }
                         },
                         {
@@ -71,7 +73,8 @@ export const MethodicForm = () => {
                                     min_text: "Не боюсь",
                                     max_text: "Очень\nбоюсь"
                                 },
-                                "questions": []
+                                "questions": [],
+                                "free": [{img: false}]
                             }
                         }
                     ],
@@ -86,7 +89,8 @@ export const MethodicForm = () => {
                         max: 3,
                         min_text: null,
                         max_text: null
-                    }
+                    },
+                    "free": [{img: false}]
                 }
             },
             {
@@ -109,7 +113,8 @@ export const MethodicForm = () => {
                         min_text: null,
                         max_text: null
                     },
-                    "questions":[]
+                    "questions":[],
+                    "free": [{img: false}]
                 }
             },
             {
@@ -132,7 +137,8 @@ export const MethodicForm = () => {
                         min_text: null,
                         max_text: null
                     },
-                    "questions": []
+                    "questions": [],
+                    "free": [{img: false}]
                 }
             }
         ],
@@ -142,31 +148,34 @@ export const MethodicForm = () => {
     const [data, setData] = useState(methodic);
     const [activeBlock, setActiveBlock] = useState(undefined);
 
-    const activeBlockRef = useRef();
+    const containerRef = useRef();
 
+    useEffect(() => {
+        const click = e => {
+            if(containerRef.current === undefined) return;
+            let pos = containerRef.current.getBoundingClientRect();
+            let x1 = pos.left;
+            let x2 = x1+pos.width;
+            if(e.clientX <  x1 || e.clientX > x2) {
+                setActiveBlock(undefined);
+            }
+        }
+        window.onclick = click;
+        return () => window.onclick = null;
+    }, []);
 
     const newSelectAnswer = (other = false) => JSON.parse(JSON.stringify(
         {text: other?null:"", score: null}
     ));
 
+    const newFreeAnswer = () => {
+        return {img: false}
+    }
+
     const setActiveWithScroll = (i) => {
         setActiveBlock(i);
         // if(activeBlockRef.current!==undefined) activeBlockRef.current.scrollIntoView();
     }
-
-    useEffect(() => {
-        const handleClick = (e) => {
-            if(!activeBlockRef.current) return;
-            if(!activeBlockRef.current.contains(e.target) && activeBlockRef.current!==e.target) {
-                if(activeBlock !== undefined) {
-                    // setActiveBlock(-2);
-                    console.log("клик вне элемента");
-                    console.log(activeBlock);
-                }
-            }
-        } 
-        window.onclick = handleClick;
-    }, [activeBlockRef, activeBlock])
 
     const newQuestion = () => JSON.parse(JSON.stringify({
         text: null,
@@ -209,9 +218,15 @@ export const MethodicForm = () => {
                         },
                         "questions": [
                             
+                        ],
+                        "free": [
+                            newFreeAnswer()
                         ]
                     }
                 }
+            ],
+            "free": [
+                newFreeAnswer()
             ]
         }
     }));
@@ -241,9 +256,6 @@ export const MethodicForm = () => {
     };
 
     
-
-    const deactiveBlocks = () => 1;
-
     const handlesNew = (block_id) => {
         var question = () => {
             addQuestion(block_id);
@@ -282,12 +294,12 @@ export const MethodicForm = () => {
         changeData(["questions", question_index, "answers", ANSWER_TYPE.QUESTIONS, array => array[0] = newQuestion()]);
     }
 
-    return <div className="methodic-form" onClick={deactiveBlocks}>
-        <div className="methodic-form-container">
+    return <div className="methodic-form">
+        <div className="methodic-form-container" ref={containerRef}>
             <div className="methodic-form-header-container">
                 
             </div>
-            <div ref={activeBlock===-1?activeBlockRef:null}>
+            <div>
                 <MetaBlock
                     data={data} 
                     isActive={-1===activeBlock} 
@@ -298,7 +310,7 @@ export const MethodicForm = () => {
             </div>
             {
                 data.questions.map((question, i) => 
-                    <div key={i} ref={i===activeBlock?activeBlockRef:null}>
+                    <div key={i}>
                         <QuestionFormBlock
                             question={question}
                             handlesNew={handlesNew(i)}
@@ -334,11 +346,21 @@ export const MethodicForm = () => {
                                             remove: (question_index, answer_index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, array => array.splice(answer_index, 1)]),
                                         },
                                         copy: (subquestion_index) => copyPrevSubAnswers(i, subquestion_index),
-                                        reset: () => resetSubQuestion(i)
+                                        reset: () => resetSubQuestion(i),
+                                        free: {
+                                            add: (question_index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, array => array.push(newFreeAnswer())]),
+                                            remove: (question_index,index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
+                                            img: (question_index,index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.QUESTIONS][question_index].answers[ANSWER_TYPE.FREE][index].img])
+                                        }
                                     },
                                     handleDelete: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index, 1)]),
                                     handleNew: (index) => changeData(["questions",i,"answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index+1, 0, newQuestion())])
                                 },
+                                free: {
+                                    add: () => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.push(newFreeAnswer())]),
+                                    remove: index => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
+                                    img: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.FREE][index].img])
+                                }
                             }}
                         />
                     </div>                      

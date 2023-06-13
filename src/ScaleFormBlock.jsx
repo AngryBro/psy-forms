@@ -1,4 +1,5 @@
 import { Input } from "./Input";
+import { Scale } from "./Scale";
 import "./css/ScaleFormBlock.css";
 
 export const ScaleFormBlock = ({data, handleUpdate}) => {
@@ -28,5 +29,6 @@ export const ScaleFormBlock = ({data, handleUpdate}) => {
                 <div className="scale-form-block-element">Текст:</div>
                 <Input value={data.max_text} onChange={e => update("max_text", e.target.value)} tip="Без текста" />
             </div>
+            <Scale min={data.min} max={data.max} minText={data.min_text} maxText={data.max_text} value={data.min-1} />
     </div>
 };
