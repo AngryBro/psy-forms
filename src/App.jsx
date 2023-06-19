@@ -6,7 +6,7 @@ const App = () => {
 
     return <BrowserRouter>
             <Routes>
-                <Route path="/test" element={<Test/>} />
+                <Route path="/" element={<Test/>} />
                 <Route/>
                 <Route/>
             </Routes>

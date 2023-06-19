@@ -3,6 +3,8 @@ import { Input } from "./Input";
 import "./css/MethodicForm.css";
 import { Textarea } from "./Textarea";
 import { QuestionFormBlock } from "./QuestionFormBlock";
+import { TextFormBlock } from "./TextFormBlock";
+import { ImgFormBlock } from "./ImgFormBlock";
 
 
 export const ANSWER_TYPE = {
@@ -14,7 +16,41 @@ export const ANSWER_TYPE = {
     FREE: "free"
 }
 
+const BLOCK_TYPE = {
+    QUESTION: "q",
+    TEXT: "t",
+    IMG: "i"
+}
+
 export const MethodicForm = () => {
+
+    const newText = () => {
+        return {
+            id: null,
+            type: BLOCK_TYPE.TEXT,
+            text: "",
+            title: ""
+        }
+    }
+
+    const newImg = () => {
+        return {
+            id: null,
+            type: BLOCK_TYPE.IMG,
+            url: "https://i.pinimg.com/originals/45/03/2e/45032e54ea876a51492a1ca832e797a2.jpg"
+        }
+    }
+
+    // const newMethodic = () => {
+    //     return {
+    //         public_name: null,//"Тестовая методика",
+    //         private_name: null,//"Тестовая методика (скрытое)",
+    //         instruction: null,//"Инструкция по выполнению",
+    //         time: null,
+    //         questions: [],
+    //         scales: []
+    //     }
+    // }
 
     const methodic = {
         public_name: null,//"Тестовая методика",
@@ -119,6 +155,17 @@ export const MethodicForm = () => {
             },
             {
                 id: null,
+                title: "Устал проходить?",
+                text: "Надо как-то, ещё один вопрос.\nПосмотри на котиков.",
+                type: BLOCK_TYPE.TEXT
+            },
+            {
+                id: null,
+                type: BLOCK_TYPE.IMG,
+                url: "https://img3.goodfon.ru/original/2560x1440/c/87/regdoll-koshki-mordochki.jpg"
+            },
+            {
+                id: null,
                 text: "Кто такая бока?",
                 type: "q",
                 required: true,
@@ -177,10 +224,22 @@ export const MethodicForm = () => {
         // if(activeBlockRef.current!==undefined) activeBlockRef.current.scrollIntoView();
     }
 
+    const blocks = () => {
+        // let questions = [];
+        let number = 0;
+        data.questions.forEach(question => {
+            if(question.type === BLOCK_TYPE.QUESTION) {
+                number ++;
+            }
+            question.number = number;
+        });
+        return data.questions;
+    }
+
     const newQuestion = () => JSON.parse(JSON.stringify({
         text: null,
         id: null,
-        type: "q",
+        type: BLOCK_TYPE.QUESTION,
         required: false,
         answer_type: null,
         answers: {
@@ -261,10 +320,12 @@ export const MethodicForm = () => {
             addQuestion(block_id);
         };
         var text = () => {
-            console.log(`Добавить текст для ${block_id}`);
+            setActiveBlock(block_id+1);
+            changeData(["questions", array => array.splice(block_id+1, 0, newText())]);
         };
         var img = () => {
-            console.log(`Добавить картинку для ${block_id}`);
+            setActiveBlock(block_id+1);
+            changeData(["questions", array => array.splice(block_id+1, 0, newImg())]);
         };
         return [
             {f: question, text: "Добавить вопрос"},
@@ -276,6 +337,13 @@ export const MethodicForm = () => {
     const addQuestion = (i) => {
         setActiveBlock(i+1);
         changeData(["questions", array => array.splice(i+1, 0, newQuestion())]);
+    }
+
+    const deleteBlock = (i) => {
+        if(i > 0) {
+            setActiveBlock(i-1);
+        }
+        changeData(["questions", array => array.splice(i, 1)]);
     }
 
     const copyPrevAnswers = (question_index) => {
@@ -309,7 +377,8 @@ export const MethodicForm = () => {
                 />
             </div>
             {
-                data.questions.map((question, i) => 
+                blocks().map((question, i) => 
+                    question.type===BLOCK_TYPE.QUESTION?
                     <div key={i}>
                         <QuestionFormBlock
                             question={question}
@@ -317,8 +386,8 @@ export const MethodicForm = () => {
                             handleActive={() => setActiveWithScroll(i)}
                             handleChange={(key, value) => changeData(["questions", i, key, value])}
                             isActive={i === activeBlock}
-                            number={`${i+1}.`}
-                            handleDelete={() => changeData(["questions", array => array.splice(i,1)])}
+                            number={`${question.number}.`}
+                            handleDelete={() => deleteBlock(i)}
                             isFirst={i === 0}
                             handlesAnswer={{
                                 scale: (key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.SCALE, key, value]),
@@ -363,7 +432,16 @@ export const MethodicForm = () => {
                                 }
                             }}
                         />
-                    </div>                      
+                    </div>
+                    :question.type === BLOCK_TYPE.TEXT?
+                    <div key={i}>
+                        <TextFormBlock handleChange={(key, value) => changeData(["questions", i, key, value])} data={question} isActive={i === activeBlock} handleActive={() => setActiveBlock(i)} handlesNew={handlesNew(i)} handleDelete={() => deleteBlock(i)} />
+                    </div>
+                    :question.type === BLOCK_TYPE.IMG?
+                    <div key={i}>
+                        <ImgFormBlock  data={question} isActive={i === activeBlock} handleActive={() => setActiveBlock(i)} handlesNew={handlesNew(i)} handleDelete={() => deleteBlock(i)} />
+                    </div>
+                    :<div key={i}/>                  
                 )
             }
         </div>
@@ -384,6 +462,7 @@ export const Block = ({children, isActive, handleActive, handlesNew}) => {
             }
         </div>
         <div style={{height:"15px"}}></div>
+        
     </div>
 };
 
@@ -396,7 +475,7 @@ const MetaBlock = ({handlesNew, handleActive, isActive, handleChange, data}) => 
             <Input font={25} readOnly={!isActive} onChange={e => handleChange("private_name", e.target.value)} tip="Скрытое название" value={data.private_name}/>
         </div>
         <div className="methodic-form-instruction">
-            <Textarea readOnly={!isActive} tip="Инструкция" font={16} onInput={e => handleChange("instruction", e.target.innerText)} value={data.instruction} />
+            <Textarea readOnly={!isActive} tip="Инструкция" font={16} onChangeValue={value => handleChange("instruction", value)} value={data.instruction} />
         </div>
     </Block>
 };

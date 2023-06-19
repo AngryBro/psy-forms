@@ -1,0 +1,11 @@
+.text-form-block-textarea {
+    margin-top: 10px;
+    height: fit-content;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.text-form-block-input {
+    overflow: hidden;
+    height: fit-content;
+    transition: all 0.3s ease;
+}

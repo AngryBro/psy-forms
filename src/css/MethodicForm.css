@@ -55,3 +55,39 @@
 .methodic-form-block-action:hover {
     background-color: var(--light-grey);
 }
+.methodic-form-block-footer {
+    max-height: 100px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+.methodic-form-block-footer.hidden {
+    max-height: 0px;
+}
+.methodic-form-block-line {
+    height: 1px;
+    width: 100%;
+    background-color: var(--light-grey);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.methodic-form-block-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.methodic-form-block-bin {
+    padding: 1px;
+    font-size: 20pt;
+    transform: scaleX(1.5);
+    color: grey;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+}
+.methodic-form-block-vline {
+    width: 1px;
+    height: 30px;
+    background-color: var(--light-grey);
+    margin-left: 20px;
+    margin-right: 20px;
+}

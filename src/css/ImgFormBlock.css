@@ -1,0 +1,10 @@
+.img-form-block-img {
+    max-width: 100%;
+    margin: auto;
+}
+.img-form-block-img-container {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    height: fit-content;
+}

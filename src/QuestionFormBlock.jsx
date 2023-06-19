@@ -5,10 +5,11 @@ import { Input } from "./Input";
 import { Scale } from "./Scale";
 import { ScaleFormBlock } from "./ScaleFormBlock";
 import { AnswerListFormBlock } from "./AnswerListFormBlock";
-import { SlideFlag } from "./SlideFlag";
+// import { SlideFlag } from "./SlideFlag";
 import { ANSWER_TYPE } from "./MethodicForm";
 import { useEffect, useState } from "react";
 import { FreeAnswerBlock } from "./FreeAnswerBlock";
+import { BlockFooter } from "./BlockFooter";
 
 
 export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDelete, isActive, handleChange, question, number, handlesAnswer, sub = false}) => {
@@ -142,15 +143,7 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                                     number={`${number}${i+1})`}
                                     handleDelete={() => 1}
                                     isFirst={false}
-                                    handlesAnswer={{
-                                        // select: {
-                                        //     create: (other = false) => handlesAnswer.sub.handlesAnswer.select.create(i, other),
-                                        //     update: (answer_index, key, value) => handlesAnswer.sub.handlesAnswer.select.update(i, answer_index, key, value),
-                                        //     remove: (answer_index) => handlesAnswer.sub.handlesAnswer.select.remove(i, answer_index)
-                                        // },
-                                        // scale: (key, value) => handlesAnswer.sub.handlesAnswer.scale(i, key, value),
-                                        // copy: () => handlesAnswer.sub.handlesAnswer.copy(i)
-                                    }}
+                                    handlesAnswer={{}}
                                 />
                             </div>
                         )
@@ -164,21 +157,23 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
             }
         </div>
         }
-        {
+        <BlockFooter isActive={isActive} handleChange={handleChange} requiredFlag={!sub} question={question} handleDelete={handleDelete}/>
+        {/* {
             isActive?
-            <div className="question-form-block-footer">
-                <div className="question-form-block-line"></div>
-                <div className="question-form-block-actions">
-                    <div onClick={handleDelete} className="question-form-block-bin">&#128465;</div>
-                    <div hidden={sub} className="question-form-block-vline"></div>
-                    <div hidden={sub}>
-                    <SlideFlag flag={question.required} onClick={() => handleChange("required", !question.required)}>
-                        Обязательный вопрос:
-                    </SlideFlag>
-                    </div>
-                </div>
-            </div>
+            <BlockFooter handleChange={handleChange} requiredFlag={!sub} question={question} handleDelete={handleDelete}/>
+            // <div className="question-form-block-footer">
+            //     <div className="question-form-block-line"></div>
+            //     <div className="question-form-block-actions">
+            //         <div onClick={handleDelete} className="question-form-block-bin">&#128465;</div>
+            //         <div hidden={sub} className="question-form-block-vline"></div>
+            //         <div hidden={sub}>
+            //         <SlideFlag flag={question.required} onClick={() => handleChange("required", !question.required)}>
+            //             Обязательный вопрос:
+            //         </SlideFlag>
+            //         </div>
+            //     </div>
+            // </div>
             :<></>
-        }
+        } */}
     </Block>
 };
