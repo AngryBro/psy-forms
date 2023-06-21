@@ -5,7 +5,7 @@ export const Answer = ({other = false, autoFocus = false ,children, selected = f
 
 
 
-    return <div className="answer" onClick={handles.select===undefined?()=>1:handles.select}>
+    return <div className="answer" onClick={handles.select!==undefined?selected?handles.deselect:handles.select:()=>1}>
         <div className="answer-container">
             <div className={`answer-${checkbox?'checkbox':'circle'} ${selected?`answer-circle-selected`:''}`}>
                 {

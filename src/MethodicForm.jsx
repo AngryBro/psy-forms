@@ -5,6 +5,8 @@ import { Textarea } from "./Textarea";
 import { QuestionFormBlock } from "./QuestionFormBlock";
 import { TextFormBlock } from "./TextFormBlock";
 import { ImgFormBlock } from "./ImgFormBlock";
+// import { ScaleFormBlock } from "./ScaleFormBlock";
+import { ScaleTableForm } from "./ScaleTableForm";
 
 
 export const ANSWER_TYPE = {
@@ -16,7 +18,7 @@ export const ANSWER_TYPE = {
     FREE: "free"
 }
 
-const BLOCK_TYPE = {
+export const BLOCK_TYPE = {
     QUESTION: "q",
     TEXT: "t",
     IMG: "i"
@@ -53,9 +55,9 @@ export const MethodicForm = () => {
     // }
 
     const methodic = {
-        public_name: null,//"Тестовая методика",
-        private_name: null,//"Тестовая методика (скрытое)",
-        instruction: null,//"Инструкция по выполнению",
+        public_name: "Тестовая методика",
+        private_name: "Тестовая методика (скрытое)",
+        instruction: "Инструкция по выполнению",
         time: null,
         questions: [
             {
@@ -189,7 +191,11 @@ export const MethodicForm = () => {
                 }
             }
         ],
-        scales: []
+        scales: [
+            {name: "Страх", questions: {"1.1": [], "1.2": []}, type: "nominative"},
+            {name: "Бока", questions: {"3": []}, type:"nominative"},
+            {name: "Остальное", questions: {}, type: null}
+        ]
     }
     
     const [data, setData] = useState(methodic);
@@ -236,7 +242,8 @@ export const MethodicForm = () => {
         return data.questions;
     }
 
-    const newQuestion = () => JSON.parse(JSON.stringify({
+    const newQuestion = () => {
+        return {
         text: null,
         id: null,
         type: BLOCK_TYPE.QUESTION,
@@ -260,6 +267,7 @@ export const MethodicForm = () => {
                     text: null,
                     id: null,
                     type: "q",
+                    scales: [],
                     required: false,
                     answer_type: null,
                     answers: {
@@ -288,7 +296,7 @@ export const MethodicForm = () => {
                 newFreeAnswer()
             ]
         }
-    }));
+    }};
 
     const changeData = (...argument_array) => {
         console.log(argument_array);
@@ -312,6 +320,7 @@ export const MethodicForm = () => {
         }
         argument_array.forEach(one_change)
         setData(temp);
+        console.log(temp);
     };
 
     
@@ -364,10 +373,10 @@ export const MethodicForm = () => {
 
     return <div className="methodic-form">
         <div className="methodic-form-container" ref={containerRef}>
-            <div className="methodic-form-header-container">
+            {/* <div className="methodic-form-header-container">
                 
-            </div>
-            <div>
+            </div> */}
+            <div className="methodic-form-meta-block">
                 <MetaBlock
                     data={data} 
                     isActive={-1===activeBlock} 
@@ -444,6 +453,9 @@ export const MethodicForm = () => {
                     :<div key={i}/>                  
                 )
             }
+            <div>
+                <ScaleTableForm data={data} changeData={changeData} />
+            </div>
         </div>
         <div style={{height:"500px"}}></div>
     </div>

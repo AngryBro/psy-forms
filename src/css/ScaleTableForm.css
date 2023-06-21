@@ -1,0 +1,69 @@
+.scale-table-form {
+    display: flex;
+    align-items: flex-start;
+}
+.scale-table-form-scales {
+    width: max-content;
+}
+.scale-table-form-scale:first-of-type {
+    margin-top: 0px;
+}
+.scale-table-form-question {
+    display: flex;
+    align-items: center;
+    position: relative;
+    /* background-color: red; */
+}
+.scale-table-form-question-number {
+    margin-right: 10px;
+}
+.scale-table-form-scale {
+    display: flex;
+    align-items: flex-start;
+    margin: 20px;
+}
+.scale-table-form-button {
+    padding: 5px;
+    /* background-color: white; */
+    border-radius: 10px;
+    margin-left: 10px;
+    height: fit-content;
+    border: 1px solid var(--purple-form);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+}
+.scale-table-form-button.delete:hover {
+    background-color: rgba(255, 0, 0, 0.05);
+}
+.scale-table-form-button.rename:hover {
+    background-color: rgba(0, 89, 255, 0.05);
+}
+.scale-table-form-button.create:hover {
+    background-color: rgba(0, 255, 4, 0.05);
+}
+.scale-table-form-input {
+    width: 100%;
+    border: 1px solid var(--purple-form);
+    padding: 5px;
+    border-radius: 5px;
+}
+.scale-table-form-noscales {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.scale-table-form-input.invalid {
+    border-color: red;
+}
+.scale-table-form-nominative {
+    position: absolute;
+    border-radius: 5px;
+    border: 1px solid var(--purple-form);
+    width: max-content;
+    height: fit-content;
+    padding: 10px;
+    left: 100%;
+    top: -60%;
+    background-color: var(--background-purple);
+    z-index: 4;
+}

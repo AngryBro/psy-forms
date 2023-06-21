@@ -6,13 +6,14 @@
 }
 .answer-container {
     display: flex;
-    /* align-items: center; */
+    align-items: center;
     /* align-items: flex-end; */
-    align-items: flex-start;
+    /* align-items: flex-start; */
     width: fit-content;
     height: 100%;
     position: relative;
     cursor: pointer;
+    /* background-color: red; */
 }
 .answer-circle {
     width: 20px;
