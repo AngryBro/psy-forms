@@ -1,0 +1,89 @@
+.research-constructor-methodic-container {
+    width: 800px;
+    margin: 0 auto;
+}
+.research-constructor {
+    background-color: var(--background-purple);
+    display: flex;
+}
+.research-constructor-methodic-spoiler {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: fit-content;
+    position: relative;
+    /* background-color: red; */
+    /* background-color: white; */
+    /* background-repeat: repeat; */
+}
+.research-constructor-private-name {
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.research-constructor-addbuttons {
+    display: flex;
+    justify-content: flex-start;
+    transition: all 0.3s ease;
+    /* overflow: hidden; */
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
+    /* position: relative; */
+}
+.research-constructor-addbuttons-button {
+    background-color: white;
+    border: 1px solid var(--purple-form);
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.research-constructor-addbuttons-button:hover {
+    background-color: var(--light-grey);
+}
+.research-constructor-addbuttons-container {
+    height: fit-content;
+}
+.research-constructor-methodic-list {
+    /* position: absolute; */
+    /* border-radius: 5px; */
+    /* border: 1px solid var(--purple-form); */
+    width: 200px;
+}
+.research-constructor-methodic-buttons-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 100%;
+    right: 0px;
+    width: fit-content;
+    z-index: 4;
+}
+.research-constructor-methodic-button {
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+    margin: 3px;
+    border: 1px solid var(--med-grey);
+    cursor: pointer;
+}
+.research-constructor-methodic-button:hover {
+    background-color: var(--light-grey);
+}
+.research-constructor-publish-button {
+    padding: 20px;
+    background-color: var(--purple-form);
+    color: white;
+    font-size: 20pt;
+    font-weight: bold;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 200px;
+    transition: all 0.3s ease;
+}
+.research-constructor-publish-button:hover {
+    color: var(--light-grey);
+}

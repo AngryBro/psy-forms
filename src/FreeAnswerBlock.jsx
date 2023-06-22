@@ -11,10 +11,10 @@ export const FreeAnswerBlock = ({answers, handles = {}, edit = false, readOnly =
                         <FreeAnswer>
                             {{
                                 number: answers.length === 1?null:i+1,
-                                value: readOnly?null:handles.value,
-                                setValue: readOnly?()=>1:handles.setValue,
+                                value: readOnly?null:handles.value(i),
+                                setValue: readOnly?()=>1:(value) => handles.setValue(i, value),
                                 // img: answer.img
-                                readOnly: true
+                                readOnly
                             }}
                         </FreeAnswer>
                     </div>

@@ -1,47 +1,31 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Input } from "./Input";
 import "./css/MethodicForm.css";
 import { Textarea } from "./Textarea";
 import { QuestionFormBlock } from "./QuestionFormBlock";
-import { TextFormBlock } from "./TextFormBlock";
-import { ImgFormBlock } from "./ImgFormBlock";
 // import { ScaleFormBlock } from "./ScaleFormBlock";
 import { ScaleTableForm } from "./ScaleTableForm";
-
-
-export const ANSWER_TYPE = {
-    SCALE: "scale",
-    ONE: "one",
-    MANY: "many",
-    PREVIOUS: "prev",
-    QUESTIONS: "questions",
-    FREE: "free"
-}
-
-export const BLOCK_TYPE = {
-    QUESTION: "q",
-    TEXT: "t",
-    IMG: "i"
-}
+import { BLOCK_TYPE } from "./enums/BLOCK_TYPE";
+import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
 
 export const MethodicForm = () => {
 
-    const newText = () => {
-        return {
-            id: null,
-            type: BLOCK_TYPE.TEXT,
-            text: "",
-            title: ""
-        }
-    }
+    // const newText = () => {
+    //     return {
+    //         id: null,
+    //         type: BLOCK_TYPE.TEXT,
+    //         text: "",
+    //         title: ""
+    //     }
+    // }
 
-    const newImg = () => {
-        return {
-            id: null,
-            type: BLOCK_TYPE.IMG,
-            url: "https://i.pinimg.com/originals/45/03/2e/45032e54ea876a51492a1ca832e797a2.jpg"
-        }
-    }
+    // const newImg = () => {
+    //     return {
+    //         id: null,
+    //         type: BLOCK_TYPE.IMG,
+    //         url: "https://i.pinimg.com/originals/45/03/2e/45032e54ea876a51492a1ca832e797a2.jpg"
+    //     }
+    // }
 
     // const newMethodic = () => {
     //     return {
@@ -85,7 +69,9 @@ export const MethodicForm = () => {
                                     min: 0,
                                     max: 3,
                                     min_text: "Не боюсь",
-                                    max_text: "Очень\nбоюсь"
+                                    max_text: "Очень\nбоюсь",
+                                    min_score: 0,
+                                    max_score: 3
                                 },
                                 "questions": [],
                                 "free": [{img: false}]
@@ -109,7 +95,9 @@ export const MethodicForm = () => {
                                     min: 0,
                                     max: 3,
                                     min_text: "Не боюсь",
-                                    max_text: "Очень\nбоюсь"
+                                    max_text: "Очень\nбоюсь",
+                                    min_score: 0,
+                                    max_score: 3
                                 },
                                 "questions": [],
                                 "free": [{img: false}]
@@ -126,7 +114,9 @@ export const MethodicForm = () => {
                         min: 1,
                         max: 3,
                         min_text: null,
-                        max_text: null
+                        max_text: null,
+                        min_score: 1,
+                        max_score: 3
                     },
                     "free": [{img: false}]
                 }
@@ -140,32 +130,34 @@ export const MethodicForm = () => {
                 answer_type: ANSWER_TYPE.ONE,
                 answers: {
                     "one": [
-                        {id: 1, text: "Изипизи", score: 1},
-                        {id: 2, text: "Норм", score: 2},
-                        {id: 3, text: "Хардово", score: 3}
+                        {id: 1, text: "Не сложно", score: 1},
+                        {id: 2, text: "Нормально", score: 2},
+                        {id: 3, text: "Сложно", score: 3}
                     ],
                     "many": [],
                     "scale": {
                         min: 1,
                         max: 3,
                         min_text: null,
-                        max_text: null
+                        max_text: null,
+                        min_score: 1,
+                        max_score: 3
                     },
                     "questions":[],
                     "free": [{img: false}]
                 }
             },
-            {
-                id: null,
-                title: "Устал проходить?",
-                text: "Надо как-то, ещё один вопрос.\nПосмотри на котиков.",
-                type: BLOCK_TYPE.TEXT
-            },
-            {
-                id: null,
-                type: BLOCK_TYPE.IMG,
-                url: "https://img3.goodfon.ru/original/2560x1440/c/87/regdoll-koshki-mordochki.jpg"
-            },
+            // {
+            //     id: null,
+            //     title: "Устал проходить?",
+            //     text: "Надо как-то, ещё один вопрос.\nПосмотри на котиков.",
+            //     type: BLOCK_TYPE.TEXT
+            // },
+            // {
+            //     id: null,
+            //     type: BLOCK_TYPE.IMG,
+            //     url: "https://img3.goodfon.ru/original/2560x1440/c/87/regdoll-koshki-mordochki.jpg"
+            // },
             {
                 id: null,
                 text: "Кто такая бока?",
@@ -184,7 +176,9 @@ export const MethodicForm = () => {
                         min: 1,
                         max: 3,
                         min_text: null,
-                        max_text: null
+                        max_text: null,
+                        min_score: 1,
+                        max_score: 3
                     },
                     "questions": [],
                     "free": [{img: false}]
@@ -192,7 +186,7 @@ export const MethodicForm = () => {
             }
         ],
         scales: [
-            {name: "Страх", questions: {"1.1": [], "1.2": []}, type: "nominative"},
+            {name: "Страх", questions: {"1.1": [], "1.2": []}, type: "score"},
             {name: "Бока", questions: {"3": []}, type:"nominative"},
             {name: "Остальное", questions: {}, type: null}
         ]
@@ -201,21 +195,6 @@ export const MethodicForm = () => {
     const [data, setData] = useState(methodic);
     const [activeBlock, setActiveBlock] = useState(undefined);
 
-    const containerRef = useRef();
-
-    useEffect(() => {
-        const click = e => {
-            if(containerRef.current === undefined) return;
-            let pos = containerRef.current.getBoundingClientRect();
-            let x1 = pos.left;
-            let x2 = x1+pos.width;
-            if(e.clientX <  x1 || e.clientX > x2) {
-                setActiveBlock(undefined);
-            }
-        }
-        window.onclick = click;
-        return () => window.onclick = null;
-    }, []);
 
     const newSelectAnswer = (other = false) => JSON.parse(JSON.stringify(
         {text: other?null:"", score: null}
@@ -223,6 +202,17 @@ export const MethodicForm = () => {
 
     const newFreeAnswer = () => {
         return {img: false}
+    }
+
+    const newScaleAnswer = () => {
+        return {
+            min: 1,
+            max: 3,
+            min_text: null,
+            max_text: null,
+            min_score: 1,
+            max_score: 3
+        }
     }
 
     const setActiveWithScroll = (i) => {
@@ -256,18 +246,12 @@ export const MethodicForm = () => {
             "many": [
                 newSelectAnswer()
             ],
-            "scale": {
-                min: 1,
-                max: 3,
-                min_text: null,
-                max_text: null
-            },
+            "scale": newScaleAnswer(),
             "questions": [
                 {
                     text: null,
                     id: null,
                     type: "q",
-                    scales: [],
                     required: false,
                     answer_type: null,
                     answers: {
@@ -277,12 +261,7 @@ export const MethodicForm = () => {
                         "many": [
                             newSelectAnswer()
                         ],
-                        "scale": {
-                            min: 1,
-                            max: 3,
-                            min_text: null,
-                            max_text: null
-                        },
+                        "scale": newScaleAnswer(),
                         "questions": [
                             
                         ],
@@ -328,18 +307,18 @@ export const MethodicForm = () => {
         var question = () => {
             addQuestion(block_id);
         };
-        var text = () => {
-            setActiveBlock(block_id+1);
-            changeData(["questions", array => array.splice(block_id+1, 0, newText())]);
-        };
-        var img = () => {
-            setActiveBlock(block_id+1);
-            changeData(["questions", array => array.splice(block_id+1, 0, newImg())]);
-        };
+        // var text = () => {
+        //     setActiveBlock(block_id+1);
+        //     changeData(["questions", array => array.splice(block_id+1, 0, newText())]);
+        // };
+        // var img = () => {
+        //     setActiveBlock(block_id+1);
+        //     changeData(["questions", array => array.splice(block_id+1, 0, newImg())]);
+        // };
         return [
-            {f: question, text: "Добавить вопрос"},
-            {f: text, text: "Добавить текст"},
-            {f :img, text: "Добавить изображение"}
+            {f: question, text: "Добавить вопрос"}
+            // {f: text, text: "Добавить текст"},
+            // {f :img, text: "Добавить изображение"}
         ]
     }
 
@@ -371,11 +350,54 @@ export const MethodicForm = () => {
         changeData(["questions", question_index, "answers", ANSWER_TYPE.QUESTIONS, array => array[0] = newQuestion()]);
     }
 
+    const handlesAnswer = (question, i) => {
+        const scale = (key, value) => {
+            changeData(["questions", i, "answers", ANSWER_TYPE.SCALE, key, value]);
+        }
+        const select = {
+            create: (other = false) => changeData(["questions", i, "answers", question.answer_type, array => array.push(newSelectAnswer(other))]),
+            update: (answer_index, key, value) => changeData(["questions", i, "answers", question.answer_type, answer_index, key, value]),
+            remove: (answer_index) => changeData(["questions", i, "answers", question.answer_type, array => array.splice(answer_index, 1)]),
+        }
+        const copy = () => copyPrevAnswers(i);
+        const free = {
+            add: () => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.push(newFreeAnswer())]),
+            remove: index => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
+            img: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.FREE][index].img])
+        }
+        const sub = {
+            handleChange: (index, key, value) => changeData([
+                "questions",
+                i,
+                "answers",
+                ANSWER_TYPE.QUESTIONS,
+                index,
+                key,
+                value
+            ]),
+            handlesAnswer: {
+                scale: (index, key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, index, "answers", ANSWER_TYPE.SCALE, key, value]),
+                select: {
+                    create: (question_index, other = false) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, array => array.push(newSelectAnswer(other))]),
+                    update: (question_index, answer_index, key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, answer_index, key, value]),
+                    remove: (question_index, answer_index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, array => array.splice(answer_index, 1)]),
+                },
+                copy: (subquestion_index) => copyPrevSubAnswers(i, subquestion_index),
+                reset: () => resetSubQuestion(i),
+                free: {
+                    add: (question_index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, array => array.push(newFreeAnswer())]),
+                    remove: (question_index,index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
+                    img: (question_index,index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.QUESTIONS][question_index].answers[ANSWER_TYPE.FREE][index].img])
+                }
+            },
+            handleDelete: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index, 1)]),
+            handleNew: (index) => changeData(["questions",i,"answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index+1, 0, newQuestion())])
+        };
+        return {select, scale, free, sub, copy};
+    }
+
     return <div className="methodic-form">
-        <div className="methodic-form-container" ref={containerRef}>
-            {/* <div className="methodic-form-header-container">
-                
-            </div> */}
+        <div className="methodic-form-container">
             <div className="methodic-form-meta-block">
                 <MetaBlock
                     data={data} 
@@ -387,7 +409,6 @@ export const MethodicForm = () => {
             </div>
             {
                 blocks().map((question, i) => 
-                    question.type===BLOCK_TYPE.QUESTION?
                     <div key={i}>
                         <QuestionFormBlock
                             question={question}
@@ -398,59 +419,9 @@ export const MethodicForm = () => {
                             number={`${question.number}.`}
                             handleDelete={() => deleteBlock(i)}
                             isFirst={i === 0}
-                            handlesAnswer={{
-                                scale: (key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.SCALE, key, value]),
-                                select: {
-                                    create: (other = false) => changeData(["questions", i, "answers", question.answer_type, array => array.push(newSelectAnswer(other))]),
-                                    update: (answer_index, key, value) => changeData(["questions", i, "answers", question.answer_type, answer_index, key, value]),
-                                    remove: (answer_index) => changeData(["questions", i, "answers", question.answer_type, array => array.splice(answer_index, 1)]),
-                                },
-                                copy: () => copyPrevAnswers(i),
-                                sub: {
-                                    handleChange: (index, key, value) => changeData([
-                                        "questions",
-                                        i,
-                                        "answers",
-                                        ANSWER_TYPE.QUESTIONS,
-                                        index,
-                                        key,
-                                        value
-                                    ]),
-                                    handlesAnswer: {
-                                        scale: (index, key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, index, "answers", ANSWER_TYPE.SCALE, key, value]),
-                                        select: {
-                                            create: (question_index, other = false) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, array => array.push(newSelectAnswer(other))]),
-                                            update: (question_index, answer_index, key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, answer_index, key, value]),
-                                            remove: (question_index, answer_index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, array => array.splice(answer_index, 1)]),
-                                        },
-                                        copy: (subquestion_index) => copyPrevSubAnswers(i, subquestion_index),
-                                        reset: () => resetSubQuestion(i),
-                                        free: {
-                                            add: (question_index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, array => array.push(newFreeAnswer())]),
-                                            remove: (question_index,index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
-                                            img: (question_index,index) => changeData(["questions", i, "answers",ANSWER_TYPE.QUESTIONS, question_index, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.QUESTIONS][question_index].answers[ANSWER_TYPE.FREE][index].img])
-                                        }
-                                    },
-                                    handleDelete: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index, 1)]),
-                                    handleNew: (index) => changeData(["questions",i,"answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index+1, 0, newQuestion())])
-                                },
-                                free: {
-                                    add: () => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.push(newFreeAnswer())]),
-                                    remove: index => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
-                                    img: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.FREE][index].img])
-                                }
-                            }}
+                            handlesAnswer={handlesAnswer(question, i)}
                         />
-                    </div>
-                    :question.type === BLOCK_TYPE.TEXT?
-                    <div key={i}>
-                        <TextFormBlock handleChange={(key, value) => changeData(["questions", i, key, value])} data={question} isActive={i === activeBlock} handleActive={() => setActiveBlock(i)} handlesNew={handlesNew(i)} handleDelete={() => deleteBlock(i)} />
-                    </div>
-                    :question.type === BLOCK_TYPE.IMG?
-                    <div key={i}>
-                        <ImgFormBlock  data={question} isActive={i === activeBlock} handleActive={() => setActiveBlock(i)} handlesNew={handlesNew(i)} handleDelete={() => deleteBlock(i)} />
-                    </div>
-                    :<div key={i}/>                  
+                    </div>               
                 )
             }
             <div>
@@ -461,7 +432,7 @@ export const MethodicForm = () => {
     </div>
 };
 
-export const Block = ({children, isActive, handleActive, handlesNew}) => {
+export const Block = ({children, isActive, handleActive = () => 1, handlesNew = []}) => {
 
 
     return <div className="methodic-form-block-container">

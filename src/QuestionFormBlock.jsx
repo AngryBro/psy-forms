@@ -6,7 +6,7 @@ import { Scale } from "./Scale";
 import { ScaleFormBlock } from "./ScaleFormBlock";
 import { AnswerListFormBlock } from "./AnswerListFormBlock";
 // import { SlideFlag } from "./SlideFlag";
-import { ANSWER_TYPE } from "./MethodicForm";
+import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
 import { useEffect, useState } from "react";
 import { FreeAnswerBlock } from "./FreeAnswerBlock";
 import { BlockFooter } from "./BlockFooter";

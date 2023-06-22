@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { Answer } from "./Answer";
-import { ANSWER_TYPE, BLOCK_TYPE } from "./MethodicForm";
 import { Spoiler } from "./Spoiler"
 import "./css/ScaleTableForm.css";
 import { Input } from "./Input";
+import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
+import { BLOCK_TYPE } from "./enums/BLOCK_TYPE";
+import { SCALE_TYPE } from "./enums/SCALE_TYPE";
 
 export const ScaleTableForm = ({data, changeData}) => {
 
-    const SCALE_TYPE = {
-        NOMINATIVE: "nominative",
-        SCORE: "score"
-    }
 
     const all_questions = () => {
         let questions = [];
@@ -133,7 +131,7 @@ export const ScaleTableForm = ({data, changeData}) => {
                 }
             });
         }
-        return flag || question.answer_type === ANSWER_TYPE.SCALE;
+        return flag;
     }
 
     const isScore = question => {
@@ -145,17 +143,10 @@ export const ScaleTableForm = ({data, changeData}) => {
                 }
             });
         }
-        return flag && [ANSWER_TYPE.MANY, ANSWER_TYPE.ONE].includes(question.answer_type);
+        return (flag && [ANSWER_TYPE.MANY, ANSWER_TYPE.ONE].includes(question.answer_type)) || question.answer_type === ANSWER_TYPE.SCALE;
     }
 
     const nominativeAnswers = (question) => {
-        if(question.answer_type === ANSWER_TYPE.SCALE) {
-            let array = [];
-            for(let i = question.answers[ANSWER_TYPE.SCALE].min; i<= question.answers[ANSWER_TYPE.SCALE].max; i++) {
-                array.push({text: i});
-            }
-            return array;
-        }
         return question.answers[question.answer_type];
     }
 

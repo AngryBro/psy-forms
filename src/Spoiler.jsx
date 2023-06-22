@@ -53,7 +53,12 @@ export const Spoiler = ({children, text, hidden, setHidden}) => {
         <div ref={childrenContainerRef} className={"spoiler-children-container"+(hidden?"":" active")} style={{transition: `all ${duration}ms ease`, overflow}}>
             <div ref={childrenRef} className="spoiler-children">
                 {
+                    Array.isArray(children)?
                     children.map((child, i) => <div className="spoiler-child" key={i}>{child}</div>)
+                    :children
+                    // children.length === 1?
+                    // children:
+                    // children.map((child, i) => <div className="spoiler-child" key={i}>{child}</div>)
                 }
             </div>
         </div>

@@ -1,0 +1,10 @@
+.research-page {
+    background-color: var(--background-purple);
+    background-attachment: fixed;
+}
+.research-container {
+    max-width: 800px;
+    margin: auto;
+    padding-bottom: 150px;
+    padding-top: 20px;
+}
