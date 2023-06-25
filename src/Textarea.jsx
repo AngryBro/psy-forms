@@ -49,13 +49,13 @@ export const Textarea = ({value, tip = "", font = 16, readOnly=false, onChangeVa
                 contentEditable={!readOnly}
                 onBlur={handleChange}
                 onInput={handleInput}
-                style={{fontSize:`${font}pt`}}
+                // style={{fontSize:`${font}pt`}}
                 dangerouslySetInnerHTML={{__html: (value===null?"":value).replace(/\n/g, "<br>")}}
             >
             </div>
             {/* <textarea className="textarea-input" style={{fontSize:`${font}pt`, height}} onChange={handleChange} value={value}></textarea> */}
             {/* <textarea className="textarea-input textarea-input-hidden" style={{fontSize:`${font}pt`}} onChange={() => 1} value={value}></textarea> */}
-            <div style={{fontSize: `${font}pt`}} className="textarea-tip" hidden={text.length}>{tip}</div>
+            <div className="textarea-tip" hidden={text.length}>{tip}</div>
         </div>
     </div>
 }

@@ -5,9 +5,9 @@ export const Answer = ({other = false, autoFocus = false ,children, selected = f
 
 
 
-    return <div className="answer" onClick={handles.select!==undefined?selected?handles.deselect:handles.select:()=>1}>
+    return <div className="answer">
         <div className="answer-container">
-            <div className={`answer-${checkbox?'checkbox':'circle'} ${selected?`answer-circle-selected`:''}`}>
+            <div onClick={handles.select!==undefined?selected?handles.deselect:handles.select:()=>1} className={`answer-${checkbox?'checkbox':'circle'} ${selected?`answer-circle-selected`:''}`}>
                 {
                     selected?
                     checkbox?
@@ -20,7 +20,7 @@ export const Answer = ({other = false, autoFocus = false ,children, selected = f
             {
                 edit || other?
                 <div className='answer-input-container'>
-                    <div className='answer-input'><Input readOnly={!selected && other} onChange={handles.updateText===undefined?()=>1:(e) => handles.updateText(e.target.value)} value={children} tip={tip} onFocus={onFocus} autoFocus={autoFocus}  /></div>
+                    <div onClick={other?handles.select:()=>1} className='answer-input'><Input readOnly={!selected && other} onChange={handles.updateText===undefined?()=>1:(e) => handles.updateText(e.target.value)} value={children} tip={tip} onFocus={onFocus} autoFocus={autoFocus}  /></div>
                     {
                         handles.updateScore === undefined?<></>:
                         <div className='answer-input-score-container'>

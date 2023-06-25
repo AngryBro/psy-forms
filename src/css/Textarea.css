@@ -41,6 +41,7 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
     transition: all 0.3s ease;
+    font-size: inherit;
 }
 .textarea-input-hidden {
     position: absolute;
@@ -58,4 +59,5 @@
     top: 12px;
     left: 13px;
     color: var(--med-grey);
+    font-size: inherit;
 }

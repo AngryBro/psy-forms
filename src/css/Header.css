@@ -1,0 +1,58 @@
+.header {
+    background-color: var(--purple-form);
+    height: fit-content;
+    width: 100%;
+    display: flex;
+}
+.header-container {
+    height: fit-content;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+}
+.header-logo {
+    text-transform: uppercase;
+    color: white;
+    font-size: 40pt;
+    /* margin: auto; */
+    width: fit-content;
+}
+.header-buttons {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    /* background-color: red; */
+    justify-content: flex-end;
+    /* margin: auto; */
+}
+.header-email {
+    color: white;
+    font-size: 20pt;
+    margin-right: 20px;
+    font-weight: bold;
+    width: fit-content;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.header-email.__auth:hover {
+    color: var(--background-purple);
+}
+.header-cabinet {
+    padding: 20px;
+    border: 3px white solid;
+    border-radius: 15px;
+    color: white;
+    font-size: 20pt;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+    /* margin: auto; */
+}
+.header-cabinet:hover {
+    border-color: var(--background-purple);
+    color: var(--background-purple);
+}

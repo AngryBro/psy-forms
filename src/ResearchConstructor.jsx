@@ -30,6 +30,7 @@ export const ResearchConstructor = () => {
                         type: "q",
                         text: "Насколько вы боитесь:",
                         answer_type: ANSWER_TYPE.QUESTIONS,
+                        number: "1",
                         required: true,
                         answers: 
                                 [
@@ -37,6 +38,7 @@ export const ResearchConstructor = () => {
                                     id: null,
                                     type: "q",
                                     text: "Мать",
+                                    number: "1.1",
                                     required: false,
                                     answer_type: ANSWER_TYPE.SCALE,
                                     answers: {
@@ -52,6 +54,7 @@ export const ResearchConstructor = () => {
                                     id: null,
                                     type: "q",
                                     text: "Отца",
+                                    number: "1.2",
                                     required: false,
                                     subquestions: null,
                                     answer_type: ANSWER_TYPE.SCALE,
@@ -70,6 +73,7 @@ export const ResearchConstructor = () => {
                         id: null,
                         text: "Насколько сложно делать это приложение?",
                         type: "q",
+                        number: "2",
                         required: false,
                         subquestions: [],
                         answer_type: ANSWER_TYPE.ONE,
@@ -84,6 +88,7 @@ export const ResearchConstructor = () => {
                         id: null,
                         text: "Кто такая бока?",
                         type: "q",
+                        number: "3",
                         required: true,
                         answer_type: ANSWER_TYPE.MANY,
                         answers:  [
@@ -122,6 +127,7 @@ export const ResearchConstructor = () => {
                         id: null,
                         type: "q",
                         text: "Насколько вы боитесь:",
+                        number: "1",
                         answer_type: ANSWER_TYPE.QUESTIONS,
                         required: true,
                         answers: 
@@ -130,6 +136,7 @@ export const ResearchConstructor = () => {
                                     id: null,
                                     type: "q",
                                     text: "Мать",
+                                    number: "1.1",
                                     required: false,
                                     answer_type: ANSWER_TYPE.SCALE,
                                     answers: {
@@ -145,6 +152,7 @@ export const ResearchConstructor = () => {
                                     id: null,
                                     type: "q",
                                     text: "Отца",
+                                    number: "1.2",
                                     required: false,
                                     subquestions: null,
                                     answer_type: ANSWER_TYPE.SCALE,
@@ -163,6 +171,7 @@ export const ResearchConstructor = () => {
                         id: null,
                         text: "Насколько сложно делать это приложение?",
                         type: "q",
+                        number: "2",
                         required: false,
                         subquestions: [],
                         answer_type: ANSWER_TYPE.ONE,
@@ -177,6 +186,7 @@ export const ResearchConstructor = () => {
                         id: null,
                         text: "Кто такая бока?",
                         type: "q",
+                        number: "3",
                         required: true,
                         answer_type: ANSWER_TYPE.MANY,
                         answers:  [
@@ -197,8 +207,8 @@ export const ResearchConstructor = () => {
     }
 
     const methodics1 = [
-        {id: 1, public_name: "Методика 1", private_name: "Методика правда 1"},
-        {id: 2, public_name: "Методика 2", private_name: "Методика неправда 2"}
+        {id: 1, public_name: "Методика 1", private_name: "Методика one"},
+        {id: 2, public_name: "Методика 2", private_name: "Методика two"}
     ]
 
     const [research, setResearch] = useState(research1);

@@ -133,7 +133,7 @@ export const Research = () => {
                                         {
                                             id: null,
                                             type: "q",
-                                            text: "Мать",
+                                            text: "Пауков",
                                             number: "1.1",
                                             required: false,
                                             answer_type: ANSWER_TYPE.SCALE,
@@ -141,7 +141,7 @@ export const Research = () => {
                                                     min: 0,
                                                     max: 3,
                                                     min_text: "Не боюсь",
-                                                    max_text: "Очень\nбоюсь",
+                                                    max_text: "Очень боюсь",
                                                     min_score: 0,
                                                     max_score: 3
                                                 },
@@ -149,7 +149,7 @@ export const Research = () => {
                                         {
                                             id: null,
                                             type: "q",
-                                            text: "Отца",
+                                            text: "Змей",
                                             number: "1.2",
                                             required: false,
                                             subquestions: null,
@@ -191,7 +191,8 @@ export const Research = () => {
                                         {id: null, text: "Киса", score: null},
                                         {id: null, text: "Собачка", score: null},
                                         {id: null, text: "Змейка", score: null},
-                                        {id: null, text: "Черепашка", score: null}
+                                        {id: null, text: "Черепашка", score: null},
+                                        {text: null, other: true}
                                     ]
                             },
                             {
@@ -295,20 +296,20 @@ export const Research = () => {
                             },
                             {
                                 id: null,
-                                text: "Кто такая бориска?",
+                                text: "Выберите города России",
                                 type: "q",
                                 number: "3",
                                 required: true,
                                 answer_type: ANSWER_TYPE.MANY,
                                 answers:  [
-                                        {id: null, text: "Киса", score: null},
-                                        {id: null, text: "Собачка", score: null},
-                                        {id: null, text: "Змейка", score: null},
-                                        {id: null, text: "Черепашка", score: null}
+                                        {id: null, text: "Владивосток", score: null},
+                                        {id: null, text: "London", score: null},
+                                        {id: null, text: "Moscow", score: null},
+                                        {id: null, text: "Таких нет", score: null}
                                     ]
                             },
                             {
-                                text: "опишите погоду",
+                                text: "Опишите погоду сейчас",
                                 number: "4",
                                 required: false,
                                 answer_type: ANSWER_TYPE.FREE,

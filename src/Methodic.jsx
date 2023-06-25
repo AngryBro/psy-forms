@@ -6,15 +6,6 @@ import { FreeAnswerBlock } from "./FreeAnswerBlock";
 
 export const Methodic = ({data = {}, readOnly = false, handles, answers = {}}) => {
     
-    // const answer_handles = (question_number) => {
-    //     return {
-    //         one: (answer_index, select, other = null) => handles.one(question_number, answer_index, select, other),
-    //         many: (answer_index, select, other = null) => handles.many(question_number, answer_index, select, other),
-    //         free: (answer_index, key, value) => handles.free(question_number, answer_index, key, value),
-    //         scale: (value) => handles.scale(question_number, value),
-    //         sub: handles
-    //     }
-    // }
 
     return <div className="methodic-container">
             <div className="methodic-block">
@@ -70,8 +61,8 @@ const Block = ({question, handles, sub = false, answers, readOnly}) => {
                 {
                     question.answers.map((answer, i) => 
                         <div key={i}>
-                            <Answer handles={handles_select(i, question.answer_type === ANSWER_TYPE.MANY)} selected={readOnly?false:answers[question.number][i].selected} checkbox={question.answer_type === ANSWER_TYPE.MANY}>
-                                {answer.text}
+                            <Answer tip={answer.other?"Другое...":""} other={answer.other} handles={readOnly?{}:handles_select(i, question.answer_type === ANSWER_TYPE.MANY)} selected={readOnly?false:answers[question.number][i].selected} checkbox={question.answer_type === ANSWER_TYPE.MANY}>
+                                {answer.other?answers[question.number][i].other:answer.text}
                             </Answer>
                         </div>
                     )
@@ -79,7 +70,7 @@ const Block = ({question, handles, sub = false, answers, readOnly}) => {
             </div>
             :question.answer_type === ANSWER_TYPE.SCALE?
             <div>
-                <Scale onSelect={value => handles.scale(question.number, value)} value={answers[question.number]===null?question.answers.min-1:answers[question.number]} min={question.answers.min} max={question.answers.max} minText={question.answers.min_text} maxText={question.answers.max_text} />
+                <Scale onSelect={readOnly?()=>1:value => handles.scale(question.number, value)} value={answers[question.number]===null||readOnly?question.answers.min-1:answers[question.number]} min={question.answers.min} max={question.answers.max} minText={question.answers.min_text} maxText={question.answers.max_text} />
             </div>
             :question.answer_type === ANSWER_TYPE.FREE?
             <div style={{marginTop:"15px"}}>

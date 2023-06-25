@@ -4,10 +4,6 @@ import "./css/Input.css";
 export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip = "", font, readOnly = false, autoFocus=false}) => {
     
     const [focused, setFocused] = useState(false);
-
-    const isTipHidden = () => {
-        return value!==null&&value!=="";
-    };
     
     return <div className="input"> 
         <div className="input-container">
@@ -15,7 +11,7 @@ export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip
             autoFocus = {autoFocus}
             readOnly={readOnly}
             className="input-content"
-            style={{fontSize: `${font}pt`}}
+            // style={{fontSize: `${font}pt`}}
             onFocus={(e) => {setFocused(true); onFocus(e)}}
             onBlur={(e) => {setFocused(false); onBlur(e)}}
             onChange={onChange}
@@ -27,7 +23,7 @@ export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip
                 <div className="input-nonactive-border"></div>
             </div>
         </div>
-        <div className="input-tip" style={{opacity: 0, fontSize: `${font}pt`}}>{isTipHidden()?value:tip}</div>
+        <div className="input-tip" style={{opacity: 0, fontSize: `${font}pt`}}>{value!==null&&value!==""?value:tip}</div>
         <div style={{height:"15px", width:"100%"}}></div>
     </div>
 };
