@@ -50,9 +50,13 @@
 .auth-form-element-button.disabled {
     border-color: var(--med-grey);
     color: var(--med-grey);
+    cursor: default;
 }
 .auth-form-element-button:hover {
     background-color: var(--background-purple);
+}
+.auth-form-element-button.disabled:hover {
+    background-color: white;
 }
 .auth-form-element-button.disabled:hover {
     background-color: white;

@@ -7,6 +7,7 @@
     top: 0;
     left: 0;
     font-size: 20pt;
+    z-index: 10;
 }
 .modal-container {
     margin: auto;

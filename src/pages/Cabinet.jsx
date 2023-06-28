@@ -5,7 +5,7 @@ import "../css/Cabinet.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../enums/ROUTES";
 
-export const Cabinet = () => {
+export const Cabinet = ({appState}) => {
     
     
     const [methodics, setMethodics] = useState([]);
@@ -57,7 +57,7 @@ export const Cabinet = () => {
     }
 
     
-    return <Page title="Личный кабинет">
+    return <Page title="Личный кабинет" appState={appState}>
         <div className="cabinet-container">
             <div className="cabinet-header">Личный кабинет</div>
             <div className="cabinet-spoiler-container">

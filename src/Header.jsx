@@ -13,7 +13,7 @@ export const Header = ({auth, email, onClicks}) => {
                 <div className={"header-email"+(auth?" __auth":"")} onClick={auth?onClicks.cabinet:()=>1}>
                     {auth===undefined?"...":auth?email:email_alt}
                 </div>
-                <div className="header-cabinet" onClick={auth===false?onClicks.login:()=>1}>
+                <div className="header-cabinet" onClick={auth===false?onClicks.login:onClicks.logout}>
                     {
                         auth===undefined?
                         "...":

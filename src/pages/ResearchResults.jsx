@@ -5,7 +5,7 @@ import "../css/ResearchResults.css";
 import { ResultsBlock } from "../ResultsBlock";
 import { GroupCreate } from "../GroupCreate";
 
-export const ResearchResults = () => {
+export const ResearchResults = ({appState}) => {
 
     const {id} = useParams();
 
@@ -45,7 +45,7 @@ export const ResearchResults = () => {
 
     useEffect(fetchData, [fetchData]);
 
-    return <Page title="Результаты">
+    return <Page appState={appState} title="Результаты">
         <div className="research-results-header">Результаты исследования &laquo;{data !== null?`${data.public_name} (${data.private_name})`:""}&raquo;</div>
         {
         data !== null?
