@@ -4,3 +4,26 @@
     color: var(--purple-form);
     font-weight: bold;
 }
+.research-results-button-container {
+    display: flex;
+    padding: 50px;
+    width: 100%;
+    /* background-color: red; */
+}
+.research-results-button {
+    font-size: 16pt;
+    width: 100%;
+    margin: auto;
+}
+.research-results-block {
+    margin-top: 40px;
+}
+.research-results-block::after {
+    width: 100%;
+    display: block;
+    content: "";
+    height: 1px;
+    margin-top: 10px;
+    /* background-color: red; */
+    background-color: var(--purple-form);
+}

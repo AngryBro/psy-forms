@@ -7,8 +7,8 @@ import {ROUTES} from "./enums/ROUTES";
 
 export const Page = ({children, title}) => {
 
-    const [auth] = useState(true);
-    const [email] = useState("ex");
+    const [auth] = useState(false);
+    const [email] = useState("example@mail.ru");
 
     const nav = useNavigate();
 

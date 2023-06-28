@@ -1,0 +1,44 @@
+.respondents-table-container table {
+    border-collapse: collapse;
+    font-size: 20pt;
+    margin: 10px;
+    margin-bottom: 70px;
+    background-color: white;
+}
+tr.__even {
+    background-color: rgb(242, 242, 242);
+}
+.respondents-table-container {
+    overflow: scroll;
+    max-width: 1000px;
+    max-height: 700px;
+    width: max-content;
+    height: max-content;
+}
+.respondents-table {
+    position: relative;
+    overflow-y: visible;
+    width: fit-content;
+    /* overflow-x: scroll; */
+}
+.respondents-table-container table td, .respondents-table-container table th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 3px;
+    min-width: 30px;
+}
+.respondents-group {
+    display: flex;
+    margin-bottom: 5px;
+}
+.respondents-group-text {
+    margin-right: 10px;
+    color: var(--purple-form);
+}
+.respondents-methodic-select {
+    width: 50%;
+    /* width: max-content; */
+    position: absolute;
+    bottom: 15px;
+    left: 10px;
+}

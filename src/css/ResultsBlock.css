@@ -1,0 +1,27 @@
+.results-flag {
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px;
+}
+
+.results-block-container {
+    width: fit-content;
+    display: flex;
+}
+.results-groups-container {
+    margin-top: 100px;
+}
+.results-download {
+    border: 1px solid var(--purple-form);
+    padding: 5px;
+    border-radius: 15px;
+    width: fit-content;
+    height: fit-content;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 5px;
+    background-color: white;
+}
+.results-download:hover {
+    background-color: var(--background-purple);
+}
