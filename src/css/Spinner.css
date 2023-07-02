@@ -1,0 +1,155 @@
+.spinner-loader {
+    width: fit-content;
+    height: fit-content;
+}
+:root {
+    --spinner-color: #cc88dd;
+}
+@-webkit-keyframes spinner-timer {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  @-moz-keyframes spinner-timer {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  @-o-keyframes spinner-timer {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes spinner-timer {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Styles for old versions of IE */
+  .spinner-timer {
+    font-family: sans-serif;
+    font-weight: 100;
+    width: fit-content;
+    height: fit-content;
+  }
+  
+  /* :not(:required) hides this rule from IE9 and below */
+  .spinner-timer:not(:required) {
+    border: 2px solid var(--spinner-color);
+    -webkit-border-radius: 24px;
+    -moz-border-radius: 24px;
+    -ms-border-radius: 24px;
+    -o-border-radius: 24px;
+    border-radius: 24px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    text-indent: -9999px;
+    width: 48px;
+    height: 48px;
+  }
+  .spinner-timer:not(:required)::before {
+    -webkit-animation: spinner-timer 1250ms infinite linear;
+    -moz-animation: spinner-timer 1250ms infinite linear;
+    -ms-animation: spinner-timer 1250ms infinite linear;
+    -o-animation: spinner-timer 1250ms infinite linear;
+    animation: spinner-timer 1250ms infinite linear;
+    /* -webkit-transform-origin: 3px 3px;
+    -moz-transform-origin: 3px 3px;
+    -ms-transform-origin: 3px 3px;
+    -o-transform-origin: 3px 3px; */
+    transform-origin: 1px 1px;
+    background: var(--spinner-color);
+    /* -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px; */
+    border-radius: 1px;
+    content: '';
+    display: block;
+    position: absolute;
+    width: 2px;
+    height: 19.2px;
+    left: 22px;
+    top: 22px;
+  }
+  .spinner-timer:not(:required)::after {
+    -webkit-animation: spinner-timer 15000ms infinite linear;
+    -moz-animation: spinner-timer 15000ms infinite linear;
+    -ms-animation: spinner-timer 15000ms infinite linear;
+    -o-animation: spinner-timer 15000ms infinite linear;
+    animation: spinner-timer 15000ms infinite linear;
+    /* -webkit-transform-origin: 3px 3px;
+    -moz-transform-origin: 3px 3px;
+    -ms-transform-origin: 3px 3px;
+    -o-transform-origin: 3px 3px; */
+    transform-origin: 1px 1px;
+    background: var(--spinner-color);
+    /* -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px; */
+    border-radius: 1px;
+    content: '';
+    display: block;
+    position: absolute;
+    width: 2px;
+    height: 16px;
+    left: 22px;
+    top: 22px;
+  }

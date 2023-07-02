@@ -4,5 +4,6 @@ export const ROUTES = {
     RESEARCH_CONSTRUCTOR: id => `/form/research/${id}`,
     RESEARCH: id => `/research/${id}`,
     METHODIC: id => `/methodic/${id}`,
-    RESULTS: id => `/research/${id}/results`
+    RESULTS: id => `/research/${id}/results`,
+    MAIN: "/"
 }

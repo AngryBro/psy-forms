@@ -35,6 +35,8 @@
     justify-content: flex-end;
     width: 100%;
     margin-top: 10px;
+    width: fit-content;
+    float: right;
 }
 .auth-form-element-button {
     padding: 10px;

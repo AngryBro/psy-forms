@@ -4,9 +4,11 @@
 .answer-list-form-block-add-container {
     display: flex;
     align-items: flex-start;
+    width: fit-content;
 }
 .answer-list-form-block-add {
     margin-right: 10px;
+    width: 200px;
 }
 .answer-list-form-block-other {
     color: #1a73e8;

@@ -1,34 +1,17 @@
-// import { Cabinet } from "./pages/Cabinet";
-
-import { ResultsBlock } from "./ResultsBlock";
-
-// import { Respondents } from "./Respondents";
+import { useEffect, useState } from "react";
+import { Inputarea } from "./Inputarea";
 
 
 
 
 const Test = () => {
 
-    const groups = [
-        {
-            id: 1,
-            name: "Тревожные",
-            conditions: [
-                {string: "тревога > 10", id: 1},
-                {string: "тревога < 50", id: 2}
-            ]
-        },
-        {
-            id: 2,
-            name: "Нетревожные",
-            conditions: [
-                {string: "тревога <= 10", id: 3}
-            ]
-        }
-    ]
+    const [v, setV] = useState("default");
+
+    useEffect(() => console.log("Изменение "+v.length), [v]);
     
-    return <div style={{width: "100%", height: "100%"}}>
-        <ResultsBlock groups={groups} researchName={"Привязанность"} />
+    return <div style={{width: "300px", height: "100px", backgroundColor:"red"}}>
+        <Inputarea  value={v} onChange={e => setV(e.target.innerText)}/>
     </div>
 };
 

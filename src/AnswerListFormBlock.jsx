@@ -42,6 +42,7 @@ export const AnswerListFormBlock = ({many = false, answers, edit=false, handles}
                     edit={edit}
                     tip={"Другое..."}
                     handles={{remove: () => handles.remove(i)}}
+                    score="Нет"
                 >{""}</Answer>
                 }
             </div>

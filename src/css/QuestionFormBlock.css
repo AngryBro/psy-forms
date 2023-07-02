@@ -2,6 +2,9 @@
     display: flex;
     margin-bottom: 15px;
 }
+.question-form-inputarea {
+    font-size: 18pt;
+}
 .question-form-required {
     color: red;
 }
@@ -36,6 +39,9 @@
     background-color: var(--light-grey);
     margin-top: 15px;
     margin-bottom: 15px;
+}
+.question-form-block-reverse {
+    margin-left: 20px;
 }
 .question-form-block-actions {
     display: flex;

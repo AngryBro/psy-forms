@@ -20,6 +20,7 @@
     font-size: 40pt;
     /* margin: auto; */
     width: fit-content;
+    cursor: pointer;
 }
 .header-buttons {
     display: flex;
@@ -28,6 +29,10 @@
     /* background-color: red; */
     justify-content: flex-end;
     /* margin: auto; */
+    transition: all 0.3s ease;
+}
+.header-login {
+    width: fit-content;
 }
 .header-email {
     color: white;
@@ -40,6 +45,9 @@
 }
 .header-email.__auth:hover {
     color: var(--background-purple);
+}
+.header-email.__auth {
+    text-decoration: underline;
 }
 .header-cabinet {
     padding: 20px;

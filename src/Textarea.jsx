@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./css/Textarea.css";
 
 export const Textarea = ({value, tip = "", font = 16, readOnly=false, onChangeValue}) => {
@@ -6,6 +6,10 @@ export const Textarea = ({value, tip = "", font = 16, readOnly=false, onChangeVa
     // const [savedValue, setSavedValue] = useState(value===null?"":value);
     // const [height, setHeight] = useState("20px");
     const [text, setText] = useState(value===null?"":value);
+
+    useEffect(() => {
+        setText(value===null?"":value);
+    }, [value]);
 
     // const ref = useRef();
 
@@ -55,7 +59,7 @@ export const Textarea = ({value, tip = "", font = 16, readOnly=false, onChangeVa
             </div>
             {/* <textarea className="textarea-input" style={{fontSize:`${font}pt`, height}} onChange={handleChange} value={value}></textarea> */}
             {/* <textarea className="textarea-input textarea-input-hidden" style={{fontSize:`${font}pt`}} onChange={() => 1} value={value}></textarea> */}
-            <div className="textarea-tip" hidden={text.length}>{tip}</div>
+            <div className="textarea-tip" style={{opacity: Number(text.length === 0)}}>{tip}</div>
         </div>
     </div>
 }

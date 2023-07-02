@@ -1,15 +1,16 @@
 import "./css/QuestionFormBlock.css";
 import { Select } from "./Select";
 import { Block } from "./MethodicForm";
-import { Input } from "./Input";
 import { Scale } from "./Scale";
 import { ScaleFormBlock } from "./ScaleFormBlock";
 import { AnswerListFormBlock } from "./AnswerListFormBlock";
-// import { SlideFlag } from "./SlideFlag";
 import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
 import { useEffect, useState } from "react";
 import { FreeAnswerBlock } from "./FreeAnswerBlock";
 import { BlockFooter } from "./BlockFooter";
+import { Inputarea } from "./Inputarea";
+import { Button } from "./Button";
+import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
 
 
 export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDelete, isActive, handleChange, question, number, handlesAnswer, sub = false}) => {
@@ -35,11 +36,33 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
         setActiveSubBlock(i+1);
     };
 
+    const reverseActive = () => (
+        [ANSWER_TYPE.ONE, ANSWER_TYPE.MANY].includes(question.answer_type) 
+        &&
+        question.answers[question.answer_type].find(answer => answer.score !== null) !== undefined
+    );
+
+    const subHandlesAnswer = (i) => ({
+        select: {
+            create: (other = false) => handlesAnswer.sub.handlesAnswer.select.create(i, other),
+            update: (answer_index, key, value) => handlesAnswer.sub.handlesAnswer.select.update(i, answer_index, key, value),
+            remove: (answer_index) => handlesAnswer.sub.handlesAnswer.select.remove(i, answer_index),
+            reverse: () => handlesAnswer.sub.handlesAnswer.select.reverse(i)
+        },
+        scale: (key, value) => handlesAnswer.sub.handlesAnswer.scale(i, key, value),
+        copy: () => handlesAnswer.sub.handlesAnswer.copy(i),
+        free: {
+            add: () => handlesAnswer.sub.handlesAnswer.free.add(i),
+            remove: index => handlesAnswer.sub.handlesAnswer.free.remove(i, index),
+            img: (index) => handlesAnswer.sub.handlesAnswer.free.img(i, index)
+        }
+    });
+
 
     return <Block isActive={isActive} handleActive={handleActive} handlesNew={handlesNew}>
         <div className="question-form-input">
             <div className="question-form-number">{number} <span className="question-form-required" style={{opacity:Number(question.required)}}>*</span> </div>
-            <Input readOnly={!isActive} font={20} tip="Текст вопроса" value={question.text} onChange={e => handleChange("text", e.target.value)}/>
+            <Inputarea className="question-form-inputarea" readOnly={!isActive} tip="Текст вопроса" value={question.text} onChange={e => handleChange("text", e.target.innerText)}/>
         </div>
         <div className={isActive?"question-form-constructor-active":"question-form-constructor"}>
             <div className="question-form-flex">
@@ -56,6 +79,13 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                             ]}
                         </Select>
                     </div>
+                    {
+                        reverseActive()?
+                        <div className="question-form-block-reverse">
+                            <Button onClick={handlesAnswer.select.reverse} type={BUTTON_TYPES.EDIT}>Обратный порядок баллов</Button>
+                        </div>
+                        :<></>
+                    }
             </div>
             {
                 question.answer_type === ANSWER_TYPE.SCALE?
@@ -85,20 +115,7 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                                     number={`${number}${i+1})`}
                                     handleDelete={() => checkDelete(i)}
                                     isFirst={i === 0}
-                                    handlesAnswer={{
-                                        select: {
-                                            create: (other = false) => handlesAnswer.sub.handlesAnswer.select.create(i, other),
-                                            update: (answer_index, key, value) => handlesAnswer.sub.handlesAnswer.select.update(i, answer_index, key, value),
-                                            remove: (answer_index) => handlesAnswer.sub.handlesAnswer.select.remove(i, answer_index)
-                                        },
-                                        scale: (key, value) => handlesAnswer.sub.handlesAnswer.scale(i, key, value),
-                                        copy: () => handlesAnswer.sub.handlesAnswer.copy(i),
-                                        free: {
-                                            add: () => handlesAnswer.sub.handlesAnswer.free.add(i),
-                                            remove: index => handlesAnswer.sub.handlesAnswer.free.remove(i, index),
-                                            img: (index) => handlesAnswer.sub.handlesAnswer.free.img(i, index)
-                                        }
-                                    }}
+                                    handlesAnswer={subHandlesAnswer(i)}
                                 />
                             </div>
                         )

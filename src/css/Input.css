@@ -46,4 +46,6 @@
 .input-tip {
     color: var(--med-grey);
     font-size: smaller;
+    height: fit-content;
+    width: fit-content;
 }

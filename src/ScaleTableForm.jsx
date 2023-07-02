@@ -6,6 +6,7 @@ import { Input } from "./Input";
 import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
 import { BLOCK_TYPE } from "./enums/BLOCK_TYPE";
 import { SCALE_TYPE } from "./enums/SCALE_TYPE";
+import { Alert } from "./Alert";
 
 export const ScaleTableForm = ({data, changeData}) => {
 
@@ -32,12 +33,12 @@ export const ScaleTableForm = ({data, changeData}) => {
                 }
             }
         });
-        return questions;
+        return questions.filter(question => isNominative(question) || isScore(question));
     }
 
 
-    const addQuestionToScale = (question_number, scale_index, question_index, e) => {
-        let question = all_questions()[question_index];
+    const addQuestionToScale = (question_number, scale_index, e) => {
+        let question = all_questions().find(q => q.number === question_number);
         console.log(question);
         let scale = data.scales[scale_index];
         let nominative = isNominative(question);
@@ -50,7 +51,7 @@ export const ScaleTableForm = ({data, changeData}) => {
             if(nominative) {
                 changeData(["scales", scale_index, "questions", array => {array[question_number] = []}],
                 ["scales", scale_index, "type", SCALE_TYPE.NOMINATIVE]);
-                setQuestionIndexWithOpenedAnswers(question_index);
+                setQuestionNumberWithOpenedAnswers(question_number);
             }
             else {
                 changeData(["scales", scale_index, "questions", array => {array[question_number] = null}],
@@ -73,13 +74,13 @@ export const ScaleTableForm = ({data, changeData}) => {
         else {
             changeData(["scales", scale_index, "questions", array => {delete array[question_number]}]);
         }
-        setQuestionIndexWithOpenedAnswers(-1);
+        setQuestionNumberWithOpenedAnswers(-1);
     }
 
-    const answerHandles = (question_number, scale_index, question_index) => {
+    const answerHandles = (question_number, scale_index) => {
 
         return {
-            select: (e) => addQuestionToScale(question_number, scale_index, question_index, e),
+            select: (e) => addQuestionToScale(question_number, scale_index, e),
             deselect: () => removeQuestionFromScale(question_number, scale_index)
         };
     } 
@@ -91,6 +92,7 @@ export const ScaleTableForm = ({data, changeData}) => {
     const editScale = (scale_index) => {
         if(edit === scale_index) {
             setEdit(-1);
+            setOpened(scale_index);
         }
         else {
             setEdit(scale_index);
@@ -168,15 +170,27 @@ export const ScaleTableForm = ({data, changeData}) => {
     const [opened, setOpened] = useState(undefined);
     const [edit, setEdit] = useState(-1);
     const [invalidScale, setInvalidScale] = useState(-1);
-    const [questionIndexWithOpenedAnswers, setQuestionIndexWithOpenedAnswers] = useState(-1);
+    const [questionNumberWithOpenedAnswers, setQuestionNumberWithOpenedAnswers] = useState(-1);
+    const [message, setMessage] = useState(null);
 
     useEffect(() => {
-        setQuestionIndexWithOpenedAnswers(-1);
+        setQuestionNumberWithOpenedAnswers(-1);
     }, [opened]);
+
+    const openInfo = () => {
+        setMessage(`Добавьте порядковые и номинативные шкалы.
+        К каждой шкале выберите вопросы, которые к ней относятся.
+        К порядковой шкале могут относиться только вопросы, ответы на которые переведы в баллы.
+        К одной шкале не могут относиться вопросы с бальными и небальными ответами`);
+    }
     
     return <div className="scale-table-form">
+            <Alert onClose={setMessage} >{message}</Alert>
             <div>
                 Шкалы:
+            </div>
+            <div className="scale-table-info" onClick={openInfo}>
+                ?
             </div>
             <div className="scale-table-form-scales">
                 {
@@ -197,12 +211,12 @@ export const ScaleTableForm = ({data, changeData}) => {
                                                 {question.number}{")"}
                                             </div>
                                             <div className="scale-table-form-answer">
-                                                <Answer handles={answerHandles(question.number, i, j)} selected={question.number in scale.questions} checkbox={true}>
+                                                <Answer handles={answerHandles(question.number, i)} selected={question.number in scale.questions} checkbox={true}>
                                                     {question.text===null?"":question.text.slice(0,22)+(question.text.length>22?"...":"")}
                                                 </Answer>
                                             </div>
                                             {
-                                                questionIndexWithOpenedAnswers === j && isNominative(question)?
+                                                questionNumberWithOpenedAnswers === question.number && isNominative(question)?
                                                 <div className="scale-table-form-nominative">
                                                     <div><i>Ответы, относящиеся к шкале:</i></div>
                                                     {

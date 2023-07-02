@@ -1,0 +1,93 @@
+.button-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    position: relative;
+    -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.button-spinner {
+    position: absolute;
+}
+.button-container.button1 {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid var(--purple-form);
+    padding: 10px;
+}
+.button-text.button1 {
+    font-size: 20pt;
+    color: var(--purple-form);
+}
+.button-container.button1.__enabled:hover {
+    background-color: var(--background-purple);
+}
+.button-container.button2 {
+    border-radius: 10px;
+    border: 2px solid white;
+    padding: 10px;
+    color: white;
+    background-color: var(--purple-form);
+}
+.button-text.button2 {
+    font-size: 20pt;
+    font-weight: bold;
+}
+.button-container.__enabled.button2:hover {
+    background-color: white;
+    color: var(--purple-form);
+    border-color: var(--purple-form);
+}
+.button-container.__disabled {
+    cursor: default;
+    transition: none;
+}
+.button-text {
+    width: fit-content;
+    height: fit-content;
+    color: inherit;
+}
+
+
+.button-text.button3 {
+    font-size: 25pt;
+    font-weight: bold;
+}
+:root {
+    --light-red: rgb(255, 120, 120);
+    --light-blue: rgb(124, 172, 255);
+}
+.button-container.button-delete {
+    border-radius: 7px;
+    padding: 5px;
+    color: var(--light-red);
+    border: 2px solid var(--light-red);
+}
+.button-container.button-delete:hover {
+    background-color: var(--light-red);
+    color: white;
+}
+.button-text.button-delete {
+    font-size: 14pt;
+    font-weight: bold;
+}
+.button-container.button-edit {
+    border-radius: 7px;
+    padding: 5px;
+    color: var(--light-blue);
+    border: 2px solid var(--light-blue);
+}
+.button-container.button-edit:hover {
+    background-color: var(--light-blue);
+    color: white;
+}
+.button-text.button-edit {
+    font-size: 14pt;
+    font-weight: bold;
+}

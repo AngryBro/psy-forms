@@ -1,16 +1,12 @@
-export const Api = (routeName) => {
-    
-    const routes = {
-        getPassword: "/password.get",
-        verifyPassword: "/password.verify",
-        myData: "/mydata"
-    };
+export const Api = (route) => {
 
     let _method = 'get';
     let _headers = {};
     let _callback = ()=>1;
     let _getParams = '';
     let _postJson = null;
+    let _ontimeout = () => 1;
+    let _timeout_secs = 3;
 
     let makeObject = () => {
         return Object.freeze({
@@ -18,9 +14,9 @@ export const Api = (routeName) => {
             post,
             auth,
             callback,
+            timeout,
             headers,
             send,
-            session,
             img,
             imgUpload,
             cssimg
@@ -28,7 +24,7 @@ export const Api = (routeName) => {
     };
 
     let host = () => {
-        return document.getElementById("apiHost").dataset.apiHost;
+        return document.querySelector("[data-api-host]").dataset.apiHost;
     }
 
     let img = name => {
@@ -71,10 +67,14 @@ export const Api = (routeName) => {
         return makeObject();
     };
 
+    let timeout = (fn, secs = 3) => {
+        _ontimeout = fn;
+        _timeout_secs = secs;
+        return makeObject();
+    }
+
     let send = async () => {
-        if(routes[routeName]===undefined) {
-            return alert(`API маршрута ${routeName} не существует`);
-        }
+        let timer = setTimeout(_ontimeout, _timeout_secs*1000);
         let fetchParams = {
             method: _method,
             headers: _headers
@@ -83,14 +83,16 @@ export const Api = (routeName) => {
             fetchParams.body = _postJson;
         }
         try {
-            let promise = await fetch(host()+routes[routeName]+_getParams, fetchParams);
+            let promise = await fetch(host()+route+_getParams, fetchParams);
             let response = undefined;
             response = await promise.json();
-            _callback({ok: promise.ok, status: promise.status, array: response});
+            console.log(response);
+            clearTimeout(timer);
+            _callback({ok: promise.ok, status: promise.status, data: response});
         }
         catch (err) {
-            _callback({ok: false, status: undefined, array: undefined, error: err})
-            console.log(err, routeName, routes[routeName]);
+            _callback({ok: false, status: undefined, data: undefined, error: err})
+            console.log(err, route);
         }
     };
 
@@ -101,14 +103,6 @@ export const Api = (routeName) => {
         }
         return makeObject();
     };
-
-    let session = () => {
-        let sess = localStorage.getItem('session');
-        if(sess !== null) {
-            _headers['X-Session'] = sess;
-        }
-        return makeObject();
-    }
 
     let headers = (obj) => {
         for(let i in obj) {

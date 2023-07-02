@@ -5,6 +5,9 @@ import { Auth } from "./Auth";
 import { useNavigate } from "react-router-dom";
 import {ROUTES} from "./enums/ROUTES";
 import { Api } from "./Api";
+import { API_ROUTES } from "./enums/API_ROUTES";
+import { Alert } from "./Alert";
+import { ALERTS } from "./enums/ALERTS";
 
 export const Page = ({children, title, appState}) => {
 
@@ -13,13 +16,24 @@ export const Page = ({children, title, appState}) => {
     const nav = useNavigate();
 
     const [openedAuthModal, setOpenedAuthModal] = useState(false);
+    const [btnWaiting, setBtnWaiting] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(null);
 
     const header_onclicks = useCallback(() => {
         
         const logout = () => {
-            setAuth(false); 
-            setEmail(null); 
-            localStorage.removeItem("Authorization")
+            setBtnWaiting(true);
+            Api(API_ROUTES.LOGOUT).auth().callback(({ok, status}) => {
+                setBtnWaiting(false);
+                if(ok) {
+                    setAuth(false); 
+                    setEmail(null); 
+                    localStorage.removeItem("Authorization");
+                    nav(ROUTES.MAIN);
+                    return;
+                }
+                setAlertMessage(ALERTS.ERROR);
+            }).post().send();
         }
         
         return {
@@ -35,25 +49,26 @@ export const Page = ({children, title, appState}) => {
 
     useEffect(() => {
         const fetchData = () => {
-            Api("myData").auth().get().callback(response => {
+            Api(API_ROUTES.MYDATA).auth().get().callback(response => {
                 if(response.ok) {
                     setAuth(true);
-                    setEmail(response.array.email);
+                    setEmail(response.data.email);
                 }
                 else {
                     setAuth(false);
-                    localStorage.removeItem("Authorization");
                 }
             }).send();
         }
-        fetchData();
-    }, [setAuth, setEmail]);
+        if(!auth && localStorage.getItem("Authorization") !== null) {
+            setAuth(undefined);
+            fetchData();
+        }
+    }, [setAuth, setEmail, auth]);
 
     return <div className="page">
         <div className="page-header-container">
-            <Header email={email} auth={auth} onClicks={header_onclicks()} />
+            <Header btnWaiting={btnWaiting} email={email} auth={auth} onClicks={header_onclicks()} />
         </div>
-        <div>{String(auth)}</div>
         <div className="page-container">
             {children}
         </div>
@@ -62,6 +77,7 @@ export const Page = ({children, title, appState}) => {
             <Auth setAuth={setAuth} setPageEmail={setEmail} onClose={() => setOpenedAuthModal(false)} />
             :<></>
         }
+        <Alert onClose={setAlertMessage}>{alertMessage}</Alert>
     </div>
 
 }

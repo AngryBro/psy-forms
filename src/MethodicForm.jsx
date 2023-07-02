@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Input } from "./Input";
 import "./css/MethodicForm.css";
 import { Textarea } from "./Textarea";
@@ -7,198 +7,40 @@ import { QuestionFormBlock } from "./QuestionFormBlock";
 import { ScaleTableForm } from "./ScaleTableForm";
 import { BLOCK_TYPE } from "./enums/BLOCK_TYPE";
 import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
+import { Api } from "./Api";
+import { API_ROUTES } from "./enums/API_ROUTES";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "./enums/ROUTES";
+import { ALERTS } from "./enums/ALERTS";
+import { Button } from "./Button";
+import { BUTTON_STATES } from "./enums/BUTTON_STATES";
+import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
+import { Alert } from "./Alert";
 
-export const MethodicForm = () => {
+export const MethodicForm = ({id}) => {
 
-    // const newText = () => {
-    //     return {
-    //         id: null,
-    //         type: BLOCK_TYPE.TEXT,
-    //         text: "",
-    //         title: ""
-    //     }
-    // }
-
-    // const newImg = () => {
-    //     return {
-    //         id: null,
-    //         type: BLOCK_TYPE.IMG,
-    //         url: "https://i.pinimg.com/originals/45/03/2e/45032e54ea876a51492a1ca832e797a2.jpg"
-    //     }
-    // }
-
-    // const newMethodic = () => {
-    //     return {
-    //         public_name: null,//"Тестовая методика",
-    //         private_name: null,//"Тестовая методика (скрытое)",
-    //         instruction: null,//"Инструкция по выполнению",
-    //         time: null,
-    //         questions: [],
-    //         scales: []
-    //     }
-    // }
-
-    const methodic = {
-        public_name: "Тестовая методика",
-        private_name: "Тестовая методика (скрытое)",
-        instruction: "Инструкция по выполнению",
-        time: null,
-        questions: [
-            {
-                id: null,
-                type: "q",
-                text: "Насколько вы боитесь:",
-                answer_type: ANSWER_TYPE.QUESTIONS,
-                required: true,
-                answers: {
-                    "questions" : [
-                        {
-                            id: null,
-                            type: "q",
-                            text: "Мать",
-                            required: false,
-                            answer_type: ANSWER_TYPE.SCALE,
-                            answers: {
-                                "one": [
-                                    {text: "", score: null}
-                                ],
-                                "many": [
-                                    {text: "", score: null}
-                                ],
-                                "scale": {
-                                    min: 0,
-                                    max: 3,
-                                    min_text: "Не боюсь",
-                                    max_text: "Очень\nбоюсь",
-                                    min_score: 0,
-                                    max_score: 3
-                                },
-                                "questions": [],
-                                "free": [{img: false}]
-                            }
-                        },
-                        {
-                            id: null,
-                            type: "q",
-                            text: "Отца",
-                            required: false,
-                            subquestions: null,
-                            answer_type: ANSWER_TYPE.SCALE,
-                            answers: {
-                                "one": [
-                                    {text: "", score: null}
-                                ],
-                                "many": [
-                                    {text: "", score: null}
-                                ],
-                                "scale": {
-                                    min: 0,
-                                    max: 3,
-                                    min_text: "Не боюсь",
-                                    max_text: "Очень\nбоюсь",
-                                    min_score: 0,
-                                    max_score: 3
-                                },
-                                "questions": [],
-                                "free": [{img: false}]
-                            }
-                        }
-                    ],
-                    "one": [
-                        {text: "", score: null}
-                    ],
-                    "many": [
-                        {text: "", score: null}
-                    ],
-                    "scale": {
-                        min: 1,
-                        max: 3,
-                        min_text: null,
-                        max_text: null,
-                        min_score: 1,
-                        max_score: 3
-                    },
-                    "free": [{img: false}]
-                }
-            },
-            {
-                id: null,
-                text: "Насколько сложно делать это приложение?",
-                type: "q",
-                required: false,
-                subquestions: [],
-                answer_type: ANSWER_TYPE.ONE,
-                answers: {
-                    "one": [
-                        {id: 1, text: "Не сложно", score: 1},
-                        {id: 2, text: "Нормально", score: 2},
-                        {id: 3, text: "Сложно", score: 3}
-                    ],
-                    "many": [],
-                    "scale": {
-                        min: 1,
-                        max: 3,
-                        min_text: null,
-                        max_text: null,
-                        min_score: 1,
-                        max_score: 3
-                    },
-                    "questions":[],
-                    "free": [{img: false}]
-                }
-            },
-            // {
-            //     id: null,
-            //     title: "Устал проходить?",
-            //     text: "Надо как-то, ещё один вопрос.\nПосмотри на котиков.",
-            //     type: BLOCK_TYPE.TEXT
-            // },
-            // {
-            //     id: null,
-            //     type: BLOCK_TYPE.IMG,
-            //     url: "https://img3.goodfon.ru/original/2560x1440/c/87/regdoll-koshki-mordochki.jpg"
-            // },
-            {
-                id: null,
-                text: "Кто такая бока?",
-                type: "q",
-                required: true,
-                answer_type: ANSWER_TYPE.MANY,
-                answers: {
-                    "one": [],
-                    "many": [
-                        {id: null, text: "Киса", score: null},
-                        {id: null, text: "Собачка", score: null},
-                        {id: null, text: "Змейка", score: null},
-                        {id: null, text: "Черепашка", score: null}
-                    ],
-                    "scale": {
-                        min: 1,
-                        max: 3,
-                        min_text: null,
-                        max_text: null,
-                        min_score: 1,
-                        max_score: 3
-                    },
-                    "questions": [],
-                    "free": [{img: false}]
-                }
-            }
-        ],
-        scales: [
-            {name: "Страх", questions: {"1.1": [], "1.2": []}, type: "score"},
-            {name: "Бока", questions: {"3": []}, type:"nominative"},
-            {name: "Остальное", questions: {}, type: null}
-        ]
+    const newMethodic = () => {
+        return {
+            id: null,
+            public_name: null,//"Тестовая методика",
+            private_name: null,//"Тестовая методика (скрытое)",
+            instruction: null,//"Инструкция по выполнению",
+            time: null,
+            questions: [],
+            scales: []
+        }
     }
     
-    const [data, setData] = useState(methodic);
+    const [data, setData] = useState(newMethodic());
     const [activeBlock, setActiveBlock] = useState(undefined);
+    const [saved, setSaved] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(null);
+    const [fetching, setFetching] = useState(false);
 
+    const nav = useNavigate();
 
-    const newSelectAnswer = (other = false) => JSON.parse(JSON.stringify(
-        {text: other?null:"", score: null}
-    ));
+    const newSelectAnswer = (other = false) => ({text: other?null:"", score: null});
 
     const newFreeAnswer = () => {
         return {img: false}
@@ -215,29 +57,12 @@ export const MethodicForm = () => {
         }
     }
 
-    const setActiveWithScroll = (i) => {
-        setActiveBlock(i);
-        // if(activeBlockRef.current!==undefined) activeBlockRef.current.scrollIntoView();
-    }
-
-    const blocks = () => {
-        // let questions = [];
-        let number = 0;
-        data.questions.forEach(question => {
-            if(question.type === BLOCK_TYPE.QUESTION) {
-                number ++;
-            }
-            question.number = number;
-        });
-        return data.questions;
-    }
-
-    const newQuestion = () => {
+    const newQuestion = useCallback((sub = false) => {
         return {
         text: null,
         id: null,
         type: BLOCK_TYPE.QUESTION,
-        required: false,
+        required: !sub,
         answer_type: null,
         answers: {
             "one": [
@@ -262,9 +87,6 @@ export const MethodicForm = () => {
                             newSelectAnswer()
                         ],
                         "scale": newScaleAnswer(),
-                        "questions": [
-                            
-                        ],
                         "free": [
                             newFreeAnswer()
                         ]
@@ -275,7 +97,95 @@ export const MethodicForm = () => {
                 newFreeAnswer()
             ]
         }
-    }};
+    }}, []);
+
+    const newSubQuestions = useCallback(() => {
+            let question = newQuestion(true);
+            delete question.answers[ANSWER_TYPE.QUESTIONS];
+            return [question];
+        }, [newQuestion]);
+
+        
+    useEffect(() => {
+        const fetchData = (id) => {
+            setFetching(true);
+            Api(API_ROUTES.METHODIC_GET)
+            .auth()
+            .get({id})
+            .timeout(() => setAlertMessage("Получение данных методики, подождите"), 0)
+            .callback(({ok, data}) => {
+                setFetching(false);
+                setAlertMessage(null);
+                if(ok) {
+                    data.questions.forEach((question, i) => {
+                        let answers = JSON.parse(JSON.stringify(question.answers));
+                        let type = question.answer_type;
+                        data.questions[i].answers = {
+                            [ANSWER_TYPE.FREE]: newFreeAnswer(),
+                            [ANSWER_TYPE.MANY]: newSelectAnswer(),
+                            [ANSWER_TYPE.ONE]: newSelectAnswer(),
+                            [ANSWER_TYPE.QUESTIONS]: newSubQuestions(),
+                            [ANSWER_TYPE.SCALE]: newScaleAnswer()
+                        };
+                        data.questions[i].answers[type] = answers;
+                    });
+                    setData(data);
+                    setSaved(true);
+                }
+                else {
+                    setAlertMessage(ALERTS.ERROR);
+                }
+            }).send();
+        }
+        if(id !== null) {
+            fetchData(id);
+        }
+    }, [id, newSubQuestions]);
+
+
+    const save = () => {
+        let data_to_send = JSON.parse(JSON.stringify(data));
+        data_to_send.questions.forEach((question, i) => {
+            data_to_send.questions[i].answers = question.answer_type===null?[]:question.answers[question.answer_type];
+        });
+        setSaving(true);
+        Api(API_ROUTES.METHODIC_SAVE).auth().post(data_to_send).callback(({ok, data}) => {
+            setSaving(false);
+            if(ok) {
+                if(data_to_send.id === null) {
+                    nav(ROUTES.METHODIC_CONSTRUCTOR(data.id));
+                }
+                else {
+                    setSaved(true);
+                    setActiveBlock(undefined);
+                }
+            }
+            else {
+                setAlertMessage(ALERTS.ERROR);
+            }
+        }).send();
+    }
+
+
+    
+
+    const setActiveWithScroll = (i) => {
+        setActiveBlock(i);
+        // if(activeBlockRef.current!==undefined) activeBlockRef.current.scrollIntoView();
+    }
+
+    const blocks = () => {
+        // let questions = [];
+        let number = 0;
+        data.questions.forEach(question => {
+            if(question.type === BLOCK_TYPE.QUESTION) {
+                number ++;
+            }
+            question.number = number;
+        });
+        return data.questions;
+    }
+
 
     const changeData = (...argument_array) => {
         console.log(argument_array);
@@ -298,6 +208,7 @@ export const MethodicForm = () => {
             }
         }
         argument_array.forEach(one_change)
+        setSaved(false);
         setData(temp);
         console.log(temp);
     };
@@ -307,18 +218,8 @@ export const MethodicForm = () => {
         var question = () => {
             addQuestion(block_id);
         };
-        // var text = () => {
-        //     setActiveBlock(block_id+1);
-        //     changeData(["questions", array => array.splice(block_id+1, 0, newText())]);
-        // };
-        // var img = () => {
-        //     setActiveBlock(block_id+1);
-        //     changeData(["questions", array => array.splice(block_id+1, 0, newImg())]);
-        // };
         return [
             {f: question, text: "Добавить вопрос"}
-            // {f: text, text: "Добавить текст"},
-            // {f :img, text: "Добавить изображение"}
         ]
     }
 
@@ -350,6 +251,31 @@ export const MethodicForm = () => {
         changeData(["questions", question_index, "answers", ANSWER_TYPE.QUESTIONS, array => array[0] = newQuestion()]);
     }
 
+    const reverse_score_array = (array) => {
+        let len = array.length;
+        for(let i = 0; i < len; i++) {
+            if(array[i].text === null) {
+                return;
+            }
+        }
+        if(len > 1) {
+            for(let i = 0; i < Math.floor(len / 2); i++) {
+                let temp = array[i].score;
+                array[i].score = array[len-1-i].score;
+                array[len-1-i].score = temp;
+            }
+        }
+    }
+
+    const reverseScores = (question_index) => {
+        
+        changeData(["questions", question_index, "answers", data.questions[question_index].answer_type, reverse_score_array]);
+    }
+
+    const reverseSubScores = (question_index, subquestion_index, question) => {
+        changeData(["questions", question_index, "answers", ANSWER_TYPE.QUESTIONS, subquestion_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][subquestion_index].answer_type, reverse_score_array]);
+    }
+
     const handlesAnswer = (question, i) => {
         const scale = (key, value) => {
             changeData(["questions", i, "answers", ANSWER_TYPE.SCALE, key, value]);
@@ -365,6 +291,7 @@ export const MethodicForm = () => {
             remove: index => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
             img: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.FREE][index].img])
         }
+        const reverse = () => reverseScores(i);
         const sub = {
             handleChange: (index, key, value) => changeData([
                 "questions",
@@ -381,6 +308,7 @@ export const MethodicForm = () => {
                     create: (question_index, other = false) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, array => array.push(newSelectAnswer(other))]),
                     update: (question_index, answer_index, key, value) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, answer_index, key, value]),
                     remove: (question_index, answer_index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, question_index, "answers", question.answers[ANSWER_TYPE.QUESTIONS][question_index].answer_type, array => array.splice(answer_index, 1)]),
+                    reverse: (question_index) => reverseSubScores(i, question_index, question)
                 },
                 copy: (subquestion_index) => copyPrevSubAnswers(i, subquestion_index),
                 reset: () => resetSubQuestion(i),
@@ -391,13 +319,14 @@ export const MethodicForm = () => {
                 }
             },
             handleDelete: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index, 1)]),
-            handleNew: (index) => changeData(["questions",i,"answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index+1, 0, newQuestion())])
+            handleNew: (index) => changeData(["questions",i,"answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index+1, 0, newQuestion(true))])
         };
-        return {select, scale, free, sub, copy};
+        return {select, scale, free, sub, copy, reverse};
     }
 
     return <div className="methodic-form">
-        <div className="methodic-form-container">
+        <Alert waiting={fetching} onClose={() => setAlertMessage(null)}>{alertMessage}</Alert>
+        <div className="methodic-form-container" hidden={fetching}>
             <div className="methodic-form-meta-block">
                 <MetaBlock
                     data={data} 
@@ -427,6 +356,14 @@ export const MethodicForm = () => {
             <div>
                 <ScaleTableForm data={data} changeData={changeData} />
             </div>
+            <div className="methodic-form-save-button" hidden={fetching}>
+            {
+                saved?
+                <Button state={BUTTON_STATES.DISABLED} type={BUTTON_TYPES.S}>Сохранено</Button>
+                :
+                <Button onClick={save} state={saving?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} type={BUTTON_TYPES.M}>Сохранить</Button>
+            }
+        </div>
         </div>
         <div style={{height:"500px"}}></div>
     </div>
@@ -454,8 +391,8 @@ const MetaBlock = ({handlesNew, handleActive, isActive, handleChange, data}) => 
         <div className="methodic-form-name-container">
             <Input font={25} readOnly={!isActive} onChange={e => handleChange("public_name", e.target.value)} tip="Открытое название" value={data.public_name} />
         </div>
-        <div className="methodic-form-name-container">
-            <Input font={25} readOnly={!isActive} onChange={e => handleChange("private_name", e.target.value)} tip="Скрытое название" value={data.private_name}/>
+        <div className={"methodic-form-name-container" + (isActive?"":" __hidden")}>
+            <Input font={25} readOnly={!isActive} onChange={e => handleChange("private_name", e.target.value)} tip={data.public_name===null||data.public_name===""?"Скрытое название":data.public_name} value={data.private_name}/>
         </div>
         <div className="methodic-form-instruction">
             <Textarea readOnly={!isActive} tip="Инструкция" font={16} onChangeValue={value => handleChange("instruction", value)} value={data.instruction} />

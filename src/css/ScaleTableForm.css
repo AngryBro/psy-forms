@@ -5,6 +5,17 @@
 .scale-table-form-scales {
     width: max-content;
 }
+.scale-table-info {
+    width: 20px;
+    height: 20px;
+    border-radius: 16px;
+    border: 3px solid var(--purple-form);
+    color: var(--purple-form);
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+}
 .scale-table-form-scale:first-of-type {
     margin-top: 0px;
 }
@@ -21,6 +32,7 @@
     display: flex;
     align-items: flex-start;
     margin: 20px;
+    width: fit-content;
 }
 .scale-table-form-button {
     padding: 5px;
@@ -47,6 +59,7 @@
     border: 1px solid var(--purple-form);
     padding: 5px;
     border-radius: 5px;
+    min-width: 150px;
 }
 .scale-table-form-noscales {
     margin-left: 20px;

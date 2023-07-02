@@ -23,7 +23,7 @@ export const Input = ({value, onChange, onBlur = () => 1, onFocus = () => 1, tip
                 <div className="input-nonactive-border"></div>
             </div>
         </div>
-        <div className="input-tip" style={{opacity: 0, fontSize: `${font}pt`}}>{value!==null&&value!==""?value:tip}</div>
+        <div className="input-tip" style={{opacity: 0, fontSize: `${font}pt`}}>{value!==null&&value!==""?value[0]:tip}</div>
         <div style={{height:"15px", width:"100%"}}></div>
     </div>
 };

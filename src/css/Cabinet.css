@@ -1,11 +1,11 @@
 .cabinet-spoiler-container {
     display: flex;
+    max-width: 70%;
 }
 .cabinet-spoiler:first-of-type {
     margin-right: 50px;
 }
 .cabinet-spoiler-children-container {
-    /* background-color: white; */
     width: fit-content;
     height: fit-content;
     padding: 5px;
@@ -18,38 +18,22 @@
     cursor: default;
     margin-top: 20px;
 }
-.cabinet-element {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-}
-.cabinet-element-name {
-    text-align: center;
-}
 .cabinet-element-name-container {
-    background-color: white;
-    padding: 5px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 4px var(--med-grey);
-    color: var(--purple-form);
-    transition: all 0.3s ease;
-    cursor: pointer;
+    width: 200px;
 }
 .cabinet-element-name-container.__create {
     margin-bottom: 20px;
     text-align: center;
-    width: calc(100%-5px);
+    width: 100%;
 }
 .cabinet-element-button {
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 4px var(--med-grey);
-    margin: 10px;
-    background-color: white;
-    color: var(--purple-form);
-    transition: all 0.3s ease;
-    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+    margin: 5px;
 }
-.cabinet-element-button:hover,  .cabinet-element-name-container:hover{
-    background-color: var(--background-purple);
+.cabinet-element-table {
+    border-collapse: collapse;
+}
+.cabinet-element-table-td {
+    padding: 5px;
 }
