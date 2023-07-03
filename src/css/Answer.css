@@ -5,9 +5,13 @@
     height: fit-content;
     position: relative;
 }
+.answer-text {
+    display: flex;
+    flex-shrink: 1;
+}
 .answer-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     /* align-items: flex-end; */
     /* align-items: flex-start; */
     /* width: fit-content; */
@@ -83,7 +87,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
+    width: 70%;
 }
 .answer-input-score {
     width: fit-content;

@@ -12,16 +12,26 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
+.button-text {
+    width: fit-content;
+    height: fit-content;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    transition: opacity 0.3s ease;
+}
 .button-spinner {
     position: absolute;
+    color: grey;
+}
+.button-spinner.__small {
+    transform: scale(0.6);
 }
 .button-container.button1 {
     background-color: white;
     border-radius: 10px;
     border: 1px solid var(--purple-form);
     padding: 10px;
-}
-.button-text.button1 {
     font-size: 20pt;
     color: var(--purple-form);
 }
@@ -34,60 +44,71 @@
     padding: 10px;
     color: white;
     background-color: var(--purple-form);
-}
-.button-text.button2 {
     font-size: 20pt;
     font-weight: bold;
 }
+.button-container.button2.__waiting {
+    cursor: default;
+}
+
 .button-container.__enabled.button2:hover {
     background-color: white;
     color: var(--purple-form);
     border-color: var(--purple-form);
 }
-.button-container.__disabled {
-    cursor: default;
-    transition: none;
-}
-.button-text {
-    width: fit-content;
-    height: fit-content;
-    color: inherit;
-}
-
-
-.button-text.button3 {
-    font-size: 25pt;
+.button-container.button3 {
     font-weight: bold;
+    font-size: 25pt;
+    color: white;
+    background-color: var(--purple-form);
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid var(--purple-form);
 }
-:root {
-    --light-red: rgb(255, 120, 120);
-    --light-blue: rgb(124, 172, 255);
+.button-container.button3.__enabled:hover {
+    color: var(--purple-form);
+    background-color: white;
+}
+.button-container.button3.__waiting {
+    cursor: default;
 }
 .button-container.button-delete {
     border-radius: 7px;
     padding: 5px;
     color: var(--light-red);
     border: 2px solid var(--light-red);
-}
-.button-container.button-delete:hover {
-    background-color: var(--light-red);
-    color: white;
-}
-.button-text.button-delete {
     font-size: 14pt;
     font-weight: bold;
+    background-color: white;
+}
+.button-container.button-delete.__enabled:hover {
+    background-color: var(--light-red);
+    color: white;
 }
 .button-container.button-edit {
     border-radius: 7px;
     padding: 5px;
     color: var(--light-blue);
     border: 2px solid var(--light-blue);
+    font-size: 14pt;
+    background-color: white;
+    font-weight: bold;
 }
-.button-container.button-edit:hover {
+.button-container.button-edit.__enabled:hover {
     background-color: var(--light-blue);
     color: white;
 }
-.button-text.button-edit {
-    font-size: 14pt;
-    font-weight: bold;
+
+.button-container.__disabled {
+    cursor: default;
+    border-color: var(--light-grey);
+    color: var(--light-grey);
+    background-color: white;
+}
+.button-container.__waiting {
+    cursor: default;
+}
+.button-container.button2.__disabled {
+    border-color: var(--purple-form);
+    color: var(--purple-form);
 }

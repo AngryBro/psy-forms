@@ -6,6 +6,17 @@
     background-color: var(--background-purple);
     display: flex;
 }
+.research-constructor-name {
+    margin-bottom: 15px;
+    font-size: 20pt;
+    overflow: hidden;
+    max-height: 200px;
+    transition: all 0.3s ease;
+    height: fit-content;
+}
+.research-constructor-name.__hidden {
+    max-height: 0px;
+}
 .research-constructor-methodic-spoiler {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -59,31 +70,22 @@
     z-index: 4;
 }
 .research-constructor-methodic-button {
-    padding: 5px;
-    background-color: white;
-    border-radius: 5px;
-    margin: 3px;
-    border: 1px solid var(--med-grey);
-    cursor: pointer;
+    margin: 5px;
 }
 .research-constructor-methodic-button:hover {
     background-color: var(--light-grey);
 }
 .research-constructor-publish-button {
-    padding: 20px;
-    background-color: var(--purple-form);
-    color: white;
-    font-size: 20pt;
-    font-weight: bold;
     width: fit-content;
     height: fit-content;
-    border-radius: 10px;
-    cursor: pointer;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 200px;
-    transition: all 0.3s ease;
 }
-.research-constructor-publish-button:hover {
-    color: var(--light-grey);
+.research-constructor-save-button {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    /* margin-top: 20px; */
+    /* margin-bottom: 200px; */
 }

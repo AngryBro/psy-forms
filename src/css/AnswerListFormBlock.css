@@ -3,12 +3,13 @@
 }
 .answer-list-form-block-add-container {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     width: fit-content;
 }
 .answer-list-form-block-add {
     margin-right: 10px;
-    width: 200px;
+    width: 220px;
+    margin-top: 10px;
 }
 .answer-list-form-block-other {
     color: #1a73e8;

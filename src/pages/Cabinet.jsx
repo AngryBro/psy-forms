@@ -9,12 +9,18 @@ import { API_ROUTES } from "../enums/API_ROUTES";
 import { Alert } from "../Alert";
 import { Button } from "../Button";
 import { BUTTON_TYPES } from "../enums/BUTTON_TYPES";
+import { BUTTON_STATES } from "../enums/BUTTON_STATES";
 
 export const Cabinet = ({appState}) => {
     
     const [methodics, setMethodics] = useState([]);
     const [researches, setResearches] = useState([]);
+    const [fetchingMethodics, setFetchingMethodics] = useState(true);
+    const [fetchingResearches, setFetchingResearches] = useState(true);
     const [confirmAlert, setConfirmAlert] = useState({message: null, callback: ()=>1});
+
+    const [deletingMethodic, setDeletingMethodic] = useState(null);
+    const [deletingResearch, setDeletingResearch] = useState(null);
 
     const [infoAlert, setInfoAlert] = useState(null);
     const [loadingAlert, setLoadingAlert] = useState(null);
@@ -23,18 +29,28 @@ export const Cabinet = ({appState}) => {
 
     const fetchData = useCallback(() => {
         Api(API_ROUTES.METHODICS_ALL).auth().callback(({ok, data}) => {
+            setFetchingMethodics(false);
             if(ok) {
                 setMethodics(data);
+                setDeletingMethodic(null);
             }
             else {
                 setInfoAlert("Ошибка загрузки методик");
             }
         }).send();
-        let res = [
-            {id: 1, public_name: "Исследование 1", private_name: "исл 1"},
-            {id: 2, public_name: "Исследование 2", private_name: "исл 2"}
-        ]
-        setResearches(res);
+        Api(API_ROUTES.RESEARCHES_ALL)
+        .auth()
+        .callback(({ok, data}) => {
+            setFetchingResearches(false);
+            if(ok) {
+                setResearches(data);
+                setDeletingResearch(null);
+            }
+            else {
+                setInfoAlert("Ошибка загрузки исследований");
+            }
+        })
+        .send();
     }, []);
 
     useEffect(fetchData, [fetchData]);
@@ -46,7 +62,8 @@ export const Cabinet = ({appState}) => {
                 {
                     message: `Вы подтверждаете удаление методики "${methodics.find(m => m.id === id).private_name}"?`,
                     callback: () => {
-                        Api(API_ROUTES.METHODICS_REMOVE)
+                        setDeletingMethodic(id);
+                        Api(API_ROUTES.METHODIC_REMOVE)
                         .post({id})
                         .auth()
                         .callback(fetchData)
@@ -65,14 +82,25 @@ export const Cabinet = ({appState}) => {
 
     const researchActions = () => {
         const remove = (id) => {
-            
+            setDeletingResearch(id);
+            setConfirmAlert({
+                message: `Удалить исследование ${researches.find(r => r.id === id).private_name}?`,
+                callback: () => {
+                    Api(API_ROUTES.RESEARCH_REMOVE)
+                    .auth()
+                    .post({id})
+                    .callback(fetchData)
+                    .send()
+                }
+            });
         }
         return {
             remove,
             update: (id) => nav(ROUTES.RESEARCH_CONSTRUCTOR(id)),
             create: () => nav(ROUTES.RESEARCH_CONSTRUCTOR("new")),
             results: (id) => nav(ROUTES.RESULTS(id)),
-            get: (id) => window.open(ROUTES.RESEARCH(id))
+            get: (id) => window.open(ROUTES.RESEARCH(id)),
+            nav: (slug) => nav(ROUTES.PUBLISHED(slug))
         }
     }
 
@@ -90,7 +118,9 @@ export const Cabinet = ({appState}) => {
                         text="Мои исследования" 
                         elements={researches} 
                         createText="Создать новое исследование"
-                        results={true}
+                        research={true}
+                        fetching={fetchingResearches}
+                        deletingId={deletingResearch}
                         />
                 </div>
                 <div className="cabinet-spoiler">
@@ -99,6 +129,8 @@ export const Cabinet = ({appState}) => {
                         text="Мои методики"
                         elements={methodics}
                         createText="Создать новую методику" 
+                        fetching={fetchingMethodics}
+                        deletingId={deletingMethodic}
                         />
                 </div>
             </div>
@@ -106,9 +138,14 @@ export const Cabinet = ({appState}) => {
     </Page>
 }
 
-const ElementSpoiler = ({text, createText, elements, callbacks, research = false}) => <Spoiler text={text}>
+const ElementSpoiler = ({text, createText, elements, callbacks, research = false, fetching, deletingId}) => <Spoiler text={text}>
     <div className="cabinet-spoiler-children-container">
-        <div className="cabinet-element-name-container __create"><Button type={BUTTON_TYPES.EDIT} onClick={callbacks.create}>{createText}</Button></div>
+        <div className="cabinet-element-name-container __create">
+            <Button type={BUTTON_TYPES.EDIT} onClick={callbacks.create}
+                state={fetching ? BUTTON_STATES.WAITING : BUTTON_STATES.ENABLED}>
+                {createText}
+            </Button>
+        </div>
         <table className="cabinet-element-table">
             <tbody>
             {
@@ -119,12 +156,20 @@ const ElementSpoiler = ({text, createText, elements, callbacks, research = false
                             <div className="cabinet-element-name">({element.private_name})</div>
                         </td>
                         {
+                            research && element.published?
+                            <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.results(element.id)} >Результаты</Button></td>
+                            :
+                            <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.update(research?element.slug:element.id)}>Конструктор</Button></td>
+                        }
+                        {
                             research?
-                            <td className="cabinet-element-table-td" onClick={() => callbacks.results(element.id)}>Результаты</td>
+                            element.published?
+                            <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.nav(element.slug)}>Ссылка</Button></td>
+                            :
+                            <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.update(element.id)}>Опубликовать</Button></td>
                             :<></>
                         }
-                        <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.update(element.id)}>Конструктор</Button></td>
-                        <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.DELETE} onClick={() => callbacks.remove(element.id)}>Удалить</Button></td>
+                        <td className="cabinet-element-table-td"><Button state={deletingId === element.id ? BUTTON_STATES.WAITING : BUTTON_STATES.ENABLED} type={BUTTON_TYPES.DELETE} onClick={() => callbacks.remove(element.id)}>Удалить</Button></td>
                     </tr>    
                 )
             }

@@ -62,7 +62,7 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
     return <Block isActive={isActive} handleActive={handleActive} handlesNew={handlesNew}>
         <div className="question-form-input">
             <div className="question-form-number">{number} <span className="question-form-required" style={{opacity:Number(question.required)}}>*</span> </div>
-            <Inputarea className="question-form-inputarea" readOnly={!isActive} tip="Текст вопроса" value={question.text} onChange={e => handleChange("text", e.target.innerText)}/>
+            <Inputarea key={isActive} className="question-form-inputarea" readOnly={!isActive} tip="Текст вопроса" value={question.text} onChange={e => handleChange("text", e.target.innerText)}/>
         </div>
         <div className={isActive?"question-form-constructor-active":"question-form-constructor"}>
             <div className="question-form-flex">

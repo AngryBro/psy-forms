@@ -1,10 +1,17 @@
 .img-form-block-img {
-    max-width: 100%;
+    width: 100%;
     margin: auto;
 }
 .img-form-block-img-container {
     width: 100%;
-    display: flex;
-    align-items: flex-end;
     height: fit-content;
+}
+.img-form-block-input {
+    width: 100%;
+    max-height: 100px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+.img-form-block-input.__hidden {
+    max-height: 0px;
 }

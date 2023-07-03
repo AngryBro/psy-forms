@@ -4,7 +4,8 @@
     --dark-grey: rgb(89, 89, 89);
     --background-purple: #f0ebf8;
     --med-grey: #848484;
-    --light-red: rgb(255, 145, 145);
+    --light-red: rgb(255, 120, 120);
+    --light-blue: rgb(124, 172, 255);
 }
 body {
     font-size: 14pt;
@@ -14,10 +15,14 @@ body {
     margin: 0 0 0 0;
     height: fit-content;
     width: 100%;
+    background-color: var(--background-purple);
 }
 .root {
     width: 100%;
     /* height: 100%; */
+}
+div {
+    flex-shrink: 0;
 }
 .__button1 {
     text-align: center;

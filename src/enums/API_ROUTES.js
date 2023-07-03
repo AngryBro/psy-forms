@@ -6,5 +6,11 @@ export const API_ROUTES = {
     METHODIC_SAVE: "/methodic.save",
     METHODIC_GET: "/methodic.get",
     METHODICS_ALL: "/methodic.all",
-    METHODICS_REMOVE: "/methodic.remove"
+    METHODIC_REMOVE: "/methodic.remove",
+    RESEARCH_SAVE: "/research.save",
+    RESEARCH_GET: "/research.get",
+    RESEARCHES_ALL: "/research.all",
+    RESEARCH_REMOVE: "/research.remove",
+    RESEARCH_PUBLISH: "/research.publish",
+    RESEARCH_UNPUBLISH: "/research.unpublish"
 }

@@ -19,7 +19,7 @@ export const AnswerListFormBlock = ({many = false, answers, edit=false, handles}
     return <div className="answer-list-form-block-container">
         {
             answers.map((answer, i) =>
-            <div key={i}>
+            <div key={i} className="methodic-answer-select-element">
                 {
                 answer.text!==null?
                 <Answer
@@ -52,12 +52,13 @@ export const AnswerListFormBlock = ({many = false, answers, edit=false, handles}
             edit?
             <div className="answer-list-form-block-add-container">
                 <div className="answer-list-form-block-add">
-                    <Answer 
-                        checkbox={many} 
-                        other={true} 
-                        tip={"Добавить вариант"}
-                        onFocus={() => handles.create()}
-                    >{""}</Answer>
+                    <div onClick={() => handles.create()}>
+                        <Answer 
+                            checkbox={many} 
+                            other={true} 
+                            tip={"Добавить вариант"}
+                        >{""}</Answer>
+                    </div>
                 </div>
                 {
                     answers.find(el => el.text === null)!==undefined?<></>:

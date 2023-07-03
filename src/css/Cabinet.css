@@ -18,9 +18,7 @@
     cursor: default;
     margin-top: 20px;
 }
-.cabinet-element-name-container {
-    width: 200px;
-}
+
 .cabinet-element-name-container.__create {
     margin-bottom: 20px;
     text-align: center;
@@ -36,4 +34,5 @@
 }
 .cabinet-element-table-td {
     padding: 5px;
+    max-width: 250px;
 }

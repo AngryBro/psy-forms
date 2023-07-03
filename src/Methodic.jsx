@@ -60,7 +60,7 @@ const Block = ({question, handles, sub = false, answers, readOnly}) => {
             <div>
                 {
                     question.answers.map((answer, i) => 
-                        <div key={i}>
+                        <div key={i} className="methodic-answer-select-element">
                             <Answer tip={answer.other?"Другое...":""} other={answer.other} handles={readOnly?{}:handles_select(i, question.answer_type === ANSWER_TYPE.MANY)} selected={readOnly?false:answers[question.number][i].selected} checkbox={question.answer_type === ANSWER_TYPE.MANY}>
                                 {answer.other?answers[question.number][i].other:answer.text}
                             </Answer>

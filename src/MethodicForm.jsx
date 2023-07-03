@@ -3,7 +3,6 @@ import { Input } from "./Input";
 import "./css/MethodicForm.css";
 import { Textarea } from "./Textarea";
 import { QuestionFormBlock } from "./QuestionFormBlock";
-// import { ScaleFormBlock } from "./ScaleFormBlock";
 import { ScaleTableForm } from "./ScaleTableForm";
 import { BLOCK_TYPE } from "./enums/BLOCK_TYPE";
 import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
@@ -12,10 +11,8 @@ import { API_ROUTES } from "./enums/API_ROUTES";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "./enums/ROUTES";
 import { ALERTS } from "./enums/ALERTS";
-import { Button } from "./Button";
-import { BUTTON_STATES } from "./enums/BUTTON_STATES";
-import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
 import { Alert } from "./Alert";
+import { SavingButton } from './SavingButton';
 
 export const MethodicForm = ({id}) => {
 
@@ -284,6 +281,7 @@ export const MethodicForm = ({id}) => {
             create: (other = false) => changeData(["questions", i, "answers", question.answer_type, array => array.push(newSelectAnswer(other))]),
             update: (answer_index, key, value) => changeData(["questions", i, "answers", question.answer_type, answer_index, key, value]),
             remove: (answer_index) => changeData(["questions", i, "answers", question.answer_type, array => array.splice(answer_index, 1)]),
+            reverse: () => reverseScores(i)
         }
         const copy = () => copyPrevAnswers(i);
         const free = {
@@ -291,7 +289,6 @@ export const MethodicForm = ({id}) => {
             remove: index => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, array => array.splice(index, 1)]),
             img: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.FREE, index, "img", !question.answers[ANSWER_TYPE.FREE][index].img])
         }
-        const reverse = () => reverseScores(i);
         const sub = {
             handleChange: (index, key, value) => changeData([
                 "questions",
@@ -321,7 +318,7 @@ export const MethodicForm = ({id}) => {
             handleDelete: (index) => changeData(["questions", i, "answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index, 1)]),
             handleNew: (index) => changeData(["questions",i,"answers", ANSWER_TYPE.QUESTIONS, array => array.splice(index+1, 0, newQuestion(true))])
         };
-        return {select, scale, free, sub, copy, reverse};
+        return {select, scale, free, sub, copy};
     }
 
     return <div className="methodic-form">
@@ -357,13 +354,14 @@ export const MethodicForm = ({id}) => {
                 <ScaleTableForm data={data} changeData={changeData} />
             </div>
             <div className="methodic-form-save-button" hidden={fetching}>
-            {
+            {/* {
                 saved?
                 <Button state={BUTTON_STATES.DISABLED} type={BUTTON_TYPES.S}>Сохранено</Button>
                 :
                 <Button onClick={save} state={saving?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} type={BUTTON_TYPES.M}>Сохранить</Button>
-            }
-        </div>
+            } */}
+                <SavingButton save={save} saving={saving} saved={saved}/>
+            </div>
         </div>
         <div style={{height:"500px"}}></div>
     </div>

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Input } from "./Input";
+import { useEffect, useState } from "react";
 import { Block } from "./MethodicForm";
 import { Textarea } from "./Textarea";
 import { BLOCK_TYPE } from "./enums/BLOCK_TYPE";
@@ -7,265 +6,184 @@ import { Spoiler } from "./Spoiler";
 import { TextFormBlock } from "./TextFormBlock";
 import { ImgFormBlock } from "./ImgFormBlock";
 import { Methodic } from "./Methodic";
-import { ANSWER_TYPE } from "./enums/ANSWER_TYPE";
 import "./css/ResearchConstructor.css";
 import { Select } from "./Select";
+import { Api } from "./Api";
+import { API_ROUTES } from "./enums/API_ROUTES";
+import { Button } from "./Button";
+import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
+import { SavingButton } from "./SavingButton";
+import { Alert } from "./Alert";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "./enums/ROUTES";
+import { Inputarea } from "./Inputarea";
+import { BUTTON_STATES } from "./enums/BUTTON_STATES";
 
-export const ResearchConstructor = () => {
+export const ResearchConstructor = ({slug}) => {
     
-    const research1 = {
-        public_name: null,
+
+    const newResearch = () => ({
+        id: null,
+        slug: null,
         private_name: null,
+        public_name: null,
         description: null,
-        blocks: [
-            {
-                public_name: "Тестовая методика",
-                private_name: "Тестовая методика (скрытое)",
-                instruction: "Инструкция по выполнению",
-                type: BLOCK_TYPE.METHODIC,
-                time: null,
-                questions: [
-                    {
-                        id: null,
-                        type: "q",
-                        text: "Насколько вы боитесь:",
-                        answer_type: ANSWER_TYPE.QUESTIONS,
-                        number: "1",
-                        required: true,
-                        answers: 
-                                [
-                                {
-                                    id: null,
-                                    type: "q",
-                                    text: "Мать",
-                                    number: "1.1",
-                                    required: false,
-                                    answer_type: ANSWER_TYPE.SCALE,
-                                    answers: {
-                                            min: 0,
-                                            max: 3,
-                                            min_text: "Не боюсь",
-                                            max_text: "Очень\nбоюсь",
-                                            min_score: 0,
-                                            max_score: 3
-                                        },
-                                },
-                                {
-                                    id: null,
-                                    type: "q",
-                                    text: "Отца",
-                                    number: "1.2",
-                                    required: false,
-                                    subquestions: null,
-                                    answer_type: ANSWER_TYPE.SCALE,
-                                    answers: {
-                                            min: 0,
-                                            max: 3,
-                                            min_text: "Не боюсь",
-                                            max_text: "Очень\nбоюсь",
-                                            min_score: 0,
-                                            max_score: 3
-                                    }
-                                }
-                            ],
-                    },
-                    {
-                        id: null,
-                        text: "Насколько сложно делать это приложение?",
-                        type: "q",
-                        number: "2",
-                        required: false,
-                        subquestions: [],
-                        answer_type: ANSWER_TYPE.ONE,
-                        answers:
-                            [
-                                {id: 1, text: "Изипизи", score: 1},
-                                {id: 2, text: "Норм", score: 2},
-                                {id: 3, text: "Хардово", score: 3}
-                            ],
-                    },
-                    {
-                        id: null,
-                        text: "Кто такая бока?",
-                        type: "q",
-                        number: "3",
-                        required: true,
-                        answer_type: ANSWER_TYPE.MANY,
-                        answers:  [
-                                {id: null, text: "Киса", score: null},
-                                {id: null, text: "Собачка", score: null},
-                                {id: null, text: "Змейка", score: null},
-                                {id: null, text: "Черепашка", score: null}
-                            ]
-                    }
-                ],
-                scales: [
-                    {name: "Страх", questions: {"1.1": [], "1.2": []}, type: "score"},
-                    {name: "Бока", questions: {"3": []}, type:"nominative"},
-                    {name: "Остальное", questions: {}, type: null}
-                ]
-            },
-            {
-                id: null,
-                title: "Устал проходить?",
-                text: "Надо как-то, ещё один вопрос.\nПосмотри на котиков.",
-                type: BLOCK_TYPE.TEXT
-            },
-            {
-                id: null,
-                type: BLOCK_TYPE.IMG,
-                url: "https://img3.goodfon.ru/original/2560x1440/c/87/regdoll-koshki-mordochki.jpg"
-            },
-            {
-                public_name: "Вторая методика",
-                private_name: "Вторая методика (скрытое)",
-                instruction: "Инструкция по выполнению",
-                type: BLOCK_TYPE.METHODIC,
-                time: null,
-                questions: [
-                    {
-                        id: null,
-                        type: "q",
-                        text: "Насколько вы боитесь:",
-                        number: "1",
-                        answer_type: ANSWER_TYPE.QUESTIONS,
-                        required: true,
-                        answers: 
-                                [
-                                {
-                                    id: null,
-                                    type: "q",
-                                    text: "Мать",
-                                    number: "1.1",
-                                    required: false,
-                                    answer_type: ANSWER_TYPE.SCALE,
-                                    answers: {
-                                            min: 0,
-                                            max: 3,
-                                            min_text: "Не боюсь",
-                                            max_text: "Очень\nбоюсь",
-                                            min_score: 0,
-                                            max_score: 3
-                                        },
-                                },
-                                {
-                                    id: null,
-                                    type: "q",
-                                    text: "Отца",
-                                    number: "1.2",
-                                    required: false,
-                                    subquestions: null,
-                                    answer_type: ANSWER_TYPE.SCALE,
-                                    answers: {
-                                            min: 0,
-                                            max: 3,
-                                            min_text: "Не боюсь",
-                                            max_text: "Очень\nбоюсь",
-                                            min_score: 0,
-                                            max_score: 3
-                                    }
-                                }
-                            ],
-                    },
-                    {
-                        id: null,
-                        text: "Насколько сложно делать это приложение?",
-                        type: "q",
-                        number: "2",
-                        required: false,
-                        subquestions: [],
-                        answer_type: ANSWER_TYPE.ONE,
-                        answers:
-                            [
-                                {id: 1, text: "Изипизи", score: 1},
-                                {id: 2, text: "Норм", score: 2},
-                                {id: 3, text: "Хардово", score: 3}
-                            ],
-                    },
-                    {
-                        id: null,
-                        text: "Кто такая бока?",
-                        type: "q",
-                        number: "3",
-                        required: true,
-                        answer_type: ANSWER_TYPE.MANY,
-                        answers:  [
-                                {id: null, text: "Киса", score: null},
-                                {id: null, text: "Собачка", score: null},
-                                {id: null, text: "Змейка", score: null},
-                                {id: null, text: "Черепашка", score: null}
-                            ]
-                    }
-                ],
-                scales: [
-                    {name: "Страх", questions: {"1.1": [], "1.2": []}, type: "score"},
-                    {name: "Бока", questions: {"3": []}, type:"nominative"},
-                    {name: "Остальное", questions: {}, type: null}
-                ]
-            },
-        ]
+        blocks: []
+    });
+
+    const [research, setResearch] = useState(newResearch());
+    const [methodics, setMethodics] = useState([]);
+    const [alertLoad, setAlertLoad] = useState(null);
+    const [error, setError] = useState(null);
+    const [saving, setSaving] = useState(false);
+    const [saved, setSaved] = useState(true);
+    const [publishWindow, setPublishWindow] = useState(null);
+
+    const publishText = `Опубликованное исследование нельзя будет отредактировать, но можно будет снять с публикации. Опубликовать?`;
+
+    useEffect(() => {
+        Api(API_ROUTES.METHODICS_ALL).auth().callback(({ok, data}) => {
+            if(ok) {
+                setMethodics(data);
+            }
+            else {
+                setError("Не удалось загрузить методики");
+            }
+        }).send();
+    }, []);
+
+    useEffect(() => {
+        if(slug !== "new") {
+            setSaving(false);
+            setAlertLoad("Загрузка данных исследования");
+            Api(API_ROUTES.RESEARCH_GET)
+            .auth()
+            .get({slug})
+            .callback(({ok, data}) => {
+                setAlertLoad(null);
+                if(ok) {
+                    setResearch(data);
+                }
+                else {
+                    setError("Ошибка загрузки данных");
+                }
+            })
+            .send();
+        }
+    }, [slug]);
+
+    const nav = useNavigate();
+
+    const save = (callback = () => 1) => {
+        setSaving(true);
+        Api(API_ROUTES.RESEARCH_SAVE)
+        .auth()
+        .post(research)
+        .callback(({ok, data}) => {
+            setSaving(false);
+            if(ok) {
+                callback();
+                if(research.id === null) {
+                    nav(ROUTES.RESEARCH_CONSTRUCTOR(data.slug));
+                }
+                else {
+                    setSaved(true);
+                    setActiveBlock(null);
+                }
+            }
+        }).send();
     }
 
-    const methodics1 = [
-        {id: 1, public_name: "Методика 1", private_name: "Методика one"},
-        {id: 2, public_name: "Методика 2", private_name: "Методика two"}
-    ]
-
-    const [research, setResearch] = useState(research1);
-    // eslint-disable-next-line
-    const [methodics, setMethodics] = useState(methodics1);
 
     const [activeBlock, setActiveBlock] = useState(undefined);
 
     const updatePublicName = (name) => {
-        // let temp = JSON.parse(JSON.stringify(research));
-        // let temp = Object.assign(research);
-        // temp.public_name = name;
-        // setResearch(temp);
-        // setResearch(r => {r.public_name = name; return r});
         setResearch({...research, public_name: name});
+        setSaved(false);
     }
 
     const updatePrivateName = name => {
         setResearch({...research, private_name: name});
+        setSaved(false);
     }
 
     const updateDescription = text => {
         setResearch({...research, description: text});
+        setSaved(false);
+    }
+
+    const updateImgBlock = (block_index, url) => {
+        let blocks = JSON.parse(JSON.stringify(research.blocks));
+        blocks[block_index].url = url;
+        setResearch({...research, blocks: blocks});
+        setSaved(false);
     }
 
     const updateTextBlock = (block_index, key, value) => {
         let research1 = JSON.parse(JSON.stringify(research));
         research1.blocks[block_index][key] = value;
         setResearch(research1);
+        setSaved(false);
     }
 
     const removeBlock = index => {
-        setActiveBlock(null);
+        setActiveBlock(index === research.blocks.length-1?index-1:index);
         let research1 = JSON.parse(JSON.stringify(research));
         research1.blocks.splice(index, 1);
         setResearch(research1);
+        setSaved(false);
+    }
+
+    const editMethodic = (id) => {
+        let callback = () => nav(ROUTES.METHODIC_CONSTRUCTOR(id));
+        if(saved) {
+            return callback();
+        }
+        save(callback);
     }
 
     const createBlock = (index_before) => {
         const createImg = () => {
             const newImg = () => {
-                return {url: null, type: BLOCK_TYPE.IMG, id: null}
+                return {url: null, type: BLOCK_TYPE.IMG}
             }
             let research1 = JSON.parse(JSON.stringify(research));
             research1.blocks.splice(index_before+1, 0, newImg());
             setResearch(research1);
+            setSaved(false);
+            setActiveBlock(index_before+1);
         }
         const createText = (index_before) => {
             const newText = () => {
-                return {title: null, text: null, type: BLOCK_TYPE.TEXT, id: null}
+                return {title: null, text: null, type: BLOCK_TYPE.TEXT}
             }
             let research1 = JSON.parse(JSON.stringify(research));
             research1.blocks.splice(index_before+1, 0, newText());
             setResearch(research1);
+            setSaved(false);
+            setActiveBlock(index_before+1);
         }
         const addMethodic = (methodic_id) => {
-            //получается с сервера и добавляется
+            let methodic = methodics.find(m => m.id === methodic_id);
+            setAlertLoad(`Загрузка методики "${methodic.private_name}"`);
+            Api(API_ROUTES.METHODIC_GET)
+            .auth()
+            .get({id: methodic_id})
+            .callback(({ok, data}) => {
+                setAlertLoad(null);
+                if(ok) {
+                    setSaved(false);
+                    let research1 = JSON.parse(JSON.stringify(research));
+                    data.type = BLOCK_TYPE.METHODIC;
+                    research1.blocks.splice(index_before+1, 0, data);
+                    setResearch(research1);
+                    setActiveBlock(index_before+1);
+                }
+                else {
+                    setError(`Методику "${methodic.private_name}" не удалось загрузить.`);
+                }
+            })
+            .send();
 
         }
         return {
@@ -274,12 +192,40 @@ export const ResearchConstructor = () => {
             addMethodic
         }
     }   
+
+    const publish = () => {
+        setAlertLoad(publishText);
+        Api(API_ROUTES.RESEARCH_PUBLISH)
+        .auth()
+        .post({id: research.id})
+        .callback(({ok}) => {
+            setAlertLoad(null);
+            if(ok) {
+                nav(ROUTES.PUBLISHED(slug));
+            }
+            else {
+                setError("Исследование не опубликовано из-за неизвестной ошибки");
+            }
+        })
+        .send();
+    }
+
+    const canPublish = () => {
+        return research.id !== null && saved;
+    }
     
     return <div className="research-constructor">
+        <Alert onClose={setError} onConfirm={() => window.location.reload()} text="Обновить страницу" >{error}</Alert>
+        <Alert onClose={setAlertLoad} waiting={true}>{alertLoad}</Alert>
+        <Alert onConfirm={publish} onClose={setPublishWindow} text="Опубликовать" >{publishWindow}</Alert>
         <div className="research-constructor-methodic-container">
         <Block isActive={activeBlock === -1} handleActive={() => setActiveBlock(-1)}>
-            <div><Input font={20} tip="Открытое название" value={research.public_name} onChange={e => updatePublicName(e.target.value)} /></div>
-            <div className="research-constructor-private-name" style={{maxHeight: activeBlock===-1?"100px":"0px"}}><Input font={20} tip="Скрытое название" onChange={e => updatePrivateName(e.target.value)} value={research.private_name} /></div>
+            <div className="research-constructor-name">
+                <Inputarea tip="Открытое название" value={research.public_name} onChange={e => updatePublicName(e.target.innerText)} />
+            </div>
+            <div className={"research-constructor-name "+(activeBlock===-1?"":"__hidden")}>
+                <Inputarea tip={research.public_name===null || research.public_name===""?"Скрытое название":research.public_name} onChange={e => updatePrivateName(e.target.innerText)} value={research.private_name} />
+            </div>
             <div><Textarea onChangeValue={updateDescription} font={18} value={research.description} tip="Описание" /></div>
         </Block>
         <AddButtons methodics={methodics} handles={createBlock(-1)} />
@@ -288,26 +234,33 @@ export const ResearchConstructor = () => {
                 <div key={i}>
                     {
                         block.type === BLOCK_TYPE.METHODIC?
-                        <div onClick={() => i===activeBlock?1:setActiveBlock(i)} className="research-constructor-methodic-spoiler">
-                            <Spoiler setHidden={h => h?setActiveBlock(undefined):1} hidden={i !== activeBlock} text={`${block.public_name}(${block.private_name})`}>
+                        <div onClick={() => i===activeBlock?setActiveBlock(undefined):setActiveBlock(i)} className="research-constructor-methodic-spoiler">
+                            <Spoiler controlled={true} setHidden={()=>1} hidden={i !== activeBlock} text={`${block.public_name} (${block.private_name})`}>
                                 <Methodic data={block} readOnly={true} />
                             </Spoiler>
                             <div className="research-constructor-methodic-buttons-container">
-                                <div onClick={() => 1} className="research-constructor-methodic-button">Редактировать</div>
-                                <div onClick={() => removeBlock(i)} className="research-constructor-methodic-button">Удалить</div>
+                                <div className="research-constructor-methodic-button"><Button state={i===activeBlock && saving ? BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} onClick={() => editMethodic(block.id)} type={BUTTON_TYPES.EDIT}  >Редактировать</Button></div>
+                                <div className="research-constructor-methodic-button"><Button onClick={() => removeBlock(i)} type={BUTTON_TYPES.DELETE}>Удалить</Button></div>
                             </div>
                         </div>
                         :block.type === BLOCK_TYPE.TEXT?
                         <TextFormBlock handleChange={(key, value) => updateTextBlock(i, key, value)} handleDelete={() => removeBlock(i)} handleActive={() => setActiveBlock(i)} data={block} isActive={i === activeBlock} />
                         :block.type === BLOCK_TYPE.IMG?
-                        <ImgFormBlock handleDelete={() => removeBlock(i)} handleActive={() => setActiveBlock(i)} data={block} isActive={i === activeBlock} />
+                        <ImgFormBlock handleChange={url => updateImgBlock(i, url)} handleDelete={() => removeBlock(i)} handleActive={() => setActiveBlock(i)} data={block} isActive={i === activeBlock} />
                         :<></>
                     }
                     <AddButtons methodics={methodics} handles={createBlock(i)} />
                 </div>
             )
         }
-        <div className="research-constructor-publish-button">Опубликовать исследование</div>
+        <div className="research-constructor-save-button">
+            <SavingButton save={() => save()} saved={saved} saving={saving} />
+        </div>
+        <div style={{opacity: Number(canPublish())}} className="research-constructor-publish-button">
+            <Button onClick={() => setPublishWindow(publishText)} type={BUTTON_TYPES.L} state={canPublish()?BUTTON_STATES.ENABLED:BUTTON_STATES.DISABLED}>
+                Опубликовать исследование
+            </Button>
+        </div>
         </div>
     </div>
 };

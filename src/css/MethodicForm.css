@@ -1,7 +1,7 @@
 .methodic-form {
     background-color: var(--background-purple);
     width: 100%;
-    height: fit-content;
+    height: max-content;
     position: relative;
 }
 .methodic-form-save-button {

@@ -1,6 +1,6 @@
 .methodic-question-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
 }
 /* .methodic {
@@ -8,6 +8,9 @@
     width: 100%;
     height: fit-content;
 } */
+.methodic-answer-select-element {
+    margin-top: 10px;
+}
 .methodic-container {
     /* max-width: 800px; */
     margin: 0 auto;
@@ -42,6 +45,10 @@
 }
 .methodic-question-text {
     font-size: 20pt;
+    /* width: fit-content; */
+    display: flex;
+    flex-shrink: 1;
+    margin-bottom: 20px;
 }
 .methodic-name {
     font-size: 25pt;
