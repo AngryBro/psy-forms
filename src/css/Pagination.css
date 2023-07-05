@@ -1,0 +1,18 @@
+.pagination-button {
+    width: fit-content;
+    height: fit-content;
+}
+.pagination-button.__hidden {
+    opacity: 0;
+}
+.pagintaion-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+    
+@media (max-width: 1000px) {
+    .pagintaion-container {
+        justify-content: space-around;
+    }
+}

@@ -11,11 +11,10 @@ import { ALERTS } from "./enums/ALERTS";
 
 export const Page = ({children, title, appState}) => {
 
-    const {auth, setAuth, email, setEmail} = appState;
+    const {auth, setAuth, email, setEmail, openedAuthModal, setOpenedAuthModal} = appState;
 
     const nav = useNavigate();
 
-    const [openedAuthModal, setOpenedAuthModal] = useState(false);
     const [btnWaiting, setBtnWaiting] = useState(false);
     const [alertMessage, setAlertMessage] = useState(null);
 
@@ -41,7 +40,7 @@ export const Page = ({children, title, appState}) => {
             cabinet: () => nav(ROUTES.CABINET),
             logout 
         }
-    }, [nav, setAuth, setEmail]);
+    }, [nav, setAuth, setEmail, setOpenedAuthModal]);
 
     useEffect(() => {
         document.title = title;
@@ -59,7 +58,7 @@ export const Page = ({children, title, appState}) => {
                 }
             }).send();
         }
-        if(!auth && localStorage.getItem("Authorization") !== null) {
+        if(auth === undefined) {
             setAuth(undefined);
             fetchData();
         }

@@ -1,5 +1,5 @@
 .scale {
-    width: 700px;
+    width: 100%;
     height: 100px;
 }
 .scale-container {
@@ -20,6 +20,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    flex-shrink: 1;
     /* z-index: 1; */
 }
 .scale-bar {

@@ -24,6 +24,7 @@ export const Cabinet = ({appState}) => {
 
     const [infoAlert, setInfoAlert] = useState(null);
     const [loadingAlert, setLoadingAlert] = useState(null);
+    const [waitingPublish, setWaitingPublish] = useState(false);
 
     const nav = useNavigate();
 
@@ -81,6 +82,22 @@ export const Cabinet = ({appState}) => {
     }
 
     const researchActions = () => {
+        const publish = (id, slug) => {
+            setWaitingPublish(true);
+            Api(API_ROUTES.RESEARCH_PUBLISH)
+            .auth()
+            .post({id})
+            .callback(({ok}) => {
+                setWaitingPublish(false);
+                if(ok) {
+                    nav(ROUTES.PUBLISHED(slug));
+                }
+                else {
+                    setInfoAlert("Ошибка публикации, попробуйте ещё раз");
+                }
+            })
+            .send();
+        }
         const remove = (id) => {
             setDeletingResearch(id);
             setConfirmAlert({
@@ -100,7 +117,8 @@ export const Cabinet = ({appState}) => {
             create: () => nav(ROUTES.RESEARCH_CONSTRUCTOR("new")),
             results: (id) => nav(ROUTES.RESULTS(id)),
             get: (id) => window.open(ROUTES.RESEARCH(id)),
-            nav: (slug) => nav(ROUTES.PUBLISHED(slug))
+            nav: (slug) => nav(ROUTES.PUBLISHED(slug)),
+            publish
         }
     }
 
@@ -121,6 +139,7 @@ export const Cabinet = ({appState}) => {
                         research={true}
                         fetching={fetchingResearches}
                         deletingId={deletingResearch}
+                        waitingPublish={waitingPublish}
                         />
                 </div>
                 <div className="cabinet-spoiler">
@@ -138,7 +157,7 @@ export const Cabinet = ({appState}) => {
     </Page>
 }
 
-const ElementSpoiler = ({text, createText, elements, callbacks, research = false, fetching, deletingId}) => <Spoiler text={text}>
+const ElementSpoiler = ({text, createText, elements, callbacks, research = false, fetching, deletingId, waitingPublish = false}) => <Spoiler text={text}>
     <div className="cabinet-spoiler-children-container">
         <div className="cabinet-element-name-container __create">
             <Button type={BUTTON_TYPES.EDIT} onClick={callbacks.create}
@@ -157,7 +176,7 @@ const ElementSpoiler = ({text, createText, elements, callbacks, research = false
                         </td>
                         {
                             research && element.published?
-                            <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.results(element.id)} >Результаты</Button></td>
+                            <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.results(element.slug)} >Результаты</Button></td>
                             :
                             <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.update(research?element.slug:element.id)}>Конструктор</Button></td>
                         }
@@ -166,7 +185,7 @@ const ElementSpoiler = ({text, createText, elements, callbacks, research = false
                             element.published?
                             <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.nav(element.slug)}>Ссылка</Button></td>
                             :
-                            <td className="cabinet-element-table-td"><Button type={BUTTON_TYPES.EDIT} onClick={() => callbacks.update(element.id)}>Опубликовать</Button></td>
+                            <td className="cabinet-element-table-td"><Button state={waitingPublish?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} type={BUTTON_TYPES.EDIT} onClick={() => callbacks.publish(element.id, element.slug)}>Опубликовать</Button></td>
                             :<></>
                         }
                         <td className="cabinet-element-table-td"><Button state={deletingId === element.id ? BUTTON_STATES.WAITING : BUTTON_STATES.ENABLED} type={BUTTON_TYPES.DELETE} onClick={() => callbacks.remove(element.id)}>Удалить</Button></td>

@@ -4,8 +4,9 @@ export const ROUTES = {
     RESEARCH_CONSTRUCTOR: id => `/form/research/${id}`,
     RESEARCH: slug => `/research/${slug}`,
     METHODIC: id => `/methodic/${id}`,
-    RESULTS: id => `/research/${id}/results`,
+    RESULTS: slug => `/research/${slug}/results`,
     MAIN: "/",
     PUBLISHED: slug => `/form/research/published/${slug}`,
-    RESEARCH_RESPONDENT: slug => `/research/${slug}`
+    RESEARCH_RESPONDENT: slug => `${window.location.origin}/research/${slug}`,
+    STATISTIC: `/statistic`
 }

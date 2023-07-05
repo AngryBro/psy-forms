@@ -4,10 +4,12 @@
     min-height: 40px;
     height: fit-content;
     position: relative;
+    /* display: flex; */
 }
 .answer-text {
     display: flex;
     flex-shrink: 1;
+    font-size: 16pt;
 }
 .answer-container {
     display: flex;
@@ -26,9 +28,9 @@
     align-items: flex-start;
 }
 .answer-circle {
-    width: 20px;
-    height: 20px;
-    border-radius: 12px;
+    width: 30px;
+    height: 30px;
+    border-radius: 17px;
     border: 2px solid rgb(180, 180, 180);
     margin-right: 10px;
     display: flex;
@@ -38,8 +40,8 @@
     flex-shrink: 0;
 }
 .answer-checkbox {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border: 2px solid rgb(180, 180, 180);
     margin-right: 10px;
     display: flex;
@@ -52,7 +54,7 @@
     border-color: var(--dark-grey);
 }
 .answer-input {
-    font-size: 14pt;
+    font-size: 20pt;
     outline: none;
     border: none;
     /* width: 100px; */
@@ -63,8 +65,8 @@
     margin-top: 2px;
 }
 .answer-delete {
-    right: 0px;
-    top: 5px;
+    right: -70px;
+    top: 0px;
     width: fit-content;
     position: absolute;
     color: grey;
@@ -75,9 +77,9 @@
     color: var(--light-red);
 }
 .answer-circle-selected-inner {
-    width: 14px;
-    height: 14px;
-    border-radius: 7px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
     background-color: var(--dark-grey);
 }
 .answer-checkbox-selected-inner {
@@ -87,7 +89,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 70%;
+    width: 80%;
 }
 .answer-input-score {
     width: fit-content;

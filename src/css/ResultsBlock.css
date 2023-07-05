@@ -3,7 +3,10 @@
     justify-content: flex-end;
     margin: 5px;
 }
-
+.results-table-empty {
+    font-size: 30pt;
+    padding: 20px;
+}
 .results-block-container {
     width: fit-content;
     display: flex;

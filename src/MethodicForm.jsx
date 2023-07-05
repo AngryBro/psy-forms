@@ -22,7 +22,6 @@ export const MethodicForm = ({id}) => {
             public_name: null,//"Тестовая методика",
             private_name: null,//"Тестовая методика (скрытое)",
             instruction: null,//"Инструкция по выполнению",
-            time: null,
             questions: [],
             scales: []
         }
@@ -57,7 +56,6 @@ export const MethodicForm = ({id}) => {
     const newQuestion = useCallback((sub = false) => {
         return {
         text: null,
-        id: null,
         type: BLOCK_TYPE.QUESTION,
         required: !sub,
         answer_type: null,
@@ -72,7 +70,6 @@ export const MethodicForm = ({id}) => {
             "questions": [
                 {
                     text: null,
-                    id: null,
                     type: "q",
                     required: false,
                     answer_type: null,
@@ -125,7 +122,21 @@ export const MethodicForm = ({id}) => {
                             [ANSWER_TYPE.SCALE]: newScaleAnswer()
                         };
                         data.questions[i].answers[type] = answers;
-                    });
+                        if(type === ANSWER_TYPE.QUESTIONS) {
+                            data.questions[i].answers[type].forEach((subquestion, j) => {
+                                let answers = JSON.parse(JSON.stringify(subquestion.answers));
+                                let type1 = subquestion.answer_type;
+                                data.questions[i].answers[type][j].answers = {
+                                    [ANSWER_TYPE.FREE]: newFreeAnswer(),
+                                    [ANSWER_TYPE.MANY]: newSelectAnswer(),
+                                    [ANSWER_TYPE.ONE]: newSelectAnswer(),
+                                    [ANSWER_TYPE.SCALE]: newScaleAnswer()
+                                };
+                                data.questions[i].answers[type][j].answers[type1] = answers;
+                            });
+                        }
+                        
+                    }); console.log(data)
                     setData(data);
                     setSaved(true);
                 }
@@ -144,6 +155,13 @@ export const MethodicForm = ({id}) => {
         let data_to_send = JSON.parse(JSON.stringify(data));
         data_to_send.questions.forEach((question, i) => {
             data_to_send.questions[i].answers = question.answer_type===null?[]:question.answers[question.answer_type];
+            if(question.answer_type === ANSWER_TYPE.QUESTIONS) {
+                data_to_send.questions[i].answers.forEach((subquestion, j) => {
+                    data_to_send.questions[i].answers[j].answers = subquestion.answers[subquestion.answer_type];
+                    data_to_send.questions[i].answers[j].number = `${i+1}.${j+1}`;
+                })
+            }
+            data_to_send.questions[i].number = String(i+1);
         });
         setSaving(true);
         Api(API_ROUTES.METHODIC_SAVE).auth().post(data_to_send).callback(({ok, data}) => {
@@ -164,23 +182,22 @@ export const MethodicForm = ({id}) => {
     }
 
 
-    
-
     const setActiveWithScroll = (i) => {
         setActiveBlock(i);
         // if(activeBlockRef.current!==undefined) activeBlockRef.current.scrollIntoView();
     }
 
     const blocks = () => {
-        // let questions = [];
-        let number = 0;
-        data.questions.forEach(question => {
-            if(question.type === BLOCK_TYPE.QUESTION) {
-                number ++;
+        let question_blocks = JSON.parse(JSON.stringify(data.questions));
+        for(let i = 0; i < question_blocks.length; i++) {
+            if(question_blocks[i].answer_type === ANSWER_TYPE.QUESTIONS) {
+                for(let j = 0; j < question_blocks[i].answers.length; j++) {
+                    question_blocks[i].answers[j].number = `${i+1}.${j+1}`;
+                }
             }
-            question.number = number;
-        });
-        return data.questions;
+            question_blocks[i].number = String(i+1);
+        }
+        return question_blocks;
     }
 
 
@@ -354,12 +371,6 @@ export const MethodicForm = ({id}) => {
                 <ScaleTableForm data={data} changeData={changeData} />
             </div>
             <div className="methodic-form-save-button" hidden={fetching}>
-            {/* {
-                saved?
-                <Button state={BUTTON_STATES.DISABLED} type={BUTTON_TYPES.S}>Сохранено</Button>
-                :
-                <Button onClick={save} state={saving?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} type={BUTTON_TYPES.M}>Сохранить</Button>
-            } */}
                 <SavingButton save={save} saving={saving} saved={saved}/>
             </div>
         </div>

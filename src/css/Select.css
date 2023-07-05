@@ -14,9 +14,12 @@
     width: 100%;
     height: 40px;
     cursor: pointer;
-    border: 1px solid rgb(205, 205, 205);
+    /* border: 1px solid rgb(205, 205, 205); */
     border-radius: 1px;
     min-width: fit-content;
+    -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 .select-options-container {
     position: absolute;
@@ -51,6 +54,7 @@
     -moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+    border: 1px solid var(--light-grey);
 }
 .select-option-container:hover {
     background-color: rgb(227, 227, 227);

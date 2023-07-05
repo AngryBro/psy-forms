@@ -10,12 +10,14 @@ import { useState } from "react";
 import { Main } from "./pages/Main";
 import { ROUTES } from "./enums/ROUTES";
 import { Publish } from "./pages/Publish";
+import { Statistic } from "./pages/Statistic";
 
 const App = () => {
 
-    const [auth, setAuth] = useState(false);
+    const [auth, setAuth] = useState(undefined);
     const [email, setEmail] = useState(null);
-    const appState = {auth, setAuth, email, setEmail};
+    const [openedAuthModal, setOpenedAuthModal] = useState(false);
+    const appState = {auth, setAuth, email, setEmail, openedAuthModal, setOpenedAuthModal};
 
     return <BrowserRouter>
             <Routes>
@@ -23,10 +25,11 @@ const App = () => {
                 <Route path={ROUTES.METHODIC(":id")} element={<></>}/>
                 <Route path={ROUTES.RESEARCH_CONSTRUCTOR(":slug")} element={<ResearchConstructorPage appState={appState}/>}/>
                 <Route path={ROUTES.RESEARCH(":slug")} element={<Research appState={appState}/>} />
-                <Route path={ROUTES.RESULTS(":id")} element={<ResearchResults appState={appState}/>} />
+                <Route path={ROUTES.RESULTS(":slug")} element={<ResearchResults appState={appState}/>} />
                 <Route path="/my" element={<Cabinet appState={appState}/>} />
                 <Route path="/" element={<Main appState={appState} />}/>
                 <Route path={ROUTES.PUBLISHED(":slug")} element={<Publish appState={appState} />} />
+                <Route path={ROUTES.STATISTIC} element={<Statistic appState={appState} />} />
                 <Route path="/test" element={<Test/>}/>
             </Routes>
         </BrowserRouter>

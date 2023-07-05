@@ -1,0 +1,10 @@
+.statistic-header {
+    color: var(--purple-form);
+    font-weight: bold;
+    font-size: 20pt;
+    margin: 30px;
+}
+.statistic-add-button {
+    width: fit-content;
+    height: fit-content;
+}

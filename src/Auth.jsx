@@ -8,6 +8,8 @@ import { Button } from "./Button";
 import { BUTTON_STATES } from "./enums/BUTTON_STATES";
 import { ALERTS } from "./enums/ALERTS";
 import { Alert } from "./Alert";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "./enums/ROUTES";
 
 export const Auth = ({onClose, setAuth, setPageEmail}) => {
 
@@ -17,6 +19,8 @@ export const Auth = ({onClose, setAuth, setPageEmail}) => {
     const [pswdBtnWaiting, setPswdBtnWaiting] = useState(false);
     const [emailBtnWaiting, setEmailBtnWaiting] = useState(false);
     const [alertMessage, setAlertMessage] = useState(null);
+
+    const nav = useNavigate();
 
     const getPassword = () => {
         setEmailBtnWaiting(true);
@@ -44,6 +48,7 @@ export const Auth = ({onClose, setAuth, setPageEmail}) => {
                 setAuth(true);
                 setPageEmail(email);
                 onClose();
+                nav(ROUTES.CABINET);
             }
             else {
                 setAlertMessage("Пароль неверный");
@@ -72,7 +77,7 @@ const AuthFormElement = ({text, tip, value, onChange, btnText, callback, btnWait
             </div>
         </div>
         <div className="auth-form-element-button-container">
-            <Button onClick={callback} state={btnWaiting?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} >{btnText}</Button>
+            <Button className="auth-form-element-button" onClick={callback} state={btnWaiting?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} >{btnText}</Button>
         </div>          
     </div>
 )

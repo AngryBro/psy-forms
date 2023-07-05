@@ -4,14 +4,13 @@ import { Select } from "./Select";
 import "./css/Respondents.css";
 
 export const Respondents = ({methodics, group, respondents, hiddenQuestions, scoreAnswers, scales, questions, tableHeaders}) => {
-    
-    
 
-    const [methodic, setMethodic] = useState(methodics()[0]);
+
+    const [methodic, setMethodic] = useState(methodics[0]);
 
 
     const answer = (respondent, question_number) => {
-        let ans = respondent.methodics[methodic].answers.find(ans => ans.number === question_number);
+        let ans = respondent.answers[methodic].answers.find(ans => ans.number === question_number);
         return scoreAnswers && ans.score !== null ? ans.score : ans.text;
     }
 
@@ -41,7 +40,7 @@ export const Respondents = ({methodics, group, respondents, hiddenQuestions, sco
                                     <td>{respondent.created_at}</td>
                                     {
                                         scales(methodic).map((scale, i) => 
-                                            <td key={i}>{respondent.methodics[methodic].scales.find(_scale => _scale.name === scale).score}</td>
+                                            <td key={i}>{respondent.answers[methodic].scales.find(_scale => _scale.name === scale).score}</td>
                                         )
                                     }
                                     {
@@ -55,10 +54,10 @@ export const Respondents = ({methodics, group, respondents, hiddenQuestions, sco
                     </tbody>
                 </table>
             </div>
-            { respondents.length?
+            { respondents.length && methodic!==undefined?
             <div className="respondents-methodic-select">
                 <Select onSelect={setMethodic} value={methodic}>
-                    {methodics(methodic).map((methodic) => ({key: methodic, value: methodic}))}
+                    {methodics.map((methodic) => ({key: methodic, value: methodic}))}
                 </Select>
             </div>:<></>
             }

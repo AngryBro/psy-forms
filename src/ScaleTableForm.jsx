@@ -113,7 +113,6 @@ export const ScaleTableForm = ({data, changeData}) => {
     const newScale = () => {
         return {
             name: "",
-            id: null,
             questions: {},
             type: null
         }

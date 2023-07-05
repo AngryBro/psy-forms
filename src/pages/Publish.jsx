@@ -5,6 +5,9 @@ import { ROUTES } from "../enums/ROUTES"
 import { Api } from "../Api"
 import { API_ROUTES } from "../enums/API_ROUTES"
 import { useState } from "react"
+import "../css/Publish.css"
+import { Input } from "../Input"
+import { BUTTON_TYPES } from "../enums/BUTTON_TYPES"
 
 export const Publish = ({appState}) => {
 
@@ -33,8 +36,12 @@ export const Publish = ({appState}) => {
     }
 
     return <Page title="Публикация" appState={appState}>
-        <Alert onClose={() => nav(ROUTES.CABINET)} onConfirm={unpublish} waiting={unpublishing} text="Отменить публикацию">
-            Исследование доступно по ссылке: {ROUTES.RESEARCH_RESPONDENT(slug)}
+        <Alert buttonType={BUTTON_TYPES.DELETE} onClose={() => nav(ROUTES.CABINET)} onConfirm={unpublish} waiting={unpublishing} text="Отменить публикацию">
+            Исследование доступно по ссылке:
+            {/* <div className="publish-link">{ROUTES.RESEARCH_RESPONDENT(slug)}</div> */}
+            <div className="publish-link">
+                <Input value={ROUTES.RESEARCH_RESPONDENT(slug)} />
+            </div>
         </Alert>
         <Alert onClose={setError}>
             {error}

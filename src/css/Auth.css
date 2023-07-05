@@ -1,6 +1,7 @@
 .auth {
     height: fit-content;
-    width: 500px;
+    width: 100%;
+    font-size: 18pt;
 }
 .auth-margin {
     height: 20px;
@@ -23,43 +24,34 @@
     /* background-color: red; */
     margin-left: 20px;
     width: 100%;
+    flex-shrink: 1;
+    transition: all 0.3s ease;
+    font-size: 22pt;
 }
 .auth-form-element-text {
     width: fit-content;
-    /* margin-right: 20px; */
-    /* background-color: red; */
     white-space: nowrap;
+    font-size: 22pt;
 }
 .auth-form-element-button-container {
     display: flex;
     justify-content: flex-end;
-    width: 100%;
-    margin-top: 10px;
     width: fit-content;
+    margin-top: 10px;
     float: right;
 }
 .auth-form-element-button {
-    padding: 10px;
-    border: 1px solid var(--purple-form);
-    color: var(--purple-form);
-    text-align: center;
-    border-radius: 10px;
-    width: fit-content;
-    cursor: pointer;
+    font-size: 20pt;
     transition: all 0.3s ease;
-    font-size: 16pt;
 }
-.auth-form-element-button.disabled {
-    border-color: var(--med-grey);
-    color: var(--med-grey);
-    cursor: default;
-}
-.auth-form-element-button:hover {
-    background-color: var(--background-purple);
-}
-.auth-form-element-button.disabled:hover {
-    background-color: white;
-}
-.auth-form-element-button.disabled:hover {
-    background-color: white;
+@media (max-width: 400px) {
+    .auth-form-element-button {
+        font-size: 10pt;
+    }
+    .auth-form-element-input {
+        font-size: 12pt;
+    }
+    .auth-form-element-text {
+        font-size: 12pt;
+    }
 }

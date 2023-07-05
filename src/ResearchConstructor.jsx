@@ -63,6 +63,7 @@ export const ResearchConstructor = ({slug}) => {
                 setAlertLoad(null);
                 if(ok) {
                     setResearch(data);
+                    setSaved(true);
                 }
                 else {
                     setError("Ошибка загрузки данных");

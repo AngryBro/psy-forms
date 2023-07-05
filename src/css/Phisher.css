@@ -1,0 +1,17 @@
+.phisher-table-td, .phisher-table-th{
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+.phisher-table {
+    border-collapse: collapse;
+    background-color: white;
+}
+.phisher-remove {
+    padding: 10px;
+    height: fit-content;
+    width: fit-content;
+}
+.phisher-container {
+    margin-bottom: 50px;
+}

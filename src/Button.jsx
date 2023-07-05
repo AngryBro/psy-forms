@@ -4,7 +4,7 @@ import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
 import { SPINNER_COLORS } from "./enums/SPINNER_COLORS";
 import "./css/Button.css";
 
-export const Button = ({state = BUTTON_STATES.ENABLED, onClick, type = BUTTON_TYPES.S, children}) => {
+export const Button = ({state = BUTTON_STATES.ENABLED, onClick, type = BUTTON_TYPES.S, children, className}) => {
     
     const color = () => {
         switch(type) {
@@ -33,6 +33,6 @@ export const Button = ({state = BUTTON_STATES.ENABLED, onClick, type = BUTTON_TY
             </div>
             :<></>
         }
-            <div style={{opacity: Number(state !== BUTTON_STATES.WAITING)}} className={`button-text ${type}` + (state === BUTTON_STATES.DISABLED ? " __disabled":"")}>{children}</div>
+            <div style={{opacity: Number(state !== BUTTON_STATES.WAITING)}} className={`button-text ${className} ${type}` + (state === BUTTON_STATES.DISABLED ? " __disabled":"")}>{children}</div>
     </div>
 }

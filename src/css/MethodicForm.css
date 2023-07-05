@@ -35,7 +35,7 @@
 	box-sizing: border-box;
     border: 1px solid var(--light-grey);
     background: linear-gradient(90deg, #4285f4 0.7%, white 0.7%), white;
-    background-position: -6px 0px;
+    background-position: -8px 0px;
     background-repeat: no-repeat;
     transition: background-position 0.3s ease;
 }

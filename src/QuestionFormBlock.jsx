@@ -16,7 +16,6 @@ import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
 export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDelete, isActive, handleChange, question, number, handlesAnswer, sub = false}) => {
 
     const [activeSubBlock, setActiveSubBlock] = useState(-1);
-
     useEffect(() => {if(!isActive) setActiveSubBlock(-1)}, [isActive]);
 
     const checkDelete = (i) => {
@@ -160,7 +159,7 @@ export const QuestionFormBlock = ({handlesNew, isFirst, handleActive, handleDele
                                     number={`${number}${i+1})`}
                                     handleDelete={() => 1}
                                     isFirst={false}
-                                    handlesAnswer={{}}
+                                    handlesAnswer={{select: {}}}
                                 />
                             </div>
                         )

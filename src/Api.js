@@ -86,7 +86,6 @@ export const Api = (route) => {
             let promise = await fetch(host()+route+_getParams, fetchParams);
             let response = undefined;
             response = await promise.json();
-            console.log(response);
             clearTimeout(timer);
             _callback({ok: promise.ok, status: promise.status, data: response});
         }

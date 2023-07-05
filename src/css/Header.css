@@ -1,18 +1,27 @@
 .header {
-    background-color: var(--purple-form);
     height: fit-content;
     width: 100%;
     display: flex;
+    background-color: var(--purple-form);
 }
 .header-container {
     height: fit-content;
-    max-width: 1200px;
     width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    align-items: center;
+    
+}
+@media (max-width: 1000px) {
+    .header-container {
+        align-items: center;
+        flex-direction: column;
+    }
+    .header-logo {
+        margin-bottom: 20px;
+    }
 }
 .header-logo {
     text-transform: uppercase;
@@ -21,16 +30,16 @@
     /* margin: auto; */
     width: fit-content;
     cursor: pointer;
+    white-space: nowrap;
 }
 .header-buttons {
     display: flex;
     align-items: center;
     width: fit-content;
-    /* background-color: red; */
     justify-content: flex-end;
-    /* margin: auto; */
     transition: all 0.3s ease;
 }
+
 .header-login {
     width: fit-content;
 }
@@ -42,6 +51,7 @@
     width: fit-content;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-align: center;
 }
 .header-email.__auth:hover {
     color: var(--background-purple);
@@ -49,18 +59,16 @@
 .header-email.__auth {
     text-decoration: underline;
 }
-.header-cabinet {
-    padding: 20px;
-    border: 3px white solid;
-    border-radius: 15px;
-    color: white;
-    font-size: 20pt;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: fit-content;
-    /* margin: auto; */
-}
-.header-cabinet:hover {
-    border-color: var(--background-purple);
-    color: var(--background-purple);
+@media (max-width: 650px) {
+    .header-buttons {
+        flex-direction: column;
+    }
+    .header-email {
+        font-size: 16pt;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+    .header-login {
+        width: 100%;
+    }
 }

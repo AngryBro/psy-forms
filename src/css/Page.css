@@ -5,10 +5,14 @@
 }
 .page-container {
     height: 100%;
-    max-width: 1200px;
+    /* max-width: 1200px; */
     width: 100%;
     margin: auto;
     min-height: 700px;
     padding-left: 20px;
     padding-right: 20px;
+    max-width: 1200px;
+}
+.page-header-container {
+    width: 100%;
 }
