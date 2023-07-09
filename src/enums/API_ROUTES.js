@@ -15,5 +15,8 @@ export const API_ROUTES = {
     RESEARCH_UNPUBLISH: "/research.unpublish",
     RESEARCH_RESPONDENT: "/research.respondent.get",
     RESPONDENT_SEND: "/respondent.send",
-    RESPONDENTS: "/respondent.get"
+    RESPONDENTS: "/respondent.get",
+    GROUPS: "/group.get",
+    GROUP_CREATE: "/group.create",
+    GROUP_REMOVE: "/group.remove"
 }

@@ -2,106 +2,209 @@ import { Modal } from "./Modal";
 import { Input } from "./Input";
 import { Select } from "./Select";
 import { useState } from "react";
-import { OPERATOR } from "./enums/OPERATOR";
+import { Spoiler } from "./Spoiler";
+import { Answer } from "./Answer";
+import { Button } from "./Button";
+import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
+import { Api } from "./Api";
+import { API_ROUTES } from "./enums/API_ROUTES";
+import { Alert } from "./Alert";
+import { BUTTON_STATES } from "./enums/BUTTON_STATES";
 
-export const GroupCreate = ({onClose}) => {
+export const GroupCreate = ({onClose, methodics, headers, scales, allAnswers, slug, setGroups}) => {
 
     const [name, setName] = useState("");
 
-    // const [fetching] = useState(true);
+    const [conditions, setConditions] = useState([]);
+    const [methodic, setMethodic] = useState(null);
+    const [isScale, setIsScale] = useState(null);
+    const [header, setHeader] = useState(null);
+    const [operator, setOperator] = useState(null);
+    const [value, setValue] = useState(null);
+    const [answerTexts, setAnswerTexts] = useState({});
+    const [error, setError] = useState(null);
+    const [creating, setCreating] = useState(false);
 
-    const methodics = {
-        "Захаров": {
-            scales: ["scare"],
-            tableHeaders: ["scare", "1.1", "1.2"],
-        },
-        "Тревожность": {
-            scales: ["anxiety", "scare"],
-            tableHeaders: ["anxiety", "scare", "1", "2"]
+    const operators = [
+        {value: "Знак сравнения", key: null, display: false},
+        {key: ">", value: "Больше"},
+        {key: "<", value: "Меньше"},
+        {key: ">=", value: "Больше либо равно"},
+        {key: "<=", value: "Меньше либо равно"},
+        {key: "=", value: "Равно"}
+    ]
+
+    const resetValues = () => {
+        setIsScale(null);
+        setHeader(null);
+        setOperator(null);
+        setValue(null);
+        setAnswerTexts({});
+        setMethodic(null);
+    }
+
+    const conditionString = (condition) => {
+        if(condition.is_scale) {
+            return `${condition.methodic_private_name}.${headers(condition.methodic_private_name)[condition.scale_index]} ${condition.operator} ${condition.value}`;
+        }
+        else {
+            return `${condition.methodic_private_name}, ${condition.question_number}- ${condition.answer_texts.join(", ")}`;
         }
     }
 
-    const conditions = [
-        {string: "Захаров.Scare > 10", methodic: "Захаров", scale: "Scare", operator: OPERATOR.MORE, value: 10},
-        {string: "Тревожность.Тревога <= 10", methodic: "Тревожность", scale: "Тревога", operator: OPERATOR.LESS_EQUALS, value: 5},
-        {string: null, methodic: null, scale: null, operator: null, value: null, answers: null}
-    ]
+    const onSelectHeader = (header) => {
+        setHeader(header);
+        setIsScale(header < scales(methodic).length);
+    }
 
-    const tableHeaders = (methodic) => methodics[methodic].tableHeaders;
+    const handlesAnswers = (ans) => {
+        const select = () => {
+            setAnswerTexts(a => ({...a, [ans]:ans}));
+        }
+        const deselect = () => {
+            setAnswerTexts(s => ({...s, [ans]: undefined}));
+        }
+        return {select, deselect}
+    }
 
-    const scales = methodic => methodics[methodic].scales;
+    const removeCondition = (index) => {
+        setConditions(c => c.filter((e,i) => i!==index));
+    }
 
+    const saveCondition = () => {
+        if(isScale === null || methodic === null || header === null 
+            || (isScale === true && (operator === null || value === null))
+            || (isScale === false && answerTexts.length === 0)) {
+                return;
+            }
+        let newCondition = {
+            is_scale: isScale,
+            methodic_private_name: methodic
+        };
+        if(isScale) {
+            newCondition = {...newCondition, 
+                scale_index: header,
+                operator,
+                value
+            }
+        }
+        else {
+            newCondition = {...newCondition, 
+                question_number: headers(methodic)[header],
+                answer_texts: Object.values(answerTexts).filter(t => t !== undefined)
+            }
+        }
+        newCondition.string = conditionString(newCondition);
+        setConditions(c => c.concat([newCondition]));
+        resetValues();
+    }
+
+    const inputValue = (e) => {
+        let value = e.target.value;
+        let numberValue = Number(value);
+        if(isNaN(numberValue)) {
+            return false;
+        }
+        if(value === "") {
+            numberValue = null;
+        }
+        setValue(numberValue);
+    }
+    
+    const create = () => {
+        setCreating(true);
+        Api(API_ROUTES.GROUP_CREATE)
+        .auth()
+        .post({
+            slug,
+            name,
+            conditions
+        })
+        .callback(({ok, data}) => {
+            setCreating(false);
+            if(ok) {
+                setGroups(data);
+                onClose();
+            }
+            else {
+                setError("Ошибка создания группы");
+            }
+        })
+        .send();
+    }
 
     return <Modal onClose={onClose}>
         <div className="group-create-container">
-            <div className="group-create-header">Создание группы</div>
+            <Alert onClose={setError}>{error}</Alert>
+            <div className="group-create-header">Выделение подгруппы</div>
             <div className="group-create-name"><Input tip="Название группы" value={name} onChange={e => setName(e.target.value)} /></div>
             {
                 conditions.map((condition, i) =>
-                    <div key={i} className="group-create-condition">{condition.string},</div>    
+                    <div key={i}>
+                        <div className="group-create-condition">{condition.string};</div>
+                        <div><Button onClick={() => removeCondition(i)} type={BUTTON_TYPES.DELETE}>x</Button></div>    
+                    </div>
                 )
             }
-            <ConditionCreate methodics={Object.keys(methodics)} scales={scales} tableHeaders={tableHeaders} />
+            <div>
+                {
+                name === null || name === "" ? <></>:
+                    <>
+                    <div>Добавить условие:</div>
+                    <div>
+                        <Select onSelect={setMethodic} value={methodic}>
+                            {
+                                [{key: null, value: "Разделить по методике", display: false}]
+                                .concat(methodics.map(methodic => ({key: methodic, value: methodic})))
+                            }
+                        </Select>
+                    </div>
+                    </>
+                }
+                {
+                    methodic === null ?<></>:
+                    <div>
+                        <Select onSelect={onSelectHeader} value={header}>
+                            {
+                                [{key: null, value: "По шкале или вопросу", display: false}]
+                                .concat(headers(methodic).map((header, i) => ({key: i, value: header})))
+                            }
+                        </Select>
+                    </div>
+                }
+                {
+                    header === null ? <></>:
+                    isScale?
+                    <div>
+                        <Select onSelect={setOperator} value={operator}>
+                            {operators}
+                        </Select>
+                        {
+                            operator === null?<></>:
+                            <div>
+                                <Input tip="Число для сравнения" value={value} onChange={inputValue} />
+                            </div>
+                        }
+                    </div>
+                    :
+                    <Spoiler text="Подходящие ответы" >
+                        {
+                            allAnswers(methodic, headers(methodic)[header])
+                            .map((ans, i) => 
+                                <div key={i}>
+                                    <Answer selected={answerTexts[ans]!==undefined} handles={handlesAnswers(ans)} checkbox={true}>{ans}</Answer>
+                                </div>    
+                            )
+                        }
+                    </Spoiler>
+                }
+                <div>
+                    <Button onClick={saveCondition}>Сохранить условие</Button>
+                </div>
+            </div>
+            <div>
+                <Button state={creating?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} onClick={create}>Выделить подгруппу</Button>
+            </div>
         </div>
     </Modal>
-}
-
-const ConditionCreate = ({scales, tableHeaders, methodics}) => {
-    
-    const [headerIndex, setHeaderIndex] = useState(null);
-    const [methodic, setMethodic] = useState(null);
-    const [operator, setOperator] = useState(null);
-    const [value, setValue] = useState(null);
-
-
-    const conditionsTemplate = [
-        {symbol: ">", text: "больше"},
-        {symbol: "<", text: "меньше"},
-        {symbol: "=", text: "равно"},
-        {symbol: ">=", text: "больше либо равно"},
-        {symbol: "<=", text: "меньше либо равно"}
-    ]
-    // const scaleSelected = () => {
-    //     return selected !== null && selected < scales.length;
-    // }
-
-    const setValidValue = e => {
-        setValue(e.target.value);
-    }
-
-    return <div className="group-create-condition">
-        <Select value={methodic} onSelect={setMethodic}>
-            {
-                [{key: null, value: "Выберите методику", display: false}].concat(methodics.map(methodic => ({key: methodic, value: methodic})))
-            }
-        </Select>
-        {
-            methodic !== null?
-            <Select value={headerIndex} onSelect={setHeaderIndex}>
-                    {
-                        [{key: null, value: "Шкала или вопрос", display: false}].concat(tableHeaders(methodic).map((header, i) => ({key: i, value: header})))
-                    }
-            </Select>
-            :<></>
-        }
-        {
-            headerIndex !== null?
-            headerIndex < scales(methodic).length?
-            <div className="group-create-scale-condition">
-                <div>
-                    <Select>
-                        {conditionsTemplate.map(cond => ({key: cond.symbol, value: cond.text}))}
-                    </Select>
-                </div>
-                <div>
-                    <Input value={value} onChange={setValidValue} />
-                </div>
-            </div>
-            :
-            <div className="group-create-answers-condition">
-                вопрос
-            </div>
-            :<></>
-        }
-    </div>
 }

@@ -11,7 +11,7 @@ export const Respondents = ({methodics, group, respondents, hiddenQuestions, sco
 
     const answer = (respondent, question_number) => {
         let ans = respondent.answers[methodic].answers.find(ans => ans.number === question_number);
-        return scoreAnswers && ans.score !== null ? ans.score : ans.text;
+        return (scoreAnswers ? ans.scores : ans.texts).join(", ");
     }
 
     const opacity = () => (hiddenQuestions?{opacity: 0, border: "none", cursor: "default"}:{});
@@ -37,7 +37,7 @@ export const Respondents = ({methodics, group, respondents, hiddenQuestions, sco
                             respondents.map((respondent,i) =>
                                 <tr className={i % 2 === 0 ? "__even":"__odd"} key={respondent.number}>
                                     <td>{respondent.number}</td>
-                                    <td>{respondent.created_at}</td>
+                                    <td>{(new Date(respondent.created_at)).toDateString()}</td>
                                     {
                                         scales(methodic).map((scale, i) => 
                                             <td key={i}>{respondent.answers[methodic].scales.find(_scale => _scale.name === scale).score}</td>
