@@ -1,11 +1,14 @@
 .groups-block-button {
-    width: fit-content;
+    /* width: fit-content; */
     height: fit-content;
     margin: 5px;
+    font-size: 10pt;
+    flex-shrink: 1;
 }
 .groups-block-button.__single {
-    width: calc(100% - 30px);
+    /* width: calc(100% - 30px); */
     text-align: center;
+    font-size: 14pt;
 }
 .groups-block-button:hover {
     background-color: var(--background-purple);
@@ -14,4 +17,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-shrink: 1;
+    width: 100%;
+    font-size: 14pt;
+}
+.groups-block-button-row {
+    font-size: 14pt;
+}
+.groups-block-button-text {
+    font-size: 14pt;
 }

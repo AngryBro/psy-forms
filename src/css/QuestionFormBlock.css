@@ -3,7 +3,9 @@
     margin-bottom: 15px;
 }
 .question-form-inputarea {
-    font-size: 18pt;
+    font-size: 20pt;
+    width: 100%;
+    flex-shrink: 1;
 }
 .question-form-required {
     color: red;

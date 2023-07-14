@@ -34,7 +34,9 @@ export const Research = () => {
             answers1[methodic_id][question_number].forEach(ans => {ans.selected = false});
         }
         answers1[methodic_id][question_number][answer_index].selected = select;
-        answers1[methodic_id][question_number][answer_index].other = other;
+        if(other !== null) {
+            answers1[methodic_id][question_number][answer_index].other = other;
+        }
         setAnswers(answers1);
         save(answers1);
     }
@@ -42,7 +44,9 @@ export const Research = () => {
     const select_many_answer = (methodic_id, question_number, answer_index, select, other = null) => {
         let answers1 = JSON.parse(JSON.stringify(answers));
         answers1[methodic_id][question_number][answer_index].selected = select;
-        answers1[methodic_id][question_number][answer_index].other = other;
+        if(other !== null) {
+            answers1[methodic_id][question_number][answer_index].other = other;
+        }
         setAnswers(answers1);
         save(answers1);
     }
@@ -82,13 +86,13 @@ export const Research = () => {
             errorQuestionNumbers.push(flag ? question_number : false);
         }
         const free = (methodic_id, question_number, required) => {
-            let flag = required;
+            let flag = true;
             answers[methodic_id][question_number].forEach(ans => {
                 if(ans.text === null || ans.text.length === 0) {
                     flag = false;
                 }
             });
-            errorQuestionNumbers.push(flag ? false : question_number);
+            errorQuestionNumbers.push(flag || !required ? false : question_number);
         }
         const scale = (methodic_id, question_number, required) => {
             if(required && answers[methodic_id][question_number] === null) {
@@ -129,7 +133,6 @@ export const Research = () => {
             });
         }
         const errs = errorQuestionNumbers.filter(Boolean);
-        console.log(errs, errorQuestionNumbers)
         if(errs.length) {
             setError(`Вопрос${errs.length>1?"ы":""} ${errs.join(", ")} обязательны${errs.length>1?"е":"й"}!`);
         }
@@ -139,7 +142,7 @@ export const Research = () => {
     const {slug} = useParams();
 
     const save = (ans) => {
-        localStorage.setItem(slug, JSON.stringify({answers: ans, page: page}));
+        localStorage.setItem(slug, JSON.stringify({answers: ans, page: page, version: data.version}));
     }
 
     useEffect(() => {
@@ -198,7 +201,6 @@ export const Research = () => {
                     })
                 }
             });
-            console.log(ans);
             setAnswers(ans);
         }
         const fetchData = () => {
@@ -214,8 +216,15 @@ export const Research = () => {
                     }
                     else {
                         draft = JSON.parse(draft);
-                        setAnswers(draft.answers);
-                        setPage(draft.page);
+                        if(draft.version === data.version) {
+                            setAnswers(draft.answers);
+                            setPage(draft.page);
+                        }
+                        else {
+                            localStorage.removeItem(slug);
+                            init_answers(data);
+                            setPage(0);
+                        }
                     }
                 }
                 else {

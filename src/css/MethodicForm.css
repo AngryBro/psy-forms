@@ -32,6 +32,7 @@
     margin-bottom: 5px;
     -moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+    /* font-size: 20pt; */
 	box-sizing: border-box;
     border: 1px solid var(--light-grey);
     background: linear-gradient(90deg, #4285f4 0.7%, white 0.7%), white;

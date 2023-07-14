@@ -4,7 +4,7 @@ import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
 import { SPINNER_COLORS } from "./enums/SPINNER_COLORS";
 import "./css/Button.css";
 
-export const Button = ({state = BUTTON_STATES.ENABLED, onClick, type = BUTTON_TYPES.S, children, className}) => {
+export const Button = ({state = BUTTON_STATES.ENABLED, onClick, type = BUTTON_TYPES.S, children, className = ""}) => {
     
     const color = () => {
         switch(type) {

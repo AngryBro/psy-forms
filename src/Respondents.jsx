@@ -37,7 +37,7 @@ export const Respondents = ({methodics, group, respondents, hiddenQuestions, sco
                             respondents.map((respondent,i) =>
                                 <tr className={i % 2 === 0 ? "__even":"__odd"} key={respondent.number}>
                                     <td>{respondent.number}</td>
-                                    <td>{(new Date(respondent.created_at)).toDateString()}</td>
+                                    <td>{(new Date(respondent.created_at)).toLocaleString()}</td>
                                     {
                                         scales(methodic).map((scale, i) => 
                                             <td key={i}>{respondent.answers[methodic].scales.find(_scale => _scale.name === scale).score}</td>

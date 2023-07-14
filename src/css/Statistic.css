@@ -7,4 +7,30 @@
 .statistic-add-button {
     width: fit-content;
     height: fit-content;
+    margin-top: 20px;
+}
+.statistic-remove {
+    width: fit-content;
+    height: fit-content;
+    margin-top: 10px;
+}
+.statistic-create-phisher-container {
+    width: 100%;
+}
+.statistic-create-phisher-tip {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.statistic-create-phisher-groups-container>div {
+    width: 50%;
+}
+.statistic-create-phisher-groups-container {
+    display: flex;
+    flex-shrink: 1;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.statistic-create-button {
+    margin-top: 30px;
 }

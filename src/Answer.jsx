@@ -20,7 +20,7 @@ export const Answer = ({other = false, autoFocus = false ,children, selected = f
             {
                 edit || other?
                 <div className='answer-input-container'>
-                    <div onClick={other?handles.select:()=>1} className='answer-input'><Inputarea readOnly={!selected && other} onChange={handles.updateText===undefined?()=>1:(e) => handles.updateText(e.target.textContent)} value={children} tip={tip} autoFocus={autoFocus}  /></div>
+                    <div onClick={other?handles.select:()=>1} className='answer-input'><Inputarea readOnly={(!selected && !edit) || (other && edit)} onChange={handles.updateText===undefined?()=>1:(e) => handles.updateText(e.target.textContent)} value={children} tip={tip} autoFocus={autoFocus}  /></div>
                     {   score === undefined?<></>:
                         <div className='answer-input-score-container'>
                             <div className='answer-input-score'>Балл:</div>

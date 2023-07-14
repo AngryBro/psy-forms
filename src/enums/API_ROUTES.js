@@ -9,6 +9,7 @@ export const API_ROUTES = {
     METHODIC_REMOVE: "/methodic.remove",
     RESEARCH_SAVE: "/research.save",
     RESEARCH_GET: "/research.get",
+    RESEARCH_META: "/research.meta",
     RESEARCHES_ALL: "/research.all",
     RESEARCH_REMOVE: "/research.remove",
     RESEARCH_PUBLISH: "/research.publish",
@@ -18,5 +19,10 @@ export const API_ROUTES = {
     RESPONDENTS: "/respondent.get",
     GROUPS: "/group.get",
     GROUP_CREATE: "/group.create",
-    GROUP_REMOVE: "/group.remove"
+    GROUP_REMOVE: "/group.remove",
+    DOWNLOAD: "/respondent.download",
+    STATISTIC_CREATE: "/statistic.create",
+    STATISTIC_REMOVE: "/statistic.remove",
+    STATISTIC_GET: "/statistic.get",
+    CRITERIAS: "/statistic.criterias"
 }

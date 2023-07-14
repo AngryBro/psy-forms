@@ -6,6 +6,7 @@ export const Api = (route) => {
     let _getParams = '';
     let _postJson = null;
     let _ontimeout = () => 1;
+    // let _timeout = null;
     let _timeout_secs = 3;
 
     let makeObject = () => {
@@ -19,7 +20,8 @@ export const Api = (route) => {
             send,
             img,
             imgUpload,
-            cssimg
+            cssimg,
+            url
         });
     };
 
@@ -73,6 +75,8 @@ export const Api = (route) => {
         return makeObject();
     }
 
+    let url = () => host()+route+_getParams;
+
     let send = async () => {
         let timer = setTimeout(_ontimeout, _timeout_secs*1000);
         let fetchParams = {
@@ -83,7 +87,7 @@ export const Api = (route) => {
             fetchParams.body = _postJson;
         }
         try {
-            let promise = await fetch(host()+route+_getParams, fetchParams);
+            let promise = await fetch(url(), fetchParams);
             let response = undefined;
             response = await promise.json();
             clearTimeout(timer);

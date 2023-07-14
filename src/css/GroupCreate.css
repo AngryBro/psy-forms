@@ -1,0 +1,56 @@
+.group-create-name {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.group-create-header {
+    text-align: center;
+    font-weight: bold;
+    color: var(--purple-form);
+    font-size: 30pt;
+}
+.group-create-add-condition {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.group-create-methodic-select {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.group-create-save {
+    width: fit-content;
+    height: fit-content;
+}
+.group-create-save-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.group-create-compare-container {
+    display: flex;
+    flex-shrink: 1;
+    margin-top: 10px;
+}
+.group-create-input-number {
+    width: 50%;
+    margin-left: 10px;
+}
+.group-create-operator-select {
+    width: 40%;
+}
+.group-create-condition-container {
+    display: flex;
+    justify-content: space-between;
+    flex-shrink: 1;
+}
+.group-create-condition {
+    width: 100%;
+}
+.group-create-condition-remove {
+    height: fit-content;
+}
+.group-create-header-select {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -29,7 +29,7 @@ const App = () => {
                 <Route path="/my" element={<Cabinet appState={appState}/>} />
                 <Route path="/" element={<Main appState={appState} />}/>
                 <Route path={ROUTES.PUBLISHED(":slug")} element={<Publish appState={appState} />} />
-                <Route path={ROUTES.STATISTIC} element={<Statistic appState={appState} />} />
+                <Route path={ROUTES.STATISTIC(":slug")} element={<Statistic appState={appState} />} />
                 <Route path="/test" element={<Test/>}/>
             </Routes>
         </BrowserRouter>

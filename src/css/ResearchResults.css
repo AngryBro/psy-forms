@@ -3,6 +3,7 @@
     font-size: 25pt;
     color: var(--purple-form);
     font-weight: bold;
+    display: flex;
 }
 .research-results-button-container {
     display: flex;

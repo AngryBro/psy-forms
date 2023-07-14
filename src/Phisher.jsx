@@ -1,8 +1,6 @@
 import "./css/Phisher.css";
-import { Button } from "./Button";
-import { BUTTON_TYPES } from "./enums/BUTTON_TYPES";
 
-export const Phisher = ({effect, groups, phi, remove, waiting, zone}) => {
+export const Phisher = ({effect, n, m, phi, zone, criteria, groups}) => {
 
 
     return <div className="phisher-container">
@@ -10,7 +8,7 @@ export const Phisher = ({effect, groups, phi, remove, waiting, zone}) => {
             <tbody>
                 <tr>
                     <th className="phisher-table-th">Критерий:</th>
-                    <td className="phisher-table-td">Фишера</td>
+                    <td className="phisher-table-td">{criteria}</td>
                 </tr>
             </tbody>
         </table>
@@ -29,9 +27,9 @@ export const Phisher = ({effect, groups, phi, remove, waiting, zone}) => {
                 <tr className="phisher-table-tr">
                     <td className="phisher-table-td">{effect}</td>
                     {
-                        groups.map((group, i) =>
+                        [0, 1].map(i =>
                             <td className="phisher-table-td" key={i}>
-                                {group.effect}
+                                Всего: {n[i]}, Эффект: {m[i]}
                             </td>
                         )
                     }
@@ -40,8 +38,5 @@ export const Phisher = ({effect, groups, phi, remove, waiting, zone}) => {
                 </tr>
             </tbody>
         </table>
-        <div className="phisher-remove">
-            <Button type={BUTTON_TYPES.DELETE} onClick={remove}>Удалить обработку</Button>
-        </div>
     </div>
 }

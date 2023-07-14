@@ -136,7 +136,7 @@ export const MethodicForm = ({id}) => {
                             });
                         }
                         
-                    }); console.log(data)
+                    });
                     setData(data);
                     setSaved(true);
                 }
@@ -224,7 +224,6 @@ export const MethodicForm = ({id}) => {
         argument_array.forEach(one_change)
         setSaved(false);
         setData(temp);
-        console.log(temp);
     };
 
     

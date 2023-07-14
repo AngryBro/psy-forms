@@ -6,6 +6,10 @@ import { GroupsBlock } from "./GroupsBlock";
 import { Api } from "./Api";
 import { API_ROUTES } from "./enums/API_ROUTES";
 import { Alert } from "./Alert";
+import { Button } from "./Button";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "./enums/ROUTES";
+import { BUTTON_STATES } from "./enums/BUTTON_STATES";
 
 export const ResultsBlock = ({researchName, conditionString, slug, groups, removeGroup, deletingGroups, setOpenedModalCreateGroup}) => {
 
@@ -18,11 +22,13 @@ export const ResultsBlock = ({researchName, conditionString, slug, groups, remov
     const [infoAlert, setInfoAlert] = useState(null);
     const [groupId, setGroupId] = useState(0);
 
+    const nav = useNavigate();
+
     useEffect(() => {
         setLoadingAlert("Загрузка данных");
         Api(API_ROUTES.RESPONDENTS)
         .auth()
-        .get({research_slug: slug, group_id: groupId}) 
+        .get({slug, group_id: groupId, scores: 0}) 
         .callback(({ok, data, status}) => {
             setLoadingAlert(null);
             if(ok) {
@@ -68,11 +74,37 @@ export const ResultsBlock = ({researchName, conditionString, slug, groups, remov
         return gr === undefined? null : gr.name;
     }
 
+    const fileName = () => {
+        let gr = groupName();
+        if(gr === null) {
+            gr = "";
+        }
+        else {
+            gr = "_" + gr;
+        }
+        return `${researchName.replace(/ /g, "_")}${gr}.xlsx`;
+    }
+
+    const download = () => {
+        let url = Api(API_ROUTES.DOWNLOAD)
+        .get({
+            group_id: groupId, 
+            slug, 
+            scores: Number(scoreAnswers),
+            token: localStorage.getItem("Authorization")
+        })
+        .url();
+        window.open(url);
+    }
+
     return <div className="results-block-container">
         <Alert onClose={setLoadingAlert} waiting={loadingAlert!==null}>{loadingAlert}</Alert>
         <Alert onClose={setInfoAlert}>{infoAlert}</Alert>
         <div className="results-groups-container">
             <GroupsBlock deletingGroups={deletingGroups} conditionString={conditionString} setGroupId={setGroupId} removeGroup={removeGroup} createGroup={() => setOpenedModalCreateGroup(true)} groups={groups} />
+            <div className="results-statistic">
+                <Button onClick={() => nav(ROUTES.STATISTIC(slug))}>Статистическая обработка</Button>
+            </div>
         </div>
         <div>
             <div className="results-flags-container">
@@ -92,7 +124,9 @@ export const ResultsBlock = ({researchName, conditionString, slug, groups, remov
                 <div className="results-table-empty">Ответы не найдены</div>
             }
             <div className="results-download">
-                Скачать файл {researchName}{groupName()===null?"":"_"}{groupName()}.xlsx
+                <Button state={respondents.length?BUTTON_STATES.ENABLED:BUTTON_STATES.DISABLED} onClick={download}>
+                    Скачать файл {fileName()}
+                </Button>
             </div>
         </div>
     </div>

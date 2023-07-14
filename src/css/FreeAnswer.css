@@ -9,4 +9,5 @@
 }
 .free-answer-input {
     width: 100%;
+    flex-shrink: 1;
 }

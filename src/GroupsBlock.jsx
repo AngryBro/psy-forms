@@ -23,7 +23,7 @@ export const GroupsBlock = ({groups, removeGroup, deletingGroups, createGroup, s
                         </Button>
                     </div>
                     <div className="groups-block-button">
-                        <Button state={deletingGroups[group.id]?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} onClick={() => removeGroup(group.id)}>Удалить</Button>
+                        <Button className="groups-block-button-text" state={deletingGroups[group.id]?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} onClick={() => removeGroup(group.id)}>Удалить</Button>
                     </div>
                 </div>    
             )

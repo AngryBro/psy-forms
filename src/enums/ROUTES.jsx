@@ -8,5 +8,5 @@ export const ROUTES = {
     MAIN: "/",
     PUBLISHED: slug => `/form/research/published/${slug}`,
     RESEARCH_RESPONDENT: slug => `${window.location.origin}/research/${slug}`,
-    STATISTIC: `/statistic`
+    STATISTIC: slug => `/statistic/${slug}`
 }

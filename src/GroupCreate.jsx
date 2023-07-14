@@ -10,6 +10,7 @@ import { Api } from "./Api";
 import { API_ROUTES } from "./enums/API_ROUTES";
 import { Alert } from "./Alert";
 import { BUTTON_STATES } from "./enums/BUTTON_STATES";
+import "./css/GroupCreate.css";
 
 export const GroupCreate = ({onClose, methodics, headers, scales, allAnswers, slug, setGroups}) => {
 
@@ -55,6 +56,14 @@ export const GroupCreate = ({onClose, methodics, headers, scales, allAnswers, sl
     const onSelectHeader = (header) => {
         setHeader(header);
         setIsScale(header < scales(methodic).length);
+    }
+
+    const onSelectMethodic = methodic => {
+        setMethodic(methodic);
+        setHeader(null);
+        setValue(null);
+        setOperator(null);
+        setAnswerTexts({});
     }
 
     const handlesAnswers = (ans) => {
@@ -140,19 +149,19 @@ export const GroupCreate = ({onClose, methodics, headers, scales, allAnswers, sl
             <div className="group-create-name"><Input tip="Название группы" value={name} onChange={e => setName(e.target.value)} /></div>
             {
                 conditions.map((condition, i) =>
-                    <div key={i}>
+                    <div key={i} className="group-create-condition-container">
                         <div className="group-create-condition">{condition.string};</div>
-                        <div><Button onClick={() => removeCondition(i)} type={BUTTON_TYPES.DELETE}>x</Button></div>    
+                        <div className="group-create-condition-remove"><Button onClick={() => removeCondition(i)} type={BUTTON_TYPES.DELETE}>&#10006;</Button></div>    
                     </div>
                 )
             }
-            <div>
+            <div className="group-create-conditions-container">
                 {
                 name === null || name === "" ? <></>:
                     <>
-                    <div>Добавить условие:</div>
-                    <div>
-                        <Select onSelect={setMethodic} value={methodic}>
+                    <div className="group-create-add-condition">Добавить условие:</div>
+                    <div className="group-create-methodic-select">
+                        <Select onSelect={onSelectMethodic} value={methodic}>
                             {
                                 [{key: null, value: "Разделить по методике", display: false}]
                                 .concat(methodics.map(methodic => ({key: methodic, value: methodic})))
@@ -163,7 +172,7 @@ export const GroupCreate = ({onClose, methodics, headers, scales, allAnswers, sl
                 }
                 {
                     methodic === null ?<></>:
-                    <div>
+                    <div className="group-create-header-select">
                         <Select onSelect={onSelectHeader} value={header}>
                             {
                                 [{key: null, value: "По шкале или вопросу", display: false}]
@@ -175,13 +184,15 @@ export const GroupCreate = ({onClose, methodics, headers, scales, allAnswers, sl
                 {
                     header === null ? <></>:
                     isScale?
-                    <div>
-                        <Select onSelect={setOperator} value={operator}>
-                            {operators}
-                        </Select>
+                    <div className="group-create-compare-container">
+                        <div className="group-create-operator-select">
+                            <Select onSelect={setOperator} value={operator}>
+                                {operators}
+                            </Select>
+                        </div>
                         {
                             operator === null?<></>:
-                            <div>
+                            <div className="group-create-input-number">
                                 <Input tip="Число для сравнения" value={value} onChange={inputValue} />
                             </div>
                         }
@@ -198,12 +209,14 @@ export const GroupCreate = ({onClose, methodics, headers, scales, allAnswers, sl
                         }
                     </Spoiler>
                 }
-                <div>
-                    <Button onClick={saveCondition}>Сохранить условие</Button>
+                <div className="group-create-save-container">
+                    <div className="group-create-save">
+                        <Button onClick={saveCondition}>Сохранить условие</Button>
+                    </div>
                 </div>
             </div>
             <div>
-                <Button state={creating?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} onClick={create}>Выделить подгруппу</Button>
+                <Button type={BUTTON_TYPES.M} state={creating?BUTTON_STATES.WAITING:BUTTON_STATES.ENABLED} onClick={create}>Выделить подгруппу</Button>
             </div>
         </div>
     </Modal>

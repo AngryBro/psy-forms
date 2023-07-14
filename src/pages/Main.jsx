@@ -40,6 +40,9 @@ export const Main = ({appState}) => {
                 <div className="main-button-container">
                     <Button onClick={() => nav(ROUTES.RESEARCH("feedback"))} type={BUTTON_TYPES.L}>Обратная связь</Button>
                 </div>
+                <div hidden={!appState.auth} className="main-button-container">
+                    <Button onClick={() => nav("/my")} type={BUTTON_TYPES.L}>Личный кабинет</Button>
+                </div>
                 <div hidden={appState.auth} className="main-button-container">
                     <Button onClick={() => appState.setOpenedAuthModal(true)} type={BUTTON_TYPES.L}>Вход</Button>
                 </div>

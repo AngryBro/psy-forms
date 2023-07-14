@@ -11,6 +11,7 @@ import { Button } from "../Button";
 import {ANSWER_TYPE} from "../enums/ANSWER_TYPE";
 import {BLOCK_TYPE} from "../enums/BLOCK_TYPE";
 import { Alert } from "../Alert";
+import { BUTTON_TYPES } from "../enums/BUTTON_TYPES";
 
 export const ResearchResults = ({appState}) => {
 
@@ -78,7 +79,7 @@ export const ResearchResults = ({appState}) => {
         .send();
         Api(API_ROUTES.RESPONDENTS)
         .auth()
-        .get({research_slug: slug, group_id: 0})
+        .get({slug, group_id: 0, scores: 0})
         .callback(({ok, data}) => {
             if(ok) {
                 setRespondents(data);
@@ -115,7 +116,7 @@ export const ResearchResults = ({appState}) => {
     }
 
     const allAnswers = (methodic, questionNumber) => {
-        if(data === null || respondents.length === 0) return [];
+        if(data === null) return [];
         let ans = {};
         let methodicData = data.blocks.find(block => block.type === BLOCK_TYPE.METHODIC && block.private_name === methodic);
         let questionMainNumber = questionNumber.split(".")[0];
@@ -152,7 +153,14 @@ export const ResearchResults = ({appState}) => {
 
     return <Page appState={appState} title="Результаты">
         <Alert onClose={setError}>{error}</Alert>
-        <div className="research-results-header">Результаты исследования &laquo;{data !== null?`${data.public_name} (${data.private_name})`:""}&raquo;</div>
+        <div className="research-results-header">
+            Результаты исследования &laquo;{
+                data !== null?`${data.public_name} (${data.private_name})`
+            
+                :
+                <div className="research-results-loader"><Spinner color="var(--purple-form)" /></div>
+                }&raquo;
+        </div>
         {
         data !== null ?
         <div className="research-results-container">
@@ -171,12 +179,11 @@ export const ResearchResults = ({appState}) => {
             }
             <div className="research-results-button-container">
                 <div className="research-results-button">
-                    <Button onClick={addTable}>Добавить ещё одну таблицу респондентов</Button>
+                    <Button type={BUTTON_TYPES.M} onClick={addTable}>Добавить ещё одну таблицу респондентов</Button>
                 </div>
             </div>
         </div>
-        :
-        <div className="research-results-loader"><Spinner color="var(--purple-form)" /></div>
+        :<></>
         }
         {
             openedModalCreateGroup?
